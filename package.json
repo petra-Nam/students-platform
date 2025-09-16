@@ -1,0 +1,9 @@
+{
+  "name": "vue-express-mongo",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently -k -n api,web -p [{name}] \"npm:dev --prefix server\" \"npm:dev --prefix client\"",
+    "build": "npm --prefix client run build",
+    "start": "npm --prefix server start"
+  }
+}
