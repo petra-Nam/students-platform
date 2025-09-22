@@ -1,0 +1,31 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: ./backend
+      target: dev
+    container_name: api
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+
+  web:
+    image: node:20-alpine
+    container_name: web
+    working_dir: /app
+    command: sh -c "npm ci && npm run dev -- --host"
+    ports:
+      - "5173:5173"
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - api
