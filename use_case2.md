@@ -14,6 +14,8 @@ The user is logged into the system.
 
 The user has opened a chat or communication window with another user.
 
+
+
 ### Main Flow:
 
 User types a message in the text input field.

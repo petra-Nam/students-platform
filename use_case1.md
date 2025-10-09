@@ -5,12 +5,14 @@
 * **ID:** UC-01
 * **CRUD Type:** Read
 * **Actors:** Guest, Student
-* **Description:** This use case allows a user to find universities by sending a query to an external API and viewing a list of names and websites.
+* **Description:** This use case allows a user to find universities by sending a query to an external API and viewing a list of names and website.
 
 
 ### Flow of Events
 #### Preconditions
 * The user has successfully navigated to the "Universities" search page.
+
+
 
 #### Main Flow (Basic Path)
 1.  The user enters a keyword (e.g., a university name or country) into the search bar.
