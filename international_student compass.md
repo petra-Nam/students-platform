@@ -275,8 +275,8 @@ The development will follow the common clean code standards and naming conventio
 For any further information you can contact the International student Team or check our blog (https://wordpress.com/home/education4849.wordpress.com). 
 The Team Members are:
 - Namuyiga Petra
-- Muita Beniamin
-- Muita Daniel 
+- Miuta Beniamin
+- Miuta Daniel 
 
 
 <!-- Picture-Link definitions: -->
