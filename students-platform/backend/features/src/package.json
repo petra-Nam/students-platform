@@ -1,0 +1,11 @@
+{
+    "name": "international-student-compass",
+    "version": "1.0.0",
+    "scripts": {
+      "test": "cucumber-js"
+    },
+    "devDependencies": {
+      "@cucumber/cucumber": "^10.8.0",
+      "chai": "^5.1.1"
+    }
+  }

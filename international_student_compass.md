@@ -84,10 +84,14 @@ Real Tips & Help: A library full of helpful short videos, guides, and advice fro
 
 ### 2.2 Use Case Diagram
 
-![OUCD](./Use-caseDiagram.png)
+![Use Case Diagram](./use-caseDiagram.png)
 
 - yellow: Planned till end of november
 - red: Planned till end of may
+
+![Activity Diagram 1](./activitydiagram1.png)
+
+![Activity Diagram 2](./activitydiagram2.png)
 
 ### 2.3 Technology Stack
 Technologies we plan to use
@@ -115,14 +119,84 @@ DB: mongo db
 Collaboration:
 GitHub (branches: frontend, backend, db)
 Figma (Petra + Benni for UI flow)
-Notion (Petra for tasks)
+youtrack (Petra for tasks)
 
 Other Tools
 
 Version Control: GitHub / GitLab
 Design: Figma (UI/UX)
 Communication: Slack / Discord
-Project Management : Jira
+Project Management : youtrack
+
+## 2.4 Actors
+
+Actors represent the roles that interact with the system. For the International Student Compass, we have identified three primary human actors and one system actor.
+
+1. Guest
+
+A Guest is any individual who visits the web application without an account or without being logged in. Their interaction is limited to discovery and browsing.
+
+Primary Goals:
+
+To explore the platform's offerings without commitment.
+
+To find basic information about universities.
+
+Key Capabilities:
+
+Search for universities by name or country.
+
+View public university profile pages.
+
+Read community discussions in a read-only mode.
+
+2. Student (Authenticated User)
+
+The Student is the primary actor of the platform. This is a user who has successfully registered an account and is logged in. They have full access to all community and personalization features.
+
+Primary Goals:
+
+To connect with other students and seek advice.
+
+To personalize their search and save information for future reference.
+
+To contribute to the community's knowledge base.
+
+Key Capabilities:
+
+All capabilities of a Guest.
+
+Create and manage their personal profile.
+
+Post new threads and replies in university discussions.
+
+Initiate one-on-one chats with other students.
+
+Save or bookmark universities, scholarships, and courses.
+
+Submit reviews, ratings, and photos for university profiles.
+
+3. Administrator
+
+An Administrator is a privileged user with the responsibility of managing the platform, ensuring content quality, and enforcing community guidelines.
+
+Primary Goals:
+
+To maintain a safe and constructive community environment.
+
+To manage the platform's user base and content.
+
+Key Capabilities:
+
+All capabilities of a Student.
+
+Access a dedicated administrative dashboard.
+
+Moderate user-generated content (delete posts, reviews, photos).
+
+Manage user accounts (suspend or ban users).
+
+Review content flagged by the community through the reporting system.
 
 ## 3. Specific Requirements
 
@@ -131,15 +205,20 @@ Until December 2025 (Core MVP Launch)
 
 #### 3.1.1 Creating an Account:
  Users can sign up with an email and password to create a personal profile.
+ The sign-up form will require the user's Full Name, Email Address, and a Password.
+ Password creation will enforce a minimum length of 8 characters.
+Upon successful registration, the user will be automatically logged in and prompted to complete their profile. An email verification link will be sent to their registered email address.
 
 #### 3.1.2 Logging In & Out:
  Registered users can log in to access all features and log out for privacy.
+ A "Forgot Password" feature will allow users to initiate a password reset process via email.
 
 #### 3.1.3 Searching for Universities: 
-Users can search for universities by name or country and view a list of results showing the university's name and official website.
+Users can search for universities by name or country and view a list of results showing the university's name and official website.Clicking a result will navigate the user to that university's dedicated profile page. A message will indicate when a search yields no results.
 
 #### 3.1.4 Viewing Discussions & Profiles:
  Users can browse community discussion spaces for specific universities and view the profiles of other students.
+ Users can view the public profiles of other students, which will display their full name, profile picture, university, and field of study.
 
 #### 3.1.5 Posting in Discussions:
  Logged-in users can post questions and replies within the university community discussion spaces.
@@ -156,12 +235,17 @@ Until Summer 2026 (Post-Launch Expansion)
 
 #### 3.1.9 Discovering Online Courses:
  A curated section to help students find relevant online courses for language skills, test prep, and academic writing.
+  Each course listing will show its title, provider (e.g., Coursera), a description, and a link to the external course page.
 
 #### 3.1.10 Managing Your Profile & Saved Items:
  Users will be able to save favorite universities, scholarships, and courses to their personal profile for later reference.
+ A dedicated dashboard within the user's profile will allow them to easily access and manage their saved items.
+  Users can edit their profile information, including their name, picture, and academic details.
 
 #### 3.1.11 Admin Content Moderation: 
 Admins will have tools to manage the community by removing inappropriate content and banning users who violate guidelines.
+Admins can view, edit, or delete any user-generated content (posts, reviews, photos).
+Admins can suspend or permanently ban users who violate community guidelines.
 
 
 ### 3.2 Usability
@@ -174,23 +258,39 @@ Our goal is that opens the app and is able to use all features without any expla
 Our design philosophy is simple: Don't reinvent the wheel. The app should look and feel like the apps our users already use every day. This will make it feel intuitive from the moment they open it.
 
 ### 3.3 Reliability
+This section defines the system's ability to maintain its level of performance under stated conditions for a stated period.
 
 #### 3.3.1 Availability
-The server shall be available 95% of the time. This also means we have to figure out the "rush hours" of our app because the downtime of the server is only tolerable when as few as possible players want to use the app.
+The application shall have a minimum uptime of 99.5%, measured on a monthly basis. This corresponds to a maximum of 3.65 hours of unplanned downtime per month. Scheduled maintenance windows will be planned during periods of lowest user activity (e.g., 02:00-04:00 CET) and will be announced to users at least 48 hours in advance.
 
-#### 3.3.2 Defect Rate
-Our goal is that we have no loss of any data. This is important so that the game sessions can carry on, even after a downtime of the server.
+#### Data Integrity and Recovery
+
+The system must ensure zero data loss of critical user-generated content (e.g., profiles, community posts, chat messages) in the event of a non-catastrophic system failure.
+
+Backups: Automated daily backups of the primary database are required.
+
+Recovery Point Objective (RPO): The maximum acceptable data loss in a disaster scenario is 24 hours.
+
+Recovery Time Objective (RTO): In the event of a system failure, critical services must be restored within 4 hours.
 
 ### 3.4 Perfomance
+This section specifies the performance characteristics of the software under various workloads.
 
-#### 3.4.1 Capacity
-The system should be able to manage thousands of requests. Also it should be possible to register as many users as necessary.
+#### 3.4.1  Response Time
+To ensure a fluid user experience, the system must meet the following response time targets under typical load conditions:
+
+API Performance: Core API endpoints (e.g., user authentication, fetching university data, posting a message) must have a 95th percentile (p95) server-side response time of less than 500ms.
+
+Page Load: Key user-facing pages (Home Dashboard, Search Results Page) must achieve a Largest Contentful Paint (LCP) of under 2.5 seconds on a standard broadband connection.
+
 
 #### 3.4.2 Storage 
 We are aiming to keep the needed storage as small as possible.
+The system must be able to support 500 concurrent users performing standard read-and-write operations (e.g., searching, posting, and chatting) without degradation of the response times specified above.
 
 #### 3.4.3 App perfomance / Response time
 To provide the best  perfomance we aim to keep the response time as low as possible. This will make the user experience much better.
+The system's architecture must be designed to scale horizontally to accommodate user growth. It should be capable of handling a 50% increase in the user base over a three-month period without requiring significant architectural changes.
 
 ### 3.5 Supportability
 
@@ -201,13 +301,18 @@ We are going to write the code by using all of the most common clean code standa
 The application will have a high test coverage and all important functionalities and edge cases should be tested. Further mistakes in the implementation will be discovered instantly and it will be easy to locate the error. 
 
 ### 3.6 Design Constraints
-We are trying to provide a modern and easy-to-handle design for the UI as well as for the architecture of our application. To achieve that, the functionalities will be kept as modular as possible through a component-based approach.
+This section describes the architectural decisions and constraints that guide the development of the application.
 
-Because we are building a Web App, we chose JavaScript/TypeScript and the React (using the Next.js framework) library for our frontend. We are using a modern decoupled architecture where the frontend client is fully separated from the backend services.
+We are building the application using a decoupled, three-tier architecture consisting of a frontend client, a backend application server, and a database. This approach provides a clear separation of concerns and enhances scalability.
 
-For our backend, we are using Firebase as a Backend-a-a-Service (BaaS). Communication between our application and the database is handled efficiently through the Firebase SDK, rather than a traditional RESTful API.
+Frontend Architecture
+We have chosen Vue.js as a design constraint for our frontend development. Its component-based structure is ideal for building a maintainable UI. To achieve strong Search Engine Optimization (SEO)—critical for a platform focused on discovery—we will use the Nuxt.js framework for its Server-Side Rendering (SSR) capabilities.
 
-The supported platforms will be the latest versions of modern web browsers:
+Backend Architecture
+A custom backend using Node.js and Express.js is a core architectural constraint. This decision was made to ensure maximum flexibility, control over our business logic, and the ability to optimize performance specifically for our application's needs. Communication between the frontend and backend will be handled via a RESTful API that we will design and build. This approach allows for long-term scalability and avoids vendor lock-in associated with Backend-as-a-Service (BaaS) platforms.
+
+Supported Platforms
+The application is a web app and must be fully functional on the latest stable versions of modern web browsers:
 
 Google Chrome
 
@@ -275,9 +380,18 @@ The development will follow the common clean code standards and naming conventio
 For any further information you can contact the International student Team or check our blog (https://wordpress.com/home/education4849.wordpress.com). 
 The Team Members are:
 - Namuyiga Petra
-- Miuta Beniamin
-- Miuta Daniel 
+- Muita Beniamin
+- Muita Daniel 
+
 
 
 <!-- Picture-Link definitions: -->
 [OUCD]: https://app.diagrams.net/#G1nYTXZIDtImDJHHqgKFYHTD9SM83eBnz6#%7B%22pageId%22%3A%22OUCD1%22%7D "Overall Use Case Diagram"
+[useCaseDiagram]: ./Use-caseDiagram.png
+
+ Activity Use case Diagram
+ First diagram - Email verfication
+https://drive.google.com/file/d/12zuPuSnqR1j6faxd_6ox1dIMKD1deYM7/view?usp=sharing
+
+Activity Use case Diagram for Send Message - completed
+https://drive.google.com/file/d/1ni92SUnaIFf5y1Ou9ikVEcfAtaSoHWpP/view?usp=sharing
