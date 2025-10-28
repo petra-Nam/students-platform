@@ -198,6 +198,65 @@ Manage user accounts (suspend or ban users).
 
 Review content flagged by the community through the reporting system.
 
+## 2.5 Model–View–Controller (MVC)
+
+## Overview
+Our platform follows the **Model–View–Controller (MVC)** architecture pattern using **Vue 3** for the frontend (View) and **Express.js** for the backend (Controller).  
+The **Model** layer is implemented with **Mongoose** and **MongoDB** for handling data storage and business logic.  
+This separation ensures a clean structure, easier debugging, and improved scalability.
+
+---
+
+## Roles
+
+### View (Vue 3 SPA)
+- Renders pages, forms, lists, and the chat interface.
+- Manages client-side routing and application state.
+- Sends requests to the Express API via **Axios** or **Fetch**.
+- Handles user interactions and updates the UI dynamically.
+- Does **not** access the database directly.
+
+### Controller (Express.js)
+- Defines RESTful endpoints and WebSocket connections.
+- Validates incoming data and performs authentication/authorization.
+- Orchestrates logic by interacting with Models.
+- Formats responses as JSON for the frontend.
+- Applies middleware for security (rate limiting, sanitization, etc.).
+
+### Model (Mongoose + MongoDB)
+- Defines data schemas, relationships, and validation rules.
+- Encapsulates all database operations.
+- Implements domain rules (e.g., a user can have only one CV).
+- Handles queries, indexing, and data consistency.
+
+---
+
+## Request Lifecycle (Example)
+
+1. A **user** performs an action in Vue (e.g., *Search Universities*, *Upload CV*, *Send Message*).
+2. Vue sends an HTTP request to the **Express** backend.
+3. The **Controller** validates input, authorizes the user, and calls the appropriate **Model** function.
+4. The **Model** interacts with the database and returns results.
+5. The **Controller** sends a structured JSON response.
+6. The **View** updates the interface to reflect the change.
+
+---
+
+
+## Security and Responsibilities
+
+- **View (Vue)** – Client-side validation, routing, and UX; never stores sensitive data.
+- **Controller (Express)** – Handles authentication, authorization, validation, and error responses.
+- **Model (Mongoose)** – Maintains schema validation, indexes, and data integrity.
+
+---
+
+
+
+
+
+
+
 ## 3. Specific Requirements
 
 ### 3.1 Functionality
@@ -380,8 +439,8 @@ The development will follow the common clean code standards and naming conventio
 For any further information you can contact the International student Team or check our blog (https://wordpress.com/home/education4849.wordpress.com). 
 The Team Members are:
 - Namuyiga Petra
-- Muita Beniamin
-- Muita Daniel 
+- Miuta Beniamin
+- Miuta Daniel 
 
 
 
