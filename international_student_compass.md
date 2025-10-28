@@ -251,6 +251,14 @@ This separation ensures a clean structure, easier debugging, and improved scalab
 
 ---
 
+## 2.6 MVC Tool
+
+Our chosen technology stack directly supports the MVC architecture.
+- **Vue 3** implements the **View** layer, providing a reactive user interface for the frontend.
+- **Express.js** serves as the **Controller**, managing API routes, handling user requests, and connecting the frontend with the backend logic.
+- **Mongoose with MongoDB** form the **Model** layer, defining schemas, managing validation, and storing data persistently.
+
+This combination enforces a clean separation between presentation, logic, and data, ensuring scalability and maintainability.
 
 
 
