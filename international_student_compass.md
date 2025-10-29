@@ -466,7 +466,7 @@ Model: Mongoose ODM (Object Data Modeling library for MongoDB)
 
 ### 4.4 Section 5  "N/A" 
 
-### 4.5 High-Level Request Flow Diagram (Create and embed this diagram - homework #13).
+### 4.5 High-Level Request Flow Diagram .
 This diagram illustrates the typical sequence of events when a user interacts with the frontend, triggering a request to the backend API and database.
 ![High-Level Request Flow](./request-flow.png)
 <iframe src="https://drive.google.com/file/d/1O7Y1TzOtIZfXdbC4Q2rWdp2758wTn7gv/preview" width="640" height="480" allow="autoplay"></iframe>
@@ -483,10 +483,16 @@ https://app.diagrams.net/#G1iuX_OJVoVvh_0k8iubLss9deJxeDZwXz#%7B%22pageId%22%3A%
 
 ### 4.9 Section 8 "N/A" .
 
-### 4.10 Database Model (ERD) (Create and embed this diagram - homework #18).
+### 4.10 Database Model (ERD) ).
 This Entity-Relationship Diagram illustrates the main data collections (similar to tables in SQL) within our MongoDB database and the conceptual relationships between them.
 
 ### 4.11 Sections 10-11  "N/A" 
+
+### 4.12 Application Architecture
+To visualize how our application is structured, we created a Client-Server Architecture diagram. It shows the main components on the **Client Side** (the user's browser running our Vue.js app), the **Server Side** (our Node.js/Express API handling requests and logic), and the **Database** (MongoDB storing our data), along with the communication paths (HTTP/REST, WebSockets, Database Queries) between them.
+This diagram gives a clear overview of how the different parts of the International Student Compass work together.
+
+https://drive.google.com/file/d/1wjl8bq1L4v9cO0D2ZRdJ45hv1WFQ2bTi/view
 
 
 ## 5. Supporting Information
