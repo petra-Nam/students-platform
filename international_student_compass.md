@@ -82,16 +82,8 @@ A Student Community: A friendly place to connect with students from all over the
 Easy Search Tools: Find the perfect university and scholarships without the headache. No more opening 50 browser tabs. We’ll put everything you need to know in one clean, easy-to-search list.
 Real Tips & Help: A library full of helpful short videos, guides, and advice from current international students. Learn everything from “how to pack” to “how to open a bank account.”
 
-### 2.2 Use Case Diagram
+### 2.2 N/A
 
-![Use Case Diagram](./use-caseDiagram.png)
-
-- yellow: Planned till end of november
-- red: Planned till end of may
-
-![Activity Diagram 1](./activitydiagram1.png)
-
-![Activity Diagram 2](./activitydiagram2.png)
 
 ### 2.3 Technology Stack
 Technologies we plan to use
@@ -443,22 +435,64 @@ The logo is licensed to the International student  Team and is only allowed to u
 ### 3.12 Applicable Standards
 The development will follow the common clean code standards and naming conventions. Also we will create a definition of d which will be added here as soon as its complete.
 
-## 4. Supporting Information
+## 4. System Architecture
+
+### 4.1 Architectural Pattern Explanation
+Our application follows a decoupled architecture, separating the frontend client (running in the user's browser) from the backend API server. While not a strict, traditional Model-View-Controller (MVC) pattern, especially on the backend, the components map conceptually as follows:
+
+View: Handled by the Vue.js frontend application. This layer is responsible for rendering the user interface, displaying data, and capturing user interactions.
+
+Controller: Primarily handled by the Node.js/Express.js backend API. This layer receives incoming HTTP requests from the frontend, executes the relevant business logic (often by calling service functions), interacts with the Model layer to fetch or save data, and formulates the HTTP response to send back to the client.
+
+Model: This layer is represented by our Mongoose schemas and models, which define the structure and validation rules for our data, and handle all interactions with the MongoDB database (Create, Read, Update, Delete operations).
+
+### 4.2 Technology Mapping to Pattern 
+The specific technologies implementing the layers described above are:
+
+View: Vue.js (potentially using the Nuxt.js framework)
+
+Controller: Express.js (running on the Node.js runtime)
+
+Model: Mongoose ODM (Object Data Modeling library for MongoDB)
+### 4.3 Overall Use Case Diagram 
+![Use Case Diagram](./use-caseDiagram.png)
+
+- yellow: Planned till end of november
+- red: Planned till end of may
+
+![Activity Diagram 1](./activitydiagram1.png)
+
+![Activity Diagram 2](./activitydiagram2.png)
+
+### 4.4 Section 5  "N/A" 
+
+### 4.5 High-Level Request Flow Diagram (Create and embed this diagram - homework #13).
+This diagram illustrates the typical sequence of events when a user interacts with the frontend, triggering a request to the backend API and database.
+![High-Level Request Flow](./request-flow.png)
+<iframe src="https://drive.google.com/file/d/1O7Y1TzOtIZfXdbC4Q2rWdp2758wTn7gv/preview" width="640" height="480" allow="autoplay"></iframe>
+
+### 4.6 Backend Class Diagram .
+
+This UML Class Diagram provides a simplified view of the major modules and classes within our Node.js/Express backend, highlighting the conceptual separation between Controller logic (handling routes and requests) and Model logic (handling data).
+
+### 4.7 Section 6 "N/A"
+
+### 4.8 Deployment Diagram 
+This UML Deployment Diagram illustrates the physical or virtual nodes where our application components are deployed and the communication paths between them.
+https://app.diagrams.net/#G1iuX_OJVoVvh_0k8iubLss9deJxeDZwXz#%7B%22pageId%22%3A%22diagram1%22%7D
+
+### 4.9 Section 8 "N/A" .
+
+### 4.10 Database Model (ERD) (Create and embed this diagram - homework #18).
+This Entity-Relationship Diagram illustrates the main data collections (similar to tables in SQL) within our MongoDB database and the conceptual relationships between them.
+
+### 4.11 Sections 10-11  "N/A" 
+
+
+## 5. Supporting Information
 For any further information you can contact the International student Team or check our blog (https://wordpress.com/home/education4849.wordpress.com). 
 The Team Members are:
 - Namuyiga Petra
 - Miuta Beniamin
 - Miuta Daniel 
 
-
-
-<!-- Picture-Link definitions: -->
-[OUCD]: https://app.diagrams.net/#G1nYTXZIDtImDJHHqgKFYHTD9SM83eBnz6#%7B%22pageId%22%3A%22OUCD1%22%7D "Overall Use Case Diagram"
-[useCaseDiagram]: ./Use-caseDiagram.png
-
- Activity Use case Diagram
- First diagram - Email verfication
-https://drive.google.com/file/d/12zuPuSnqR1j6faxd_6ox1dIMKD1deYM7/view?usp=sharing
-
-Activity Use case Diagram for Send Message - completed
-https://drive.google.com/file/d/1ni92SUnaIFf5y1Ou9ikVEcfAtaSoHWpP/view?usp=sharing
