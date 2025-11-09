@@ -1,31 +1,34 @@
 # International Student Compass - Software Requirements Specification 
 
-## Table of contents
-- [Table of contents](#table-of-contents)
+## Table of Contents
 - [Introduction](#1-introduction)
-    - [Purpose](#11-purpose)
-    - [Scope](#12-scope)
-    - [Definitions, Acronyms and Abbreviations](#13-definitions-acronyms-and-abbreviations)
-    - [References](#14-references)
-    - [Overview](#15-overview)
+  - [Purpose](#11-purpose)
+  - [Scope](#12-scope)
+  - [Definitions, Acronyms and Abbreviations](#13-definitions-acronyms-and-abbreviations)
+  - [References](#14-references)
+  - [Overview](#15-overview)
 - [Overall Description](#2-overall-description)
-    - [Vision](#21-vision)
-    - [Use Case Diagram](#22-use-case-diagram)
-	- [Technology Stack](#23-technology-stack)
+  - [Vision](#21-vision)
+  - [Use case diagrams](#22-na)
+  - [Technology Stack](#23-technology-stack)
+  - [Actors](#24-actors)
+  - [Model–View–Controller (MVC)](#25-model–view–controller-mvc)
+  - [MVC Tool](#26-mvc-tool)
 - [Specific Requirements](#3-specific-requirements)
-    - [Functionality](#31-functionality)
-    - [Usability](#32-usability)
-    - [Reliability](#33-reliability)
-    - [Performance](#34-performance)
-    - [Supportability](#35-supportability)
-    - [Design Constraints](#36-design-constraints)
-    - [Online User Documentation and Help System Requirements](#37-on-line-user-documentation-and-help-system-requirements)
-    - [Purchased Components](#purchased-components)
-    - [Interfaces](#39-interfaces)
-    - [Licensing Requirements](#310-licensing-requirements)
-    - [Legal, Copyright And Other Notices](#311-legal-copyright-and-other-notices)
-    - [Applicable Standards](#312-applicable-standards)
+  - [Functionality](#31-functionality)
+  - [Usability](#32-usability)
+  - [Reliability](#33-reliability)
+  - [Performance](#34-performance)
+  - [Supportability](#35-supportability)
+  - [Design Constraints](#36-design-constraints)
+  - [Online User Documentation and Help System Requirements](#37-on-line-user-documentation-and-help-system-requirements)
+  - [Purchased Components](#38-purchased-components)
+  - [Interfaces](#39-interfaces)
+  - [Licensing Requirements](#310-licensing-requirements)
+  - [Legal, Copyright And Other Notices](#311-legal-copyright-and-other-notices)
+  - [Applicable Standards](#312-applicable-standards)
 - [Supporting Information](#4-supporting-information)
+
 
 ## 1. Introduction
 
@@ -82,7 +85,17 @@ A Student Community: A friendly place to connect with students from all over the
 Easy Search Tools: Find the perfect university and scholarships without the headache. No more opening 50 browser tabs. We’ll put everything you need to know in one clean, easy-to-search list.
 Real Tips & Help: A library full of helpful short videos, guides, and advice from current international students. Learn everything from “how to pack” to “how to open a bank account.”
 
-### 2.2 N/A
+### 2.2 Use Cases and Diagrams
+his diagram shows all the major actions (use cases) that each type of user (actor) can perform, giving a complete "bird's-eye view" of the system's capabilities.
+
+![Use Case Diagram](./Visualizations/use-caseDiagram.png)
+
+2.2.2 Activity Diagrams (Use Case Realizations)
+These diagrams show the step-by-step flow for a specific use case. They help explain the detailed logic from start to finish.
+
+Activity Diagram 1: (e.g., Student Search for University) ![Activity Diagram 1](./Visualizations/activitydiagram1.png)
+
+Activity Diagram 2: (e.g., Student Posting in a Discussion) ![Activity Diagram 2](./Visualizations/activitydiagram2.png)
 
 
 ### 2.3 Technology Stack
@@ -197,40 +210,6 @@ Our platform follows the **Model–View–Controller (MVC)** architecture patter
 The **Model** layer is implemented with **Mongoose** and **MongoDB** for handling data storage and business logic.  
 This separation ensures a clean structure, easier debugging, and improved scalability.
 
----
-
-## Roles
-
-### View (Vue 3 SPA)
-- Renders pages, forms, lists, and the chat interface.
-- Manages client-side routing and application state.
-- Sends requests to the Express API via **Axios** or **Fetch**.
-- Handles user interactions and updates the UI dynamically.
-- Does **not** access the database directly.
-
-### Controller (Express.js)
-- Defines RESTful endpoints and WebSocket connections.
-- Validates incoming data and performs authentication/authorization.
-- Orchestrates logic by interacting with Models.
-- Formats responses as JSON for the frontend.
-- Applies middleware for security (rate limiting, sanitization, etc.).
-
-### Model (Mongoose + MongoDB)
-- Defines data schemas, relationships, and validation rules.
-- Encapsulates all database operations.
-- Implements domain rules (e.g., a user can have only one CV).
-- Handles queries, indexing, and data consistency.
-
----
-
-## Request Lifecycle (Example)
-
-1. A **user** performs an action in Vue (e.g., *Search Universities*, *Upload CV*, *Send Message*).
-2. Vue sends an HTTP request to the **Express** backend.
-3. The **Controller** validates input, authorizes the user, and calls the appropriate **Model** function.
-4. The **Model** interacts with the database and returns results.
-5. The **Controller** sends a structured JSON response.
-6. The **View** updates the interface to reflect the change.
 
 ---
 
@@ -251,8 +230,6 @@ Our chosen technology stack directly supports the MVC architecture.
 - **Mongoose with MongoDB** form the **Model** layer, defining schemas, managing validation, and storing data persistently.
 
 This combination enforces a clean separation between presentation, logic, and data, ensuring scalability and maintainability.
-
-
 
 
 
@@ -332,23 +309,18 @@ Recovery Point Objective (RPO): The maximum acceptable data loss in a disaster s
 
 Recovery Time Objective (RTO): In the event of a system failure, critical services must be restored within 4 hours.
 
-### 3.4 Perfomance
+3.4 Performance
 This section specifies the performance characteristics of the software under various workloads.
 
-#### 3.4.1  Response Time
-To ensure a fluid user experience, the system must meet the following response time targets under typical load conditions:
-
+3.4.1 Response Time
 API Performance: Core API endpoints (e.g., user authentication, fetching university data, posting a message) must have a 95th percentile (p95) server-side response time of less than 500ms.
 
 Page Load: Key user-facing pages (Home Dashboard, Search Results Page) must achieve a Largest Contentful Paint (LCP) of under 2.5 seconds on a standard broadband connection.
 
-
-#### 3.4.2 Storage 
-We are aiming to keep the needed storage as small as possible.
+3.4.2 Concurrency
 The system must be able to support 500 concurrent users performing standard read-and-write operations (e.g., searching, posting, and chatting) without degradation of the response times specified above.
 
-#### 3.4.3 App perfomance / Response time
-To provide the best  perfomance we aim to keep the response time as low as possible. This will make the user experience much better.
+3.4.3 Scalability
 The system's architecture must be designed to scale horizontally to accommodate user growth. It should be capable of handling a 50% increase in the user base over a three-month period without requiring significant architectural changes.
 
 ### 3.5 Supportability
@@ -435,64 +407,7 @@ The logo is licensed to the International student  Team and is only allowed to u
 ### 3.12 Applicable Standards
 The development will follow the common clean code standards and naming conventions. Also we will create a definition of d which will be added here as soon as its complete.
 
-## 4. System Architecture
 
-### 4.1 Architectural Pattern Explanation
-Our application follows a decoupled architecture, separating the frontend client (running in the user's browser) from the backend API server. While not a strict, traditional Model-View-Controller (MVC) pattern, especially on the backend, the components map conceptually as follows:
-
-View: Handled by the Vue.js frontend application. This layer is responsible for rendering the user interface, displaying data, and capturing user interactions.
-
-Controller: Primarily handled by the Node.js/Express.js backend API. This layer receives incoming HTTP requests from the frontend, executes the relevant business logic (often by calling service functions), interacts with the Model layer to fetch or save data, and formulates the HTTP response to send back to the client.
-
-Model: This layer is represented by our Mongoose schemas and models, which define the structure and validation rules for our data, and handle all interactions with the MongoDB database (Create, Read, Update, Delete operations).
-
-### 4.2 Technology Mapping to Pattern 
-The specific technologies implementing the layers described above are:
-
-View: Vue.js (potentially using the Nuxt.js framework)
-
-Controller: Express.js (running on the Node.js runtime)
-
-Model: Mongoose ODM (Object Data Modeling library for MongoDB)
-### 4.3 Overall Use Case Diagram 
-![Use Case Diagram](./use-caseDiagram.png)
-
-- yellow: Planned till end of november
-- red: Planned till end of may
-
-![Activity Diagram 1](./activitydiagram1.png)
-
-![Activity Diagram 2](./activitydiagram2.png)
-
-### 4.4 Section 5  "N/A" 
-
-### 4.5 High-Level Request Flow Diagram .
-This diagram illustrates the typical sequence of events when a user interacts with the frontend, triggering a request to the backend API and database.
-![High-Level Request Flow](./request-flow.png)
-<iframe src="https://drive.google.com/file/d/1O7Y1TzOtIZfXdbC4Q2rWdp2758wTn7gv/preview" width="640" height="480" allow="autoplay"></iframe>
-
-### 4.6 Backend Class Diagram .
-
-This UML Class Diagram provides a simplified view of the major modules and classes within our Node.js/Express backend, highlighting the conceptual separation between Controller logic (handling routes and requests) and Model logic (handling data).
-
-### 4.7 Section 6 "N/A"
-
-### 4.8 Deployment Diagram 
-This UML Deployment Diagram illustrates the physical or virtual nodes where our application components are deployed and the communication paths between them.
-https://app.diagrams.net/#G1iuX_OJVoVvh_0k8iubLss9deJxeDZwXz#%7B%22pageId%22%3A%22diagram1%22%7D
-
-### 4.9 Section 8 "N/A" .
-
-### 4.10 Database Model (ERD) ).
-This Entity-Relationship Diagram illustrates the main data collections (similar to tables in SQL) within our MongoDB database and the conceptual relationships between them.
-
-### 4.11 Sections 10-11  "N/A" 
-
-### 4.12 Application Architecture
-To visualize how our application is structured, we created a Client-Server Architecture diagram. It shows the main components on the **Client Side** (the user's browser running our Vue.js app), the **Server Side** (our Node.js/Express API handling requests and logic), and the **Database** (MongoDB storing our data), along with the communication paths (HTTP/REST, WebSockets, Database Queries) between them.
-This diagram gives a clear overview of how the different parts of the International Student Compass work together.
-
-https://drive.google.com/file/d/1wjl8bq1L4v9cO0D2ZRdJ45hv1WFQ2bTi/view
 
 
 ## 5. Supporting Information
