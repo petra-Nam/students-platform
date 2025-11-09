@@ -1,97 +1,230 @@
 # Software Architecture Document (SAD)
+*(Based on RUP Template)*
+
 
 ## Table of Contents
-- [1. Introduction](#1-introduction)
-- [2. Architectural Pattern Explanation](#2-architectural-pattern-explanation-item-9)
-- [3. Technology Mapping to Pattern](#3-technology-mapping-to-pattern-item-10)
-- [4. Overall Use Case Diagram (Context)](#4-overall-use-case-diagram-item-11)
-- [5. N/A](#5-na-item-12)
-- [5.1 High-Level Request Flow Diagram](#51-high-level-request-flow-diagram-item-13)
-- [5.2 Class Diagram](#52-class-diagram-item-14)
-- [6. N/A](#6-na-item-15)
-- [7. Deployment Diagram](#7-deployment-diagram-item-16)
-- [8. N/A](#8-na-item-17)
-- [9. Data and Class Models](#9-data-and-class-models-item-18--week-8)
-  - [9.1 Database Model (ERD)](#91-database-model-erd)
-  - [9.2 Tool-Generated Class Diagram](#92-tool-generated-class-diagram)
-- [10-11. N/A](#10-11-na-item-19)
-
+1.  [Introduction](#1-introduction)
+    * [1.1 Purpose](#11-purpose)
+    * [1.2 Scope](#12-scope)
+    * [1.3 Definitions, Acronyms and Abbreviations](#13-definitions-acronyms-and-abbreviations)
+    * [1.4 References](#14-references)
+    * [1.5 Overview](#15-overview)
+2.  [Architectural Representation](#2-architectural-representation)
+3.  [Architectural Goals and Constraints](#3-architectural-goals-and-constraints)
+4.  [Use-Case View](#4-use-case-view)
+    * [4.1 Use-Case Realizations](#41-use-case-realizations)
+5.  [Logical View](#5-logical-view)
+    * [5.1 Overview](#51-overview)
+    * [5.2 Architecturally Significant Design Packages](#52-architecturally-significant-design-packages)
+6.  [Process View](#6-process-view)
+7.  [Deployment View](#7-deployment-view)
+8.  [Implementation View](#8-implementation-view)
+    * [8.1 Overview](#81-overview)
+    * [8.2 Layers](#82-layers)
+9.  [Data View](#9-data-view)
+10. [Size and Performance](#10-size-and-performance)
+11. [Quality](#11-quality)
 ---
 
-## 1. Introduction
-
-This document describes the high-level architecture of the International Student Compass. It outlines the architectural patterns, technologies, and design diagrams that show **HOW** the system is built. This document is separate from the **Software Requirements Specification (SRS)**, which describes **WHAT** the system must do.
-
-## 2. Architectural Pattern Explanation 
-
-Our application follows a **decoupled architecture**, separating the frontend client (running in the user's browser) from the backend API server. While not a strict, traditional Model-View-Controller (MVC) pattern, the components map conceptually as follows:
-
-* **View:** Handled by the **Vue.js** frontend application. This layer is responsible for rendering the user interface, displaying data, and capturing user interactions.
-* **Controller:** Primarily handled by the **Node.js/Express.js** backend API. This layer receives incoming HTTP requests from the frontend, executes the relevant business logic, interacts with the Model layer, and formulates the HTTP response.
-* **Model:** This layer is represented by our **Mongoose schemas and models**, which define the structure and validation rules for our data and handle all interactions with the **MongoDB** database.
-
-## 3. Technology Mapping to Pattern 
-
-The specific technologies implementing the layers described above are:
-
-* **View Tool:** Vue.js (using the Nuxt.js framework)
-* **Controller Tool:** Express.js (running on the Node.js runtime)
-* **Model Tool:** Mongoose ODM (for MongoDB)
-
-## 4. Overall Use Case Diagram 
-
-This diagram from our SRS is included for context, showing the high-level interactions the architecture must support.
-
-![Overall Use Case Diagram](./use-caseDiagram.png)
-
-## 5. N/A (Item #12)
-
-Not Applicable.
-
-## 5.1 High-Level Request Flow Diagram 
-
-This diagram illustrates the typical sequence of events when a user interacts with the frontend, triggering a request that flows through the entire system.
-https://drive.google.com/file/d/1O7Y1TzOtIZfXdbC4Q2rWdp2758wTn7gv/preview
-
-![High-Level Request Flow](./request-flow.png)
-
-## 5.2 Class Diagram 
-https://drive.google.com/file/d/1iuX_OJVoVvh_0k8iubLss9deJxeDZwXz/view?usp=sharing
 
 
 
-## 6. N/A 
-
-Not Applicable.
-
-## 7. Deployment Diagram 
-
-This UML Deployment Diagram illustrates the physical or virtual nodes where our application components are deployed and the communication paths between them.
-
-*(**Action:** Embed the UML Deployment Diagram you already created)*
-
-![UML Deployment Diagram](./deployment-diagram.png)
-
-## 8. N/A 
-
-Not Applicable.
-
-## 9. Data and Class Models 
-
-This section contains the detailed, tool-generated diagrams for our database and our backend code structure.
-
-### 9.1 Database Model (ERD)
-
-This Entity-Relationship Diagram illustrates the main data collections within our MongoDB database and the conceptual relationships between them.
-
-https://app.diagrams.net/#G1CxaKFfJ6WQnAWIj9-s9FSWNXsZm6ASJx#%7B%22pageId%22%3A%222ljwPO8fNcJzTJ80mE60%22%7D
-
-![Database ERD](./database-erd.png)
-
-### 9.2 Tool-Generated Class Diagram
-
-This diagram was generated using `dependency-cruiser` and `Graphviz` to analyze our TypeScript backend (`/src`) folder. It shows the module/file structure and dependencies of our code, which represents our "Class Diagram" for a TypeScript project.
+-----
 
 
+## 1\. Introduction
 
-![Tool-Generated Class Diagram](./
+### 1.1 Purpose
+
+This document provides a comprehensive architectural overview of the "International Student Compass" system. It is intended to capture and convey the significant architectural decisions made, using a number of different architectural views (Logical, Deployment, Data) to depict different aspects of the system.
+
+### 1.2 Scope
+
+This document describes the architecture of the "International Student Compass" web application. This includes the decoupled frontend client, the backend API server, the database, and the interfaces between them. The requirements for this architecture are defined in the project's Software Requirements Specification (SRS).
+
+### 1.3 Definitions, Acronyms and Abbreviations
+
+| Abbreviation | Explanation |
+| :--- | :--- |
+| **SAD** | Software Architecture Document |
+| **SRS** | Software Requirements Specification |
+| **RUP** | Rational Unified Process |
+| **MVC** | Model-View-Controller |
+| **API** | Application Programming Interface |
+| **ERD** | Entity-Relationship Diagram |
+| **UML** | Unified Modeling Language |
+| **DB** | Database |
+
+### 1.4 References
+ * International Student Compass - Software Requirements Specification (SRS)
+* International Student Compass - Project Blog: https://education4849.wordpress.com/
+*Project GitHub Repository: https://github.com/bennixm/students-platform
+
+### 1.5 Overview
+
+This document is organized based on the RUP architecture template.
+
+  * **Section 2 & 3** describe the overall architectural goals and constraints.
+  * **Section 4 (Use-Case View)** shows the key user interactions the system must support.
+  * **Section 5 (Logical View)** details the MVC pattern and the system's class structure.
+  * **Section 6 (Process View)** illustrates the flow of a typical user request.
+  * **Section 7 (Deployment View)** shows the server/client hardware configuration.
+  * **Section 8 (Implementation View)** lists the technologies and layers.
+  * **Section 9 (Data View)** provides the database model.
+
+-----
+
+## 2\. Architectural Representation
+
+This document uses several architectural views to describe the system.
+
+  * The **Logical View** (Section 5) is used to describe the system's structure, primarily through the **Model-View-Controller (MVC)** pattern.
+  * The **Use-Case View** (Section 4) shows the high-level user requirements that the architecture must satisfy.
+  * The **Process View** (Section 6) illustrates the dynamic behavior and flow of data.
+  * The **Deployment View** (Section 7) shows the physical client-server architecture.
+  * The **Data View** (Section 9) describes the persistent database structure.
+
+-----
+
+## 3\. Architectural Goals and Constraints
+
+The primary architectural goal is to create a **decoupled, scalable, and maintainable** system. The architecture is constrained by the following decisions:
+
+  * The system **must** be built as a web application.
+  * The architecture **must** be decoupled, with a separate frontend (Vue.js) and backend (Node.js/Express) communicating via a RESTful API.
+  * The system **must** support real-time chat functionality.
+  * The system **must** be deployable on virtual private servers (VPS).
+  * The system **must** be fully functional on the latest stable versions of Chrome, Firefox, Safari, and Edge.
+
+-----
+
+## 4\. Use-Case View
+
+
+This view is illustrated by the Overall Use Case Diagram from the SRS, which shows the high-level interactions between the actors (Guest, Student, Admin) and the system.
+
+![Overall Use Case Diagram](./Visualization files/use-caseDiagram.png)
+
+### 4.1 Use-Case Realizations
+
+The two activity diagrams below realize specific use cases, showing the flow of logic for key user journeys.
+
+**Activity Diagram 1:**
+![Activity Diagram 1](./Visualizations/activitydiagram1.png)
+
+**Activity Diagram 2:**
+![Activity Diagram 2](./Visualizations/activitydiagram2.png)
+
+-----
+
+## 5\. Logical View
+
+### 5.1 Overview
+
+The design model is decomposed into a **Model-View-Controller (MVC)** pattern.
+
+  * **View (Client):** Handled by the **Vue.js** frontend. It renders the UI and sends user requests to the Controller.
+  * **Controller (Server):** Handled by the **Node.js/Express.js** backend. It receives API requests, applies business logic, and interacts with the Model.
+  * **Model (Database):** Handled by **Mongoose schemas** and **MongoDB**. It defines the data structure, validation, and all database interactions.
+
+### 5.2 Architecturally Significant Design Packages
+
+This view is represented by our Class Diagrams, which show the modules (packages) and their relationships within the backend.
+
+
+1.  **Conceptual Class Diagram:**
+    ![Conceptual Class Diagram](./Visualizations/conceptual-class-diagram.png)
+    Link to source : https://drive.google.com/file/d/1iuX_OJVoVvh_0k8iubLss9deJxeDZwXz/view?usp=sharing
+2.  **Tool-Generated Class Diagram:**
+    ![Tool-Generated Class Diagram](./Visualizations/tool-generated-class-diagram.png)
+   Link to source :  https://drive.google.com/file/d/1iuX_OJVoVvh_0k8iubLss9deJxeDZwXz/view?usp=sharing
+
+-----
+
+## 6\. Process View
+
+
+This view illustrates the dynamic processes within the system. The High-Level Request Flow diagram shows the step-by-step process of a user request, from the client-side View to the server-side Controller and Model, and back again.
+
+![High-Level Request Flow](./Visualizations/request-flow.png)
+Link to source : https://drive.google.com/file/d/1O7Y1TzOtIZfXdbC4Q2rWdp2758wTn7gv/preview
+
+
+-----
+
+## 7\. Deployment View
+
+
+This view describes the physical deployment of the system. We use a **Client-Server Architecture**.
+
+  * **Client Node:** The user's web browser, which runs the Vue.js client-side application.
+  * **Server Node (VPS):** A dedicated virtual private server that hosts:
+    1.  The **Node.js/Express API** (Controller).
+    2.  The **MongoDB Database** (Model).
+  * **Interconnection:** The Client and Server communicate over the internet via the **HTTP/S protocol** (for REST API calls) and **WebSockets** (for real-time chat).
+Link to source : https://drive.google.com/file/d/1iuX_OJVoVvh_0k8iubLss9deJxeDZwXz/view?usp=sharing
+
+![UML Deployment Diagram](./Visualizations/deployment-diagram.png)
+
+-----
+
+## 8\. Implementation View
+
+
+
+### 8.1 Overview
+
+The software is organized into two primary layers (Client and Server) which are completely decoupled.
+
+### 8.2 Layers
+
+**1. Client Layer (View)**
+
+  * **Description:** The user-facing frontend built in Vue.js.
+  * **Technologies:** Vue.js, Tailwind CSS, Axios.
+
+**2. Server Layer (Controller & Model)**
+
+  * **Description:** The backend API and database.
+  * **Technologies:** Node.js, Express.js, Mongoose, MongoDB, Socket.IO, Elasticsearch.
+
+**Full Technology Stack:**
+
+  * **Frontend:** Vue Js, Tailwind CSS, Axios/Fetch
+  * **Backend:** Node.js + Express, JWT/OAuth2, Socket.IO
+  * **Database & Search:** MongoDB, Elasticsearch
+  * **Hosting:** Dedicated VPS
+  * **Tools:** GitHub, Figma, youtrack, Slack/Discord
+
+-----
+
+## 9\. Data View
+
+
+
+This view describes the structure of the persistent data, represented by the Entity-Relationship Diagram (ERD) for our MongoDB database.
+
+Link to source : https://app.diagrams.net/#G1CxaKFfJ6WQnAWIj9-s9FSWNXsZm6ASJx#%7B%22pageId%22%3A%222ljwPO8fNcJzTJ80mE60%22%7D
+
+![Database ERD](./Visualizations/ISC\_database\_diagram.png)
+
+-----
+
+## 10\. Size and Performance
+
+The architecture must meet the following performance requirements (from the SRS):
+
+  * **Response Time:** Core API endpoints must have a 95th percentile (p95) server-side response time of less than 500ms.
+  * **Page Load:** Key pages must achieve a Largest Contentful Paint (LCP) of under 2.5 seconds.
+  * **Concurrency:** The system must support 500 concurrent users without performance degradation.
+  * **Scalability:** The architecture must be capable of horizontal scaling to support a 50% user-base increase over three months.
+
+-----
+
+## 11\. Quality
+
+The architecture supports the following quality attributes:
+
+  * **Usability:** A decoupled frontend allows for a highly interactive and responsive user interface.
+  * **Reliability:** The system will have a minimum uptime of 99.5%, with automated daily backups (24-hour RPO) and a 4-hour Recovery Time Objective (RTO).
+  * **Supportability:** The code will follow clean code standards. High test coverage will ensure new changes do not break existing functionality.
