@@ -1,13 +1,36 @@
 import express from "express";
 import cors from "cors";
+import { db } from "./config/db";
+import { env } from "./config/env";
 
 const app = express();
-app.use(cors());
+
+
+app.use(
+  cors({
+    origin: env.FRONTEND_URL,
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 
-app.get("/api/health", (_req, res) => {
+app.get("/api", (_req, res) => {
   res.json({ ok: true, service: "api", ts: new Date().toISOString() });
 });
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`API listening on :${port}`));
+const port = env.PORT || 3000;
+
+async function start() {
+  await db.connect();
+
+  app.listen(port, () => {
+    console.log(`API listening on :${port}`);
+    console.log(`Public API URL: ${env.API_URL}`);
+  });
+}
+
+start().catch((err) => {
+  console.error("Failed to start server:", err);
+  process.exit(1);
+});
