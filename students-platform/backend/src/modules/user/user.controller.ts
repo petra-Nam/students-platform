@@ -38,7 +38,7 @@ class UserController {
     try {
       const { type, name, username, email, password } = req.body;
 
-      if (!type || !name || !username || !email || !password) {
+      if (!name || !username || !email || !password) {
         return res.status(400).json({ message: 'Missing required fields' });
       }
 

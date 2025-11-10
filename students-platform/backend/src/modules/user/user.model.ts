@@ -15,7 +15,7 @@ import {
 
 const UserSchema = new Schema(
   {
-    type: { type: String, enum: USER_TYPES, required: true, index: true },
+    type: { type: String, enum: USER_TYPES, default: 'StudySeeker', index: true },
 
     name: { type: String, required: true, trim: true },
     username: { type: String, required: true, unique: true, lowercase: true, trim: true },
