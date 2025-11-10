@@ -1,28 +1,14 @@
 import type { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { userService } from './user.service';
+import { userService,getProfile,RegisterDTO,LoginDTO} from './user.service';
 import type { UserDoc } from './user.model';
 import { env } from '../../config/env';
+import type { AuthenticatedRequest } from '../../shared/middleware/auth.middleware';
 
 const JWT_SECRET = env.JWT_SECRET || 'changeme';
 const JWT_EXPIRES_IN = env.JWT_EXPIRES_IN || '7d';
 
-interface RegisterBody {
-  type: string;
-  name: string;
-  username: string;
-  email: string;
-  password: string;
-}
 
-interface LoginBody{
-
-    email: string;
-    password: string;
-
-
-
-}
 
 
 class UserController {
@@ -49,7 +35,7 @@ class UserController {
 
 
   register = async (
-    req: Request<unknown, unknown, RegisterBody>,
+    req: Request<unknown, unknown, RegisterDTO>,
     res: Response,
     next: NextFunction
   ) => {
@@ -83,7 +69,7 @@ class UserController {
     }
   };
   login = async (
-      req: Request<unknown, unknown, LoginBody>,
+      req: Request<unknown, unknown, LoginDTO>,
       res: Response,
       next: NextFunction
     ) => {
@@ -110,6 +96,30 @@ class UserController {
         return next(err);
       }
     };
+
+
+    getProfile = async (
+          req:AuthenticatedRequest,
+          res: Response,
+          next: NextFunction
+        ) => {
+          try {
+
+            const payload: getProfile = {
+                  user_id: req.user.id,
+            };
+
+            const user = await userService.validateGetProfile(payload);
+            const safeUser = userService.toSafeUser(user);
+
+            return res.status(200).json(safeUser);
+          } catch (err: any) {
+            if (err.message === 'USER_NOT_FOUND') {
+              return res.status(401).json({ message: 'User not found' });
+            }
+            return next(err);
+          }
+        };
 
 
 

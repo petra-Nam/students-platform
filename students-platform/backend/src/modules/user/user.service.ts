@@ -14,6 +14,11 @@ export interface LoginDTO {
   password: string;
 }
 
+export interface getProfile{
+    user_id:string;
+
+ }
+
 
 
 export type SafeUser = {
@@ -65,6 +70,15 @@ export class UserService {
       }
 
       return user;
+    }
+
+   async validateGetProfile({ user_id }: getProfile): Promise<UserDoc> {
+          const user = await User.findById(user_id);
+             if (!user) {
+                throw new Error('USER_NOT_FOUND');
+              }
+           return user;
+
     }
 
 
