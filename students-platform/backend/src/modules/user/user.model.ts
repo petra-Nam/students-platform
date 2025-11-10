@@ -56,6 +56,7 @@ export interface UserMethods {
 
 export interface UserModel extends Model<User> {
   findByEmail(email: string): Promise<UserDoc | null>;
+
 }
 
 
@@ -78,5 +79,7 @@ UserSchema.index({ name: 'text', username: 1, email: 1 });
 UserSchema.statics.findByEmail = function (email: string) {
   return this.findOne({ email: email.toLowerCase() });
 };
+
+
 
 export const User = model<User, UserModel>('User', UserSchema);
