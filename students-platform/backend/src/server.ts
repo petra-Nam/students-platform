@@ -3,6 +3,7 @@ import cors from "cors";
 import { db } from "./config/db";
 import { env } from "./config/env";
 import userRoutes from './modules/user/user.routes';
+import universityRoutes from './modules/university/university.routes';
 import cookieParser from 'cookie-parser';
 
 const app = express();
@@ -18,6 +19,7 @@ app.use(
 
 app.use(express.json());
 app.use('/api/users', userRoutes);
+app.use('/api', universityRoutes);
 
 
 app.get("/api", (_req, res) => {
