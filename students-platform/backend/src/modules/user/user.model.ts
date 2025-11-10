@@ -8,8 +8,10 @@ import {
 import bcrypt from 'bcrypt';
 import {
   USER_TYPES,
+  type UserType,
   PROVIDERS,
-} from '@/shared/types/domain';
+  type Provider,
+} from '../../shared/types/domain';
 
 const UserSchema = new Schema(
   {
@@ -48,7 +50,13 @@ const UserSchema = new Schema(
 export type User = InferSchemaType<typeof UserSchema>;
 export type UserDoc = HydratedDocument<User>;
 
+export interface UserMethods {
+  comparePassword(candidate: string): Promise<boolean>;
+}
 
+export interface UserModel extends Model<User> {
+  findByEmail(email: string): Promise<UserDoc | null>;
+}
 
 
 UserSchema.pre('save', async function (this: UserDoc, next) {
