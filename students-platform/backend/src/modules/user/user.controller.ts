@@ -15,6 +15,14 @@ interface RegisterBody {
   password: string;
 }
 
+interface LoginBody{
+
+    email: string;
+    password: string;
+
+
+
+}
 
 
 class UserController {
@@ -28,6 +36,16 @@ class UserController {
 
     return jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
   }
+
+  private attachAuthCookie(res: Response, token: string) {
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+  }
+
 
 
   register = async (
@@ -50,10 +68,10 @@ class UserController {
         password,
       });
 
-      const token = this.createToken(user);
+
       const safeUser = userService.toSafeUser(user);
 
-      return res.status(201).json({ user: safeUser, token });
+      return res.status(201).json({ message: 'Account created successfully ' });
     } catch (err: any) {
       if (err.message === 'EMAIL_ALREADY_EXISTS') {
         return res.status(409).json({ message: 'Email already in use' });
@@ -64,6 +82,36 @@ class UserController {
       return next(err);
     }
   };
+  login = async (
+      req: Request<unknown, unknown, LoginBody>,
+      res: Response,
+      next: NextFunction
+    ) => {
+      try {
+        const { email, password } = req.body;
+
+        if (!email || !password) {
+          return res
+            .status(400)
+            .json({ message: 'Email and password are required' });
+        }
+
+        const user = await userService.validateLocalLogin({ email, password });
+
+        const token = this.createToken(user);
+        this.attachAuthCookie(res,token);
+        const safeUser = userService.toSafeUser(user);
+
+        return res.status(200).json({ message: 'Successfully' });
+      } catch (err: any) {
+        if (err.message === 'INVALID_CREDENTIALS') {
+          return res.status(401).json({ message: 'Invalid email or password' });
+        }
+        return next(err);
+      }
+    };
+
+
 
 }
 
