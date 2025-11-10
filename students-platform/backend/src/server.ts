@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import { db } from "./config/db";
 import { env } from "./config/env";
+import userRoutes from './modules/user/user.routes';
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.use(
 );
 
 app.use(express.json());
+app.use('/api/users', userRoutes);
 
 app.get("/api", (_req, res) => {
   res.json({ ok: true, service: "api", ts: new Date().toISOString() });
