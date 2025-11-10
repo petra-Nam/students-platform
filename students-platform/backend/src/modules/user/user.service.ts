@@ -9,6 +9,12 @@ export interface RegisterDTO {
   password: string;
 }
 
+export interface LoginDTO {
+  email: string;
+  password: string;
+}
+
+
 
 export type SafeUser = {
   id: string;
@@ -43,9 +49,23 @@ export class UserService {
       username: data.username.toLowerCase(),
     });
 
-    // password is hashed by pre('save') hook
+
     return user.save();
   }
+
+  async validateLocalLogin({ email, password }: LoginDTO): Promise<UserDoc> {
+      const user = await User.findByEmail(email);
+      if (!user || !user.password) {
+        throw new Error('INVALID_CREDENTIALS');
+      }
+
+      const ok = await user.comparePassword(password);
+      if (!ok) {
+        throw new Error('INVALID_CREDENTIALS');
+      }
+
+      return user;
+    }
 
 
 
