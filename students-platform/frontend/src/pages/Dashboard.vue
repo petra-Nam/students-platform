@@ -1,37 +1,49 @@
 <template>
-  <div class="dashboard-container">
-    <el-card shadow="never">
-      <template #header>
-        <div class="card-header">
-          <h1>User Dashboard</h1>
+  <div class="min-h-screen bg-gray-50 py-12">
+    <div class="max-w-4xl mx-auto px-4">
+      <!-- Dashboard Header -->
+      <div class="bg-white rounded-lg shadow-md p-8 border border-gray-200 mb-8">
+        <h1 class="text-3xl font-bold text-gray-800 mb-4">User Dashboard</h1>
+        <p class="text-lg text-gray-600">
+          Welcome to your dashboard! This is where you’ll find your saved universities, scholarships, and community posts.
+        </p>
+      </div>
+
+      <!-- Dashboard Content Grid -->
+      <div class="grid md:grid-cols-3 gap-6">
+        <!-- Saved Universities -->
+        <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
+          <h3 class="text-xl font-semibold text-gray-800 mb-3">Saved Universities</h3>
+          <p class="text-gray-600 mb-4">Your shortlisted universities and programs.</p>
+          <button class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md font-medium transition duration-200">
+            View Universities
+          </button>
         </div>
-      </template>
 
-      <el-alert 
-        title="Welcome to your dashboard!" 
-        type="success"
-        description="This is where you'll find your saved universities, scholarships, and community posts."
-        :closable="false"
-      />
+        <!-- Scholarships -->
+        <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
+          <h3 class="text-xl font-semibold text-gray-800 mb-3">Scholarships</h3>
+          <p class="text-gray-600 mb-4">Track your scholarship applications.</p>
+          <button class="w-full bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md font-medium transition duration-200">
+            View Scholarships
+          </button>
+        </div>
 
-      </el-card>
+        <!-- Community Posts -->
+        <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
+          <h3 class="text-xl font-semibold text-gray-800 mb-3">Community Posts</h3>
+          <p class="text-gray-600 mb-4">Your discussions and questions.</p>
+          <button class="w-full bg-purple-500 hover:bg-purple-600 text-white py-2 px-4 rounded-md font-medium transition duration-200">
+            View Posts
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
-<script setup lang="ts">
-// Logic for the dashboard will go here
-// e.g., fetching user data from your Pinia store
+<script>
+export default {
+  name: 'DashboardPage'
+}
 </script>
-
-<style scoped>
-.dashboard-container {
-  width: 100%;
-  max-width: 800px; /* Dashboards are often wider */
-  margin: 2rem auto;
-}
-
-.card-header h1 {
-  margin: 0;
-  font-size: 1.5rem;
-}
-</style>
