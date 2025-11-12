@@ -1,73 +1,65 @@
 <template>
-  <div class="home-container">
-    <el-card shadow="never" class="welcome-card">
-      <template #header>
-        <h1>Welcome to the International Student Compass!</h1>
-      </template>
-      <p>Your all-in-one platform to find universities, scholarships, and connect with a community of students from around the world.</p>
-    </el-card>
+  <div class="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100">
+    <!-- Hero Section -->
+    <div class="max-w-6xl mx-auto px-4 py-20">
+      <div class="text-center mb-16">
+        <h1 class="text-5xl font-bold text-blue-800 mb-4">
+          Welcome to ISC
+        </h1>
+        <h2 class="text-3xl text-blue-600 font-semibold mb-8">
+          Make your Abroad Dream a Reality
+        </h2>
+        <p class="text-xl text-gray-700 max-w-2xl mx-auto mb-10 leading-relaxed">
+          Your comprehensive guide to studying abroad with scholarships, university information, online courses, and a supportive community.
+        </p>
+        <div class="flex justify-center space-x-6">
+          <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-10 py-4 rounded-lg text-lg transition duration-200 shadow-md">
+            GET STARTED
+          </button>
+          <button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-10 py-4 rounded-lg text-lg transition duration-200 shadow-md">
+            Learn More
+          </button>
+        </div>
+      </div>
 
-    <el-row :gutter="20" class="feature-row">
-      <el-col :span="12">
-        <el-card shadow="hover">
-          <template #header>
-            <div class="card-header">
-              <span>🎓 Find Universities</span>
-            </div>
-          </template>
-          <p>Search our database of universities and programs.</p>
-          <el-button type="primary" @click="goToSearch">Start Searching</el-button>
-        </el-card>
-      </el-col>
-      <el-col :span="12">
-        <el-card shadow="hover">
-          <template #header>
-            <div class="card-header">
-              <span>💬 Join the Community</span>
-            </div>
-          </template>
-          <p>Ask questions and share your experiences with peers.</p>
-          <el-button type="primary" @click="goToCommunity">Browse Discussions</el-button>
-        </el-card>
-      </el-col>
-    </el-row>
+      <!-- Resources Section -->
+      <div class="bg-white rounded-xl shadow-lg p-10">
+        <div class="text-center mb-10">
+          <h2 class="text-3xl font-bold text-blue-800 mb-4">
+            Explore Our Resources
+          </h2>
+          <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+            Everything you need to make your international education journey successful
+          </p>
+        </div>
+
+        <!-- Features Grid -->
+        <div class="grid md:grid-cols-2 gap-8">
+          <!-- Scholarships Card -->
+          <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg p-8 text-white hover:shadow-xl transition duration-300">
+            <h3 class="text-2xl font-bold mb-4">SCHOLARSHIPS</h3>
+            <p class="text-blue-100 mb-6 leading-relaxed">Find funding opportunities to support your education abroad</p>
+            <button class="bg-white hover:bg-gray-100 text-blue-600 font-semibold px-6 py-3 rounded-lg transition duration-200 shadow">
+              Explore Scholarships
+            </button>
+          </div>
+
+          <!-- Universities Card -->
+          <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg p-8 text-white hover:shadow-xl transition duration-300">
+            <h3 class="text-2xl font-bold mb-4">UNIVERSITIES</h3>
+            <p class="text-blue-100 mb-6 leading-relaxed">Discover the perfect university and program for your goals</p>
+            <button class="bg-white hover:bg-gray-100 text-blue-600 font-semibold px-6 py-3 rounded-lg transition duration-200 shadow">
+              Discover Universities
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
-<script setup lang="ts">
-import { useRouter } from 'vue-router';
-
-const router = useRouter();
-
-const goToSearch = () => {
-  //  need to create a '/search' route in your router/index.ts
-  // router.push('/search'); 
-  console.log('Navigating to search page...');
-}
-
-const goToCommunity = () => {
-  // need to create a '/community' route
-  // router.push('/community');
-  console.log('Navigating to community page...');
+<script>
+export default {
+  name: 'HomePage'
 }
 </script>
-
-<style scoped>
-.home-container {
-  width: 100%;
-  max-width: 960px; /* Homepages are usually wider */
-  margin: 2rem auto;
-}
-
-.welcome-card {
-  text-align: center;
-}
-
-.feature-row {
-  margin-top: 2rem;
-}
-
-.card-header {
-  font-weight: bold;
-}
-</style>
