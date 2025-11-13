@@ -22,7 +22,10 @@ export class Database {
     }
 
     try {
-      await mongoose.connect(env.MONGO_URI);
+      await mongoose.connect(env.MONGO_URI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      });
       this.isConnected = true;
       console.log(' Connected to MongoDB Atlas');
     } catch (error) {
@@ -40,5 +43,16 @@ export class Database {
   }
 }
 
+mongoose.connection.on('connected', () => {
+  console.log('Mongoose connected to MongoDB');
+});
+
+mongoose.connection.on('error', (err) => {
+  console.error('Mongoose connection error:', err);
+});
+
+mongoose.connection.on('disconnected', () => {
+  console.log('Mongoose disconnected from MongoDB');
+});
 
 export const db = Database.getInstance();

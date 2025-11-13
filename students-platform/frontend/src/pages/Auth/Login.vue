@@ -34,8 +34,47 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'LoginPage'
-}
+<script setup lang="ts">
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { useAuthStore } from '../../store/auth.ts'; // Corrected path
+import axios from 'axios';
+import { ElMessage } from 'element-plus';
+
+const email = ref('');
+const password = ref('');
+const router = useRouter();
+const authStore = useAuthStore();
+
+const handleLogin = async () => {
+  if (!email.value || !password.value) {
+    ElMessage.error('Please enter both email and password.');
+    return;
+  }
+
+  try {
+    // 1. Call your login endpoint. The browser will auto-set the cookie.
+    await axios.post('http://localhost:3000/api/users/login', {
+      email: email.value,
+      password: password.value,
+    });
+
+    // 2. Tell the auth store to fetch the user profile.
+    // This will confirm the cookie was set and update our app state.
+    await authStore.loginSuccess();
+
+    // 3. Check the store to see if we are now authenticated
+    if (authStore.isAuthenticated) {
+      ElMessage.success('Login successful!');
+      router.push({ name: 'Dashboard' }); // Or router.push('/dashboard')
+    } else {
+      // This should not happen if the login was successful
+      throw new Error('Failed to verify login.');
+    }
+
+  } catch (error) {
+    console.error('Login failed:', error);
+    ElMessage.error('Invalid email or password. Please try again.');
+  }
+};
 </script>

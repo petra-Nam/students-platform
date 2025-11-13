@@ -58,8 +58,92 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'HomePage'
-}
+<script setup lang="ts">
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import axios from "axios";
+
+// --- 1. NAVIGATION ---
+const router = useRouter();
+
+const goToSearch = () => {
+  console.log("Navigating to search page...");
+  // router.push('/search'); // Example
+};
+
+const goToCommunity = () => {
+  console.log("Navigating to community page...");
+  // router.push('/community'); // Example
+};
+
+// --- 2. STATE ---
+// Reactive variables for the component
+const universities = ref<any[]>([]); // Holds the list of universities
+const countryInput = ref(""); // The text from the search box
+const isLoading = ref(false); // True when API call is in progress
+const hasSearched = ref(false); // True after the user clicks "Search"
+const currentPage = ref(1); // The current page of results
+const totalPages = ref(1); // The total pages from the API
+
+// --- 3. METHODS ---
+
+/**
+ * Fetches universities from the API for the *current* page.
+ */
+const fetchUniversities = async () => {
+  if (isLoading.value) return; // Don't fetch if already fetching
+  
+  isLoading.value = true;
+  // Only set 'hasSearched' on the first page load of a new search
+  if (currentPage.value === 1) {
+    hasSearched.value = true;
+  }
+
+  try {
+    const response = await axios.get("http://localhost:3000/api/universities", {
+      params: { 
+        country: countryInput.value,
+        page: currentPage.value // Send the current page number
+      },
+    });
+
+    // This is the fix: save the array from 'response.data.universities'
+    universities.value = response.data.universities;
+    totalPages.value = response.data.totalPages; // Save the total pages
+
+  } catch (error) {
+    console.error("Error fetching universities:", (error as Error).message);
+    universities.value = []; // Clear results on error
+  } finally {
+    isLoading.value = false; // Always stop loading
+  }
+};
+
+/**
+ * Starts a new search. Resets to page 1.
+ */
+const newSearch = () => {
+  currentPage.value = 1;
+  fetchUniversities();
+};
+
+/**
+ * Goes to the next page of results.
+ */
+const goToNextPage = () => {
+  if (currentPage.value < totalPages.value) {
+    currentPage.value++;
+    fetchUniversities();
+  }
+};
+
+/**
+ * Goes to the previous page of results.
+ */
+const goToPrevPage = () => {
+  if (currentPage.value > 1) {
+    currentPage.value--;
+    fetchUniversities();
+  }
+};
 </script>

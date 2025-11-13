@@ -44,8 +44,66 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'RegisterPage'
-}
+<script setup lang="ts">
+import { ref } from "vue";
+import axios from "axios";
+
+// Form data
+const form = ref({
+  name: "",
+  username: "",
+  email: "",
+  password: "",
+});
+
+// Validation rules
+const rules = {
+  name: [
+    { required: true, message: "Name is required", trigger: "blur" },
+    { min: 3, message: "Name must be at least 3 characters", trigger: "blur" },
+  ],
+  username: [
+    { required: true, message: "Username is required", trigger: "blur" },
+    { min: 3, message: "Username must be at least 3 characters", trigger: "blur" },
+  ],
+  email: [
+    { required: true, message: "Email is required", trigger: "blur" },
+    { type: "email", message: "Please enter a valid email", trigger: "blur" },
+  ],
+  password: [
+    { required: true, message: "Password is required", trigger: "blur" },
+    { min: 6, message: "Password must be at least 6 characters", trigger: "blur" },
+  ],
+};
+
+// Form reference
+const registerForm = ref(null);
+
+// Handle form submission
+const handleRegister = async () => {
+  try {
+    // Validate the form
+    await registerForm.value.validate();
+
+    // Send the form data to the backend
+    const response = await axios.post("http://localhost:3000/api/users/register", form.value);
+    console.log("User registered successfully:", response.data);
+
+    // Show success message
+    alert("User registered successfully!");
+  } catch (error) {
+    if (error.response && error.response.data) {
+      console.error("Error registering user:", error.response.data);
+      alert(`Error: ${error.response.data.message}`);
+    } else {
+      console.error("Unexpected error:", error.message);
+      alert("An unexpected error occurred.");
+    }
+  }
+};
+
+// Reset the form
+const resetForm = () => {
+  registerForm.value.resetFields();
+};
 </script>
