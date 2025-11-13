@@ -1,6 +1,5 @@
 <template>
   <div class="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100">
-    <!-- Hero Section -->
     <div class="max-w-6xl mx-auto px-4 py-20">
       <div class="text-center mb-16">
         <h1 class="text-5xl font-bold text-blue-800 mb-4">
@@ -21,35 +20,66 @@
           </button>
         </div>
       </div>
-
-      <!-- Resources Section -->
       <div class="bg-white rounded-xl shadow-lg p-10">
-        <div class="text-center mb-10">
-          <h2 class="text-3xl font-bold text-blue-800 mb-4">
-            Explore Our Resources
-          </h2>
-          <p class="text-lg text-gray-600 max-w-2xl mx-auto">
-            Everything you need to make your international education journey successful
-          </p>
+        </div>
+    </div>
+    
+    <div class="max-w-6xl mx-auto px-4 -mt-10 mb-10">
+      <div class="bg-white rounded-xl shadow-lg p-10">
+        <h2 class="text-3xl font-bold text-blue-800 mb-6 text-center">Search Universities</h2>
+        <div class="flex justify-center space-x-4">
+          <input 
+            v-model="countryInput"
+            placeholder="Enter a country (e.g., Germany)"
+            @keyup.enter="newSearch"
+            class="px-4 py-3 border border-gray-300 rounded-lg w-1/2 focus:outline-none focus:ring-2 focus:ring-blue-500" 
+          />
+          <button 
+            @click="newSearch"
+            class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-10 py-3 rounded-lg text-lg transition duration-200 shadow-md">
+            Search
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-4 py-5" v-if="hasSearched">
+      <div class="bg-white rounded-xl shadow-lg p-10">
+        
+        <div v-if="isLoading" class="text-center text-gray-600 text-lg">
+          Loading...
         </div>
 
-        <!-- Features Grid -->
-        <div class="grid md:grid-cols-2 gap-8">
-          <!-- Scholarships Card -->
-          <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg p-8 text-white hover:shadow-xl transition duration-300">
-            <h3 class="text-2xl font-bold mb-4">SCHOLARSHIPS</h3>
-            <p class="text-blue-100 mb-6 leading-relaxed">Find funding opportunities to support your education abroad</p>
-            <button class="bg-white hover:bg-gray-100 text-blue-600 font-semibold px-6 py-3 rounded-lg transition duration-200 shadow">
-              Explore Scholarships
-            </button>
-          </div>
+        <div v-else-if="universities.length === 0" class="text-center text-gray-600 text-lg">
+          No universities found for "{{ countryInput }}".
+        </div>
 
-          <!-- Universities Card -->
-          <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg p-8 text-white hover:shadow-xl transition duration-300">
-            <h3 class="text-2xl font-bold mb-4">UNIVERSITIES</h3>
-            <p class="text-blue-100 mb-6 leading-relaxed">Discover the perfect university and program for your goals</p>
-            <button class="bg-white hover:bg-gray-100 text-blue-600 font-semibold px-6 py-3 rounded-lg transition duration-200 shadow">
-              Discover Universities
+        <div v-else>
+          <h2 class="text-2xl font-bold text-blue-800 mb-6">Results for "{{ countryInput }}"</h2>
+          <ul class="space-y-4">
+            <li v-for="university in universities" :key="university.name" class="p-4 border border-gray-200 rounded-lg shadow-sm">
+              <strong class="text-lg text-blue-700">{{ university.name }}</strong>
+              <span class="text-gray-600"> ({{ university.country }})</span>
+              <br />
+              <a :href="university.website" target="_blank" class="text-blue-500 hover:underline">
+                {{ university.website }}
+              </a>
+            </li>
+          </ul>
+
+          <div v-if="totalPages > 1" class="flex justify-between items-center mt-8">
+            <button 
+              @click="goToPrevPage" 
+              :disabled="currentPage === 1"
+              class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold px-6 py-2 rounded-lg transition duration-200 disabled:opacity-50">
+              Previous
+            </button>
+            <span class="text-gray-700">Page {{ currentPage }} of {{ totalPages }}</span>
+            <button 
+              @click="goToNextPage" 
+              :disabled="currentPage === totalPages"
+              class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold px-6 py-2 rounded-lg transition duration-200 disabled:opacity-50">
+              Next
             </button>
           </div>
         </div>
@@ -61,7 +91,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import axios from "axios";
+import axios from "axios"; // Make sure axios is imported
 
 // --- 1. NAVIGATION ---
 const router = useRouter();
@@ -107,7 +137,6 @@ const fetchUniversities = async () => {
       },
     });
 
-    // This is the fix: save the array from 'response.data.universities'
     universities.value = response.data.universities;
     totalPages.value = response.data.totalPages; // Save the total pages
 

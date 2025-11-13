@@ -1,44 +1,54 @@
 <template>
   <div class="min-h-screen bg-gray-50 py-12">
     <div class="max-w-md mx-auto px-4">
-      <!-- Register Card -->
       <div class="bg-white rounded-lg shadow-md p-8 border border-gray-200">
         <h2 class="text-2xl font-bold text-gray-800 text-center mb-6">Register Page</h2>
         
-        <!-- Full Name Field -->
         <div class="mb-4">
-          <label class="block text-gray-700 text-sm font-medium mb-2">Full Name</label>
+          <label class="block text-gray-700 text-sm font-medium mb-2">Name</label>
           <input 
             type="text" 
+            v-model="form.name"
             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter your full name"
+            placeholder="Enter your name"
           >
         </div>
 
-        <!-- Email Field -->
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-medium mb-2">Username</label>
+          <input 
+            type="text" 
+            v-model="form.username"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Create a username"
+          >
+        </div>
+
         <div class="mb-4">
           <label class="block text-gray-700 text-sm font-medium mb-2">Email</label>
           <input 
             type="email" 
+            v-model="form.email"
             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Enter your email"
           >
         </div>
 
-        <!-- Password Field -->
         <div class="mb-6">
           <label class="block text-gray-700 text-sm font-medium mb-2">Password</label>
           <input 
             type="password" 
+            v-model="form.password"
             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Create a password"
           >
         </div>
 
-        <!-- Register Button -->
-        <button class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md font-medium transition duration-200">
-  Register
-</button>
+        <button 
+          @click="handleRegister"
+          class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md font-medium transition duration-200">
+          Register
+        </button>
       </div>
     </div>
   </div>
@@ -46,9 +56,15 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import axios from "axios";
+import { useRouter } from "vue-router";
+// 
+// FIX #1: Use the correct path and FIX #2: use named import { api }
+//
+import { api } from '../../services/api'; 
 
-// Form data
+const router = useRouter();
+
+// Form data - matches your backend controller
 const form = ref({
   name: "",
   username: "",
@@ -56,43 +72,32 @@ const form = ref({
   password: "",
 });
 
-// Validation rules
-const rules = {
-  name: [
-    { required: true, message: "Name is required", trigger: "blur" },
-    { min: 3, message: "Name must be at least 3 characters", trigger: "blur" },
-  ],
-  username: [
-    { required: true, message: "Username is required", trigger: "blur" },
-    { min: 3, message: "Username must be at least 3 characters", trigger: "blur" },
-  ],
-  email: [
-    { required: true, message: "Email is required", trigger: "blur" },
-    { type: "email", message: "Please enter a valid email", trigger: "blur" },
-  ],
-  password: [
-    { required: true, message: "Password is required", trigger: "blur" },
-    { min: 6, message: "Password must be at least 6 characters", trigger: "blur" },
-  ],
-};
-
-// Form reference
-const registerForm = ref(null);
-
 // Handle form submission
 const handleRegister = async () => {
+  // Manual Validation (since we removed Element Plus)
+  if (!form.value.name || !form.value.username || !form.value.email || !form.value.password) {
+    alert("Please fill out all fields.");
+    return;
+  }
+  if (form.value.password.length < 6) {
+    alert("Password must be at least 6 characters.");
+    return;
+  }
+  
   try {
-    // Validate the form
-    await registerForm.value.validate();
-
-    // Send the form data to the backend
-    const response = await axios.post("http://localhost:3000/api/users/register", form.value);
+    // 
+    // FIX #3: Use the imported 'api' variable
+    //
+    const response = await api.post("/users/register", form.value);
     console.log("User registered successfully:", response.data);
 
-    // Show success message
-    alert("User registered successfully!");
-  } catch (error) {
-    if (error.response && error.response.data) {
+    // Show success message and redirect to login
+    alert("User registered successfully! Please log in.");
+    router.push({ name: 'Login' }); // Redirect to login page
+
+  } catch (error: any) {
+    // Handle errors from the API
+    if (error.response && error.response.data && error.response.data.message) {
       console.error("Error registering user:", error.response.data);
       alert(`Error: ${error.response.data.message}`);
     } else {
@@ -100,10 +105,5 @@ const handleRegister = async () => {
       alert("An unexpected error occurred.");
     }
   }
-};
-
-// Reset the form
-const resetForm = () => {
-  registerForm.value.resetFields();
 };
 </script>
