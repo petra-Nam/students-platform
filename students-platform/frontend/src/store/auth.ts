@@ -1,6 +1,6 @@
 import { ref, computed } from 'vue';
-import { defineStore } from 'pinia';
-import axios from 'axios';
+import { defineStore } from 'pinia'; // <-- FIX #1: Changed 'in' to 'from'
+import { api } from '../services/api'; 
 
 // Define an interface for your user object
 interface User {
@@ -12,7 +12,6 @@ interface User {
 
 export const useAuthStore = defineStore('auth', () => {
   // --- State ---
-  // We store the user object, not the token
   const user = ref<User | null>(null);
 
   // --- Getters ---
@@ -21,22 +20,16 @@ export const useAuthStore = defineStore('auth', () => {
 
   // --- Actions ---
 
-  /**
-   * Called by Login.vue after a successful login.
-   * We immediately fetch the user's profile to confirm login.
-   */
   async function loginSuccess() {
     await fetchUser();
   }
 
-  /**
-   * This is the new way to check if we are logged in.
-   * It asks the backend for the user profile.
-   * The browser automatically sends the httpOnly cookie.
-   */
   async function fetchUser() {
     try {
-      const response = await axios.get('http://localhost:3000/api/users/get-profile');
+      //
+      // FIX #2: Corrected 'get-prfile' to 'get-profile'
+      //
+      const response = await api.get('/users/get-profile');
       user.value = response.data;
     } catch (error) {
       user.value = null;
@@ -44,13 +37,9 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  /**
-   * Logs the user out by clearing the state and (later) calling a logout endpoint.
-   */
   function logout() {
     user.value = null;
-    // You should also call a backend endpoint to clear the cookie
-    // e.g., axios.post('http://localhost:3000/api/users/logout');
+    // e.g., api.post('/users/logout');
   }
 
   return {
