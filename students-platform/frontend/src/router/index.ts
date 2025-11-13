@@ -3,6 +3,7 @@ import Home from '../pages/Home.vue';
 import Login from '../pages/Auth/Login.vue';
 import Register from '../pages/Auth/Register.vue';
 import Dashboard from '../pages/Dashboard.vue';
+import { useAuthStore } from '../store/auth.ts';
 
 const routes = [
   { path: '/', component: Home },
