@@ -1,3 +1,27 @@
+/* ===== Tailwind setup ===== */
+@import "tailwindcss";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.nav-container .el-link {
+    text-decoration: none !important;
+    color: inherit !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.nav-container .el-link:hover {
+    text-decoration: none !important;
+    color: inherit !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    --el-link-text-color: none;
+    --el-link-hover-text-color: none;
+    --el-link-disabled-text-color:none;
+}
+.nav-container .el-link.is-hover-underline {
+    border-bottom: none !important;
+}

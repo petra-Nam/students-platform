@@ -1,10 +1,12 @@
-
- import { defineConfig } from "vite";
-import tailwindcss from '@tailwindcss/vite'
+import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
+import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
-  plugins: [vue(),tailwindcss()],
+  plugins: [
+    vue(),
+    tailwindcss()
+  ],
   server: {
     host: true,
     port: 5173,
@@ -12,7 +14,7 @@ export default defineConfig({
       "/api": {
         target: "http://localhost:3000",
         changeOrigin: true
-      }
-    }
-  }
+      }
+    }
+  }
 });
