@@ -1,6 +1,5 @@
 <template>
   <div class="nav-container">
-
     <el-menu
         v-if="!isMobile"
         :default-active="activeIndex"
@@ -9,27 +8,36 @@
         :ellipsis="false"
         @select="handleSelect"
     >
-      <el-menu-item index="0">LOGO</el-menu-item>
-      <el-menu-item index="1">Community</el-menu-item>
+      <el-menu-item index="0">
+        <el-link href="/" type="text">LOGO</el-link>
+      </el-menu-item>
+
+      <el-menu-item index="1">
+        <el-link href="/community" type="text">Community</el-link>
+      </el-menu-item>
 
       <el-sub-menu index="2">
-        <template #title>Study opportunities</template>
-        <el-menu-item index="2-1">Search Universities</el-menu-item>
-        <el-menu-item index="2-2">Search Scholarships</el-menu-item>
+        <template #title>Study Opportunities</template>
+        <el-menu-item index="2-1">
+          <el-link href="/universities" type="text">Search Universities</el-link>
+        </el-menu-item>
+        <el-menu-item index="2-2">
+          <el-link href="/scholarships" type="text">Search Scholarships</el-link>
+        </el-menu-item>
       </el-sub-menu>
 
       <div class="right-desktop">
         <template v-if="!isLoggedIn">
-          <el-button text>Login</el-button>
-          <el-button type="primary">Register</el-button>
+          <el-button text @click="navigate('/login')">Login</el-button>
+          <el-button type="primary" @click="navigate('/register')">Register</el-button>
         </template>
         <template v-else>
           <el-dropdown>
             <span class="user-name">{{ userName }}</span>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item>Dashboard</el-dropdown-item>
-                <el-dropdown-item>Logout</el-dropdown-item>
+                <el-dropdown-item @click="navigate('/dashboard')">Dashboard</el-dropdown-item>
+                <el-dropdown-item @click="logout">Logout</el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>
@@ -49,40 +57,45 @@
 
     <el-drawer v-model="drawerMenu" title="Menu" direction="ltr" size="260px">
       <el-menu :default-active="activeIndex" @select="handleSelect">
-        <el-menu-item index="1">Community</el-menu-item>
+        <el-menu-item index="1">
+          <el-link href="/community" type="text">Community</el-link>
+        </el-menu-item>
         <el-sub-menu index="2">
           <template #title>Discover</template>
-          <el-menu-item index="2-1">Search Universities</el-menu-item>
-          <el-menu-item index="2-2">Search Scholarships</el-menu-item>
+          <el-menu-item index="2-1">
+            <el-link href="/universities" type="text">Search Universities</el-link>
+          </el-menu-item>
+          <el-menu-item index="2-2">
+            <el-link href="/scholarships" type="text">Search Scholarships</el-link>
+          </el-menu-item>
         </el-sub-menu>
       </el-menu>
     </el-drawer>
 
     <el-drawer v-model="drawerAccount" title="Account" direction="rtl" size="260px">
       <template v-if="!isLoggedIn">
-        <el-button type="primary" class="w-100 mb-2">Login</el-button>
-        <el-button style="margin-left:0px" class="w-100 mb-2">Register</el-button>
+        <el-button type="primary" class="w-100 mb-2" @click="navigate('/login')">Login</el-button>
+        <el-button class="w-100 mb-2" @click="navigate('/register')">Register</el-button>
       </template>
 
       <template v-else>
         <p>Welcome, <b>{{ userName }}</b></p>
-        <el-button class="w-100 mb-2">Dashboard</el-button>
-        <el-button type="danger" class="w-100">Logout</el-button>
+        <el-button class="w-100 mb-2" @click="navigate('/dashboard')">Dashboard</el-button>
+        <el-button type="danger" class="w-100" @click="logout">Logout</el-button>
       </template>
     </el-drawer>
   </div>
 </template>
 
-
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { Menu, User } from '@element-plus/icons-vue'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const activeIndex = ref('1')
-
 const drawerMenu = ref(false)
 const drawerAccount = ref(false)
-
 const isMobile = ref(false)
 
 const checkScreen = () => {
@@ -102,12 +115,19 @@ const isLoggedIn = ref(false)
 const userName = ref("John Doe")
 
 const handleSelect = (key: string) => {
-  console.log("Selected:", key)
   drawerMenu.value = false
   drawerAccount.value = false
 }
-</script>
 
+const navigate = (path: string) => {
+  router.push(path)
+}
+
+const logout = () => {
+  isLoggedIn.value = false
+  router.push('/')
+}
+</script>
 
 <style scoped>
 .nav-container {
@@ -123,7 +143,7 @@ const handleSelect = (key: string) => {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding-right:10px;
+  padding-right: 10px;
 }
 
 .mobile-header {
@@ -141,8 +161,8 @@ const handleSelect = (key: string) => {
 .w-100 {
   width: 100%;
 }
+
 .mb-2 {
   margin-bottom: 10px;
 }
 </style>
-
