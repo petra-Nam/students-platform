@@ -15,9 +15,9 @@ const routes = [
   { path: '/register', component: Register, meta: { guestOnly: true } },
 
   { path: '/dashboard', component: Dashboard, meta: { requiresAuth: true } },
-  { path: '/community', component: Community, meta: { requiresAuth: true } },
-  { path: '/universities', component: Universities, meta: { requiresAuth: true } },
-  { path: '/scholarships', component: Scholarships, meta: { requiresAuth: true } },
+  { path: '/community', component: Community },
+  { path: '/universities', component: Universities },
+  { path: '/scholarships', component: Scholarships },
 ];
 
 export const router = createRouter({

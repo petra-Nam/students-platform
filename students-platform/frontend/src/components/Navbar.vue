@@ -27,14 +27,14 @@
       </el-sub-menu>
 
       <div class="right-desktop">
-        <template v-if="!isAuthenticated">
+        <template v-if="!session.isAuthenticated">
           <el-button text @click="navigate('/login')">Login</el-button>
           <el-button type="primary" @click="navigate('/register')">Register</el-button>
         </template>
 
         <template v-else>
           <el-dropdown>
-            <span class="user-name">{{ user?.name }}</span>
+            <span class="user-name">{{ session.user?.name }}</span>
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item @click="navigate('/dashboard')">Dashboard</el-dropdown-item>
@@ -74,13 +74,13 @@
     </el-drawer>
 
     <el-drawer v-model="drawerAccount" title="Account" direction="rtl" size="260px">
-      <template v-if="!isAuthenticated">
+      <template v-if="!session.isAuthenticated">
         <el-button type="primary" class="w-100 mb-2" @click="navigate('/login')">Login</el-button>
         <el-button class="w-100 mb-2" @click="navigate('/register')">Register</el-button>
       </template>
 
       <template v-else>
-        <p>Welcome, <b>{{ user?.name }}</b></p>
+        <p>Welcome, <b>{{ session.user?.name }}</b></p>
         <el-button class="w-100 mb-2" @click="navigate('/dashboard')">Dashboard</el-button>
         <el-button type="danger" class="w-100" @click="logout">Logout</el-button>
       </template>
@@ -99,7 +99,8 @@ import { useSessionStore } from '../store/session'
 const { activeIndex } = useActiveMenu()
 const { navigate } = useNavigation()
 
-const { isAuthenticated, user, logout } = useAuth()
+const { logout } = useAuth()
+
 
 const session = useSessionStore()
 
