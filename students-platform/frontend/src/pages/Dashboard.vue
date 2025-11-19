@@ -44,41 +44,32 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
+import { api } from '../services/api';
 import axios from 'axios';
-// You might also get the user from your Pinia store
-// import { useAuthStore } from '@/stores/authStore';
 
-// const authStore = useAuthStore();
-// const user = authStore.user; // If store has user
 
-// --- State ---
-const user = ref<any>(null); // Or get from Pinia store
+const user = ref<any>(null);
 const savedUniversities = ref<any[]>([]);
 const isLoading = ref(false);
 
-// --- Hooks ---
+
 onMounted(() => {
-  // Fetch the data as soon as the component is mounted
   fetchUserProfile();
   fetchSavedUniversities();
 });
 
-// --- Methods ---
 const fetchUserProfile = async () => {
   try {
-    // This assumes your axios instance sends the auth token!
-    const response = await axios.get('http://localhost:3000/api/users/get-profile');
+    const response = await api.get('users/get-profile');
     user.value = response.data;
   } catch (error) {
     console.error('Failed to fetch user profile:', error);
-    // You should redirect to login if auth fails
   }
 };
 
 const fetchSavedUniversities = async () => {
   isLoading.value = true;
   try {
-    // This is a new endpoint you will need to create in your backend
     const response = await axios.get('http://localhost:3000/api/users/my-saved-universities');
     savedUniversities.value = response.data;
   } catch (error) {
