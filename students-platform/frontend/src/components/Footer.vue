@@ -3,7 +3,7 @@
 
     <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
       <div class="flex flex-col items-start">
-        <img src="" alt="Logo" class="w-32 mb-2">
+        <img src="../images/logo.png" alt="Logo" class="w-32 mb-2">
         <p class="footer-desc text-sm text-gray-600">
           Your comprehensive guide to studying abroad with scholarships, university information, online courses, and a supportive community.</p>
       </div>

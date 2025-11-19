@@ -9,7 +9,7 @@
         @select="handleSelect"
     >
       <el-menu-item index="0">
-        <el-link href="/" type="text">LOGO</el-link>
+        <el-link href="/"><img src="../images/logo-2-1.png" alt="Logo" class="w-32 mb-2"></el-link>
       </el-menu-item>
 
       <el-menu-item index="1">
@@ -90,10 +90,12 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { Menu, User } from '@element-plus/icons-vue'
-import { useRouter } from 'vue-router'
+import { useActiveMenu } from '../composables/useActiveMenu'
+import { useNavigation } from '../composables/useNavigation'
 
-const router = useRouter()
-const activeIndex = ref('1')
+const { activeIndex } = useActiveMenu()
+const { navigate, logout, isLoggedIn } = useNavigation()
+
 const drawerMenu = ref(false)
 const drawerAccount = ref(false)
 const isMobile = ref(false)
@@ -111,7 +113,6 @@ onBeforeUnmount(() => {
   window.removeEventListener('resize', checkScreen)
 })
 
-const isLoggedIn = ref(false)
 const userName = ref("John Doe")
 
 const handleSelect = (key: string) => {
@@ -119,14 +120,6 @@ const handleSelect = (key: string) => {
   drawerAccount.value = false
 }
 
-const navigate = (path: string) => {
-  router.push(path)
-}
-
-const logout = () => {
-  isLoggedIn.value = false
-  router.push('/')
-}
 </script>
 
 <style scoped>
