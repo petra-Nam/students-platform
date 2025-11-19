@@ -27,13 +27,14 @@
       </el-sub-menu>
 
       <div class="right-desktop">
-        <template v-if="!isLoggedIn">
+        <template v-if="!isAuthenticated">
           <el-button text @click="navigate('/login')">Login</el-button>
           <el-button type="primary" @click="navigate('/register')">Register</el-button>
         </template>
+
         <template v-else>
           <el-dropdown>
-            <span class="user-name">{{ userName }}</span>
+            <span class="user-name">{{ user?.name }}</span>
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item @click="navigate('/dashboard')">Dashboard</el-dropdown-item>
@@ -73,13 +74,13 @@
     </el-drawer>
 
     <el-drawer v-model="drawerAccount" title="Account" direction="rtl" size="260px">
-      <template v-if="!isLoggedIn">
+      <template v-if="!isAuthenticated">
         <el-button type="primary" class="w-100 mb-2" @click="navigate('/login')">Login</el-button>
         <el-button class="w-100 mb-2" @click="navigate('/register')">Register</el-button>
       </template>
 
       <template v-else>
-        <p>Welcome, <b>{{ userName }}</b></p>
+        <p>Welcome, <b>{{ user?.name }}</b></p>
         <el-button class="w-100 mb-2" @click="navigate('/dashboard')">Dashboard</el-button>
         <el-button type="danger" class="w-100" @click="logout">Logout</el-button>
       </template>
@@ -92,9 +93,15 @@ import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { Menu, User } from '@element-plus/icons-vue'
 import { useActiveMenu } from '../composables/useActiveMenu'
 import { useNavigation } from '../composables/useNavigation'
+import { useAuth } from '../composables/useAuth'
+import { useSessionStore } from '../store/session'
 
 const { activeIndex } = useActiveMenu()
-const { navigate, logout, isLoggedIn } = useNavigation()
+const { navigate } = useNavigation()
+
+const { isAuthenticated, user, logout } = useAuth()
+
+const session = useSessionStore()
 
 const drawerMenu = ref(false)
 const drawerAccount = ref(false)
@@ -105,6 +112,8 @@ const checkScreen = () => {
 }
 
 onMounted(() => {
+  session.restoreSession()
+
   checkScreen()
   window.addEventListener('resize', checkScreen)
 })
@@ -113,14 +122,13 @@ onBeforeUnmount(() => {
   window.removeEventListener('resize', checkScreen)
 })
 
-const userName = ref("John Doe")
-
-const handleSelect = (key: string) => {
+const handleSelect = () => {
   drawerMenu.value = false
   drawerAccount.value = false
 }
-
 </script>
+
+
 
 <style scoped>
 .nav-container {

@@ -146,6 +146,9 @@ footer{
 .landing-side-img.school{
     background-image:url(../images/ref.png);
 }
+.mobile-header .el-button+.el-button{
+    margin:0 !important;
+}
 
 @media only screen and (max-width: 900px) {
     .landing .container {
