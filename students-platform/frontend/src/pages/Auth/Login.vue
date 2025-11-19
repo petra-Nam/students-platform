@@ -18,6 +18,7 @@
 
         <button @click="handleLogin"
                 class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md font-medium transition duration-200">
+          Login
         </button>
       </div>
     </div>
