@@ -43,16 +43,6 @@ export class Database {
   }
 }
 
-mongoose.connection.on('connected', () => {
-  console.log('Mongoose connected to MongoDB');
-});
 
-mongoose.connection.on('error', (err) => {
-  console.error('Mongoose connection error:', err);
-});
-
-mongoose.connection.on('disconnected', () => {
-  console.log('Mongoose disconnected from MongoDB');
-});
 
 export const db = Database.getInstance();
