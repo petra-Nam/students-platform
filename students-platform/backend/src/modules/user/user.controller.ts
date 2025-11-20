@@ -31,6 +31,14 @@ class UserController {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
   }
+  private clearAuthCookie(res: Response) {
+      res.clearCookie('token', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+
+      });
+    }
 
 
 
@@ -96,6 +104,16 @@ class UserController {
         return next(err);
       }
     };
+
+   logout = async (
+       req: Request,
+       res: Response,
+       _next: NextFunction
+     ) => {
+
+       this.clearAuthCookie(res);
+       return res.status(200).json({ message: 'Logged out successfully' });
+     };
 
 
     getProfile = async (
