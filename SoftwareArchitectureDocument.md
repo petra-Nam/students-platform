@@ -49,7 +49,6 @@ This document describes the architecture of the "International Student Compass" 
 | **SAD** | Software Architecture Document |
 | **SRS** | Software Requirements Specification |
 | **RUP** | Rational Unified Process |
-| **MVC** | Model-View-Controller |
 | **API** | Application Programming Interface |
 | **ERD** | Entity-Relationship Diagram |
 | **UML** | Unified Modeling Language |
@@ -66,7 +65,7 @@ This document is organized based on the RUP architecture template.
 
   * **Section 2 & 3** describe the overall architectural goals and constraints.
   * **Section 4 (Use-Case View)** shows the key user interactions the system must support.
-  * **Section 5 (Logical View)** details the MVC pattern and the system's class structure.
+  * **Section 5 (Logical View)** details  the system's class structure.
   * **Section 6 (Process View)** illustrates the flow of a typical user request.
   * **Section 7 (Deployment View)** shows the server/client hardware configuration.
   * **Section 8 (Implementation View)** lists the technologies and layers.
@@ -78,7 +77,7 @@ This document is organized based on the RUP architecture template.
 
 This document uses several architectural views to describe the system.
 
-  * The **Logical View** (Section 5) is used to describe the system's structure, primarily through the **Model-View-Controller (MVC)** pattern.
+  * The **Logical View** (Section 5) is used to describe the system's structure, primarily through the  3-Tier Architecture.
   * The **Use-Case View** (Section 4) shows the high-level user requirements that the architecture must satisfy.
   * The **Process View** (Section 6) illustrates the dynamic behavior and flow of data.
   * The **Deployment View** (Section 7) shows the physical client-server architecture.
@@ -96,6 +95,8 @@ The primary architectural goal is to create a **decoupled, scalable, and maintai
   * The system **must** be deployable on virtual private servers (VPS).
   * The system **must** be fully functional on the latest stable versions of Chrome, Firefox, Safari, and Edge.
 
+# 3.1 Architectural Goals & Constraints
+Constraint: The system must be accessible to international students in regions with varying hardware standards. The architecture must prioritize a "Web-First" approach to ensure functionality on low-spec devices or browsers where native mobile apps are not an option.
 -----
 
 ## 4\. Use-Case View
@@ -103,29 +104,29 @@ The primary architectural goal is to create a **decoupled, scalable, and maintai
 
 This view is illustrated by the Overall Use Case Diagram from the SRS, which shows the high-level interactions between the actors (Guest, Student, Admin) and the system.
 
-![Overall Use Case Diagram](./Visualization files/use-caseDiagram.png)
+![Overall Use Case Diagram](./Visualization/use_case_diagram.png)
 
-### 4.1 Use-Case Realizations
 
-The two activity diagrams below realize specific use cases, showing the flow of logic for key user journeys.
+These diagrams show the step-by-step flow for a specific use case. They help explain the detailed logic from start to finish.
 
-**Activity Diagram 1:**
-![Activity Diagram 1](./Visualizations/activitydiagram1.png)
+Activity Diagram 1: (e.g., Student Search for University) ![Activity Diagram 1](./Visualizations/activitydiagram1.png)
 
-**Activity Diagram 2:**
-![Activity Diagram 2](./Visualizations/activitydiagram2.png)
-
------
+Activity Diagram 2: (e.g., Student Posting in a Discussion) ![Activity Diagram 2](./Visualizations/activitydiagram2.png)
 
 ## 5\. Logical View
 
 ### 5.1 Overview
 
-The design model is decomposed into a **Model-View-Controller (MVC)** pattern.
+The design model is decomposed into a **Layered Architecture)** pattern.
 
-  * **View (Client):** Handled by the **Vue.js** frontend. It renders the UI and sends user requests to the Controller.
-  * **Controller (Server):** Handled by the **Node.js/Express.js** backend. It receives API requests, applies business logic, and interacts with the Model.
-  * **Model (Database):** Handled by **Mongoose schemas** and **MongoDB**. It defines the data structure, validation, and all database interactions.
+ ### Presentation Layer (Client): 
+ Handled by the Vue.js frontend. It manages user interface logic and communicates with the backend via API calls.
+
+### Application Layer (Server): 
+Handled by the Node.js/Express.js backend. It processes business logic and serves as the bridge between the UI and the data.
+
+### Data Layer (Persistence): 
+Handled by MongoDB and Mongoose. It defines data schemas and manages persistent storage.
 
 ### 5.2 Architecturally Significant Design Packages
 
@@ -141,7 +142,7 @@ This view is represented by our Class Diagrams, which show the modules (packages
 
 -----
 
-## 6\. Process View
+## 6\. System Interconnectivity
 
 
 This view illustrates the dynamic processes within the system. The High-Level Request Flow diagram shows the step-by-step process of a user request, from the client-side View to the server-side Controller and Model, and back again.
@@ -174,7 +175,7 @@ Link to source : https://drive.google.com/file/d/1iuX_OJVoVvh_0k8iubLss9deJxeDZw
 
 ### 8.1 Overview
 
-The software is organized into two primary layers (Client and Server) which are completely decoupled.
+Communication between the Client and Server is strictly handled via a RESTful API. This allows the backend to be "front-end agnostic," meaning the server could support a mobile app in the future without changing its core logic.
 
 ### 8.2 Layers
 
@@ -225,6 +226,6 @@ The architecture must meet the following performance requirements (from the SRS)
 
 The architecture supports the following quality attributes:
 
-  * **Usability:** A decoupled frontend allows for a highly interactive and responsive user interface.
+  * **Usability:** Platform Support: The system is a Web-based application. This choice is a design constraint to ensure students without high-end smartphones or specific OS versions (iOS/Android) can still access the service via any standard mobile or desktop browser.
   * **Reliability:** The system will have a minimum uptime of 99.5%, with automated daily backups (24-hour RPO) and a 4-hour Recovery Time Objective (RTO).
   * **Supportability:** The code will follow clean code standards. High test coverage will ensure new changes do not break existing functionality.
