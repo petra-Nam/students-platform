@@ -104,7 +104,7 @@ Constraint: The system must be accessible to international students in regions w
 
 This view is illustrated by the Overall Use Case Diagram from the SRS, which shows the high-level interactions between the actors (Guest, Student, Admin) and the system.
 
-![Overall Use Case Diagram](./Visualization/use_case_diagram.png)
+![Overall Use Case Diagram](./Visualizations/use_case_diagram.png)
 
 
 These diagrams show the step-by-step flow for a specific use case. They help explain the detailed logic from start to finish.
