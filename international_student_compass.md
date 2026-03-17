@@ -86,7 +86,7 @@ Real Tips & Help: A library full of helpful short videos, guides, and advice fro
 ### 2.2 Use Cases and Diagrams
 This diagram shows all the major actions (use cases) that each type of user (actor) can perform, giving a complete "bird's-eye view" of the system's capabilities.
 
-![ Overall Use Case Diagram](./Visualizations/use-caseDiagram.png)
+![ Overall Use Case Diagram](./Visualizations/use-case_diagram.png)
 
 2.2.2 Activity Diagrams (Use Case Realizations)
 These diagrams show the step-by-step flow for a specific use case. They help explain the detailed logic from start to finish.
@@ -134,7 +134,7 @@ Project Management : youtrack
 
 Actors represent the roles that interact with the system. For the International Student Compass, we have identified three primary human actors and one system actor.
 
-1. Guest
+# 1. Guest
 
 A Guest is any individual who visits the web application without an account or without being logged in. Their interaction is limited to discovery and browsing.
 
@@ -152,7 +152,7 @@ View public university profile pages.
 
 Read community discussions in a read-only mode.
 
-2. Student (Authenticated User)
+# 2. Student (Authenticated User)
 
 The Student is the primary actor of the platform. This is a user who has successfully registered an account and is logged in. They have full access to all community and personalization features.
 
@@ -178,7 +178,7 @@ Save or bookmark universities, scholarships, and courses.
 
 Submit reviews, ratings, and photos for university profiles.
 
-3. Administrator
+# 3. Administrator
 
 An Administrator is a privileged user with the responsibility of managing the platform, ensuring content quality, and enforcing community guidelines.
 
@@ -364,6 +364,7 @@ Settings Page - Allows users to manage their account details, notification prefe
 The User Interface is a Responsive Web Application. It must be platform-agnostic, supporting standard input methods (keyboard/mouse) and varying screen resolutions to accommodate legacy desktop hardware.
 
 The system shall interface with the University Search API via RESTful endpoints to retrieve scholarship and institutional data. All data exchange between the application and external services will be handled via JSON over HTTPS.
+
 The application is a web app and does not require a specific operating system. The primary software interface for the end-user is a modern web browser. The platform will officially support the latest versions of:
 
 Google Chrome
