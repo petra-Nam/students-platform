@@ -4,23 +4,23 @@
 A logged-in user can send a text-based message to another user within a chat interface. The system ensures the message is validated, transmitted via the chat server, stored for history, and delivered to the recipient in real time.
 
 ## 2. Basic Flow
-The user navigates to a specific conversation or selects a contact to message.
+1. The user navigates to a specific conversation or selects a contact to message.
 
-The user types a message into the text input field.
+2. The user types a message into the text input field.
 
-The user clicks the "Send" icon or presses the Enter key.
+3. The user clicks the "Send" icon or presses the Enter key.
 
-The system validates that the input is not empty or composed solely of whitespace.
+4. The system validates that the input is not empty or composed solely of whitespace.
 
-The system generates a unique message ID and attaches a UTC timestamp.
+5. The system generates a unique message ID and attaches a UTC timestamp.
 
-The system transmits the message to the backend chat server.
+6. The system transmits the message to the backend chat server.
 
-The system stores the message in the database (linked to both Sender and Recipient IDs).
+7. The system stores the message in the database (linked to both Sender and Recipient IDs).
 
-The system updates the sender’s UI to show the message in the conversation thread.
+8. The system updates the sender’s UI to show the message in the conversation thread.
 
-The system pushes the message to the recipient's active session via a WebSocket or similar protocol.
+9. The system pushes the message to the recipient's active session via a WebSocket or similar protocol.
 
 # 2.1 Activity Diagram
 # 2.2 Mock-up
