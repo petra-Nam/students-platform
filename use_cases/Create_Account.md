@@ -39,7 +39,7 @@ Create Account Wireframe
 Invalid Input:
 If the user provides an invalid email or weak password, the system displays an error message and asks the user to correct the form.
 Duplicate Email/Username:
-If the email or username already exists, the system prompts the user to choose a differen
+If the email or username already exists, the system prompts the user to choose a different email address or username.
 ### 2.4 Narrative
 ## Feature: Create Account
     As a new user
