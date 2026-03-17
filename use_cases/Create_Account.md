@@ -4,10 +4,10 @@
 ## 1.1 Brief Description
 A user can create a new account to access the web application. During account creation, the user provides essential information such as:
 
-# Username
-# Email
-# Password
-# Confirm Password
+- Username
+- Email
+- Password
+- Confirm Password
 The system validates the input and stores the user's information. After successful account creation, the user is either logged in automatically or prompted to log in.
 
 ## 2. Basic Flow
@@ -69,7 +69,7 @@ If the email or username already exists, the system prompts the user to choose a
     Then I remain on the "Create Account" page
     And I receive an "Error" message
 ### 3. Preconditions:
-# User Access: 
+- User Access:
 The user is on the registration page of the web application, which is accessible from the home page or other entry points.
 
 # Authentication Status: 
