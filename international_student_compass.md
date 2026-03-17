@@ -12,8 +12,6 @@
   - [Use case diagrams](#22-na)
   - [Technology Stack](#23-technology-stack)
   - [Actors](#24-actors)
-  - [Model–View–Controller (MVC)](#25-model–view–controller-mvc)
-  - [MVC Tool](#26-mvc-tool)
 - [Specific Requirements](#3-specific-requirements)
   - [Functionality](#31-functionality)
   - [Usability](#32-usability)
@@ -365,6 +363,7 @@ Settings Page - Allows users to manage their account details, notification prefe
 #### 3.9.3 Software Interfaces
 The User Interface is a Responsive Web Application. It must be platform-agnostic, supporting standard input methods (keyboard/mouse) and varying screen resolutions to accommodate legacy desktop hardware.
 
+The system shall interface with the University Search API via RESTful endpoints to retrieve scholarship and institutional data. All data exchange between the application and external services will be handled via JSON over HTTPS.
 The application is a web app and does not require a specific operating system. The primary software interface for the end-user is a modern web browser. The platform will officially support the latest versions of:
 
 Google Chrome
