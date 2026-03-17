@@ -7,12 +7,15 @@
 * **Actors:** Guest, Student
 * **Description:** This use case allows a user to find universities by sending a query to an external API and viewing a list of names and website.
 
+### 1. Search for Universities via API
+1.1 Brief Description
+A user can search for educational institutions globally using an external API integration. By entering keywords like a university name or a specific country, the system fetches real-time data to provide the user with the institution's name and a direct link to their official website. This allows students and guests to quickly verify and access university portals without leaving the application.
 
-### Flow of Events
+
+### 2. Flow of Events
+
 #### Preconditions
 * The user has successfully navigated to the "Universities" search page.
-
-
 
 #### Main Flow (Basic Path)
 1.  The user enters a keyword (e.g., a university name or country) into the search bar.
@@ -36,12 +39,49 @@
 * **Success:** The user is viewing the official website of their chosen university in a new browser tab.
 * **Failure:** The user is viewing the search page with either a "No results found" message or an API error message.
 
----
-### UI Mockup
 
-*A wireframe of the search page showing a single search bar, a "Search" button, and a results area designed to list university names alongside their corresponding website links.*
 
+### 3. Link to SRS
+This use case is linked to the relevant section of the SRS
+
+### 4. Narrative
+# Feature: Search for Universities
+
+As a Guest or Student
+
+I want to search for universities by name or country
+
+So that I can easily find and access their official websites
+
+Scenario: Successful university search
+
+Given I am on the "Universities" search page
+
+When I enter "Oxford" in the search bar
+
+And I press the "Search" button
+
+Then I should see a list containing "University of Oxford"
+
+And a link to "http://www.ox.ac.uk"
+
+# Scenario: Search with no matches
+
+Given I am on the "Universities" search page
+
+When I enter "NonExistentUni123" in the search bar
+
+And I press the "Search" button
+
+Then I should see a message "No results found for your query"
+
+### 5. CRUD Classification
+Read: This is a pure Read operation. No data is created, updated, or deleted in the application’s local database during this process.
+
+### 6.UI Mockup
+
+Activity Diagram 1: (e.g., Student Search for University) ![Activity Diagram 1](./Visualizations/activitydiagram1.png)
 ---
-### Activity Diagram
+### 7.Activity Diagram
 
 *An activity diagram illustrating the flow: user enters data, system calls the external API, and then branches based on whether the API call was successful, returned no results, or failed.*

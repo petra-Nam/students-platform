@@ -86,16 +86,15 @@ Easy Search Tools: Find the perfect university and scholarships without the head
 Real Tips & Help: A library full of helpful short videos, guides, and advice from current international students. Learn everything from “how to pack” to “how to open a bank account.”
 
 ### 2.2 Use Cases and Diagrams
-his diagram shows all the major actions (use cases) that each type of user (actor) can perform, giving a complete "bird's-eye view" of the system's capabilities.
+This diagram shows all the major actions (use cases) that each type of user (actor) can perform, giving a complete "bird's-eye view" of the system's capabilities.
 
-![Use Case Diagram](./Visualizations/use-caseDiagram.png)
+![ Overall Use Case Diagram](./Visualizations/use-caseDiagram.png)
 
 2.2.2 Activity Diagrams (Use Case Realizations)
 These diagrams show the step-by-step flow for a specific use case. They help explain the detailed logic from start to finish.
+They are found under use_cases section.
 
-Activity Diagram 1: (e.g., Student Search for University) ![Activity Diagram 1](./Visualizations/activitydiagram1.png)
 
-Activity Diagram 2: (e.g., Student Posting in a Discussion) ![Activity Diagram 2](./Visualizations/activitydiagram2.png)
 
 
 ### 2.3 Technology Stack
@@ -203,41 +202,15 @@ Manage user accounts (suspend or ban users).
 
 Review content flagged by the community through the reporting system.
 
-## 2.5 Model–View–Controller (MVC)
-
-## Overview
-Our platform follows the **Model–View–Controller (MVC)** architecture pattern using **Vue 3** for the frontend (View) and **Express.js** for the backend (Controller).  
-The **Model** layer is implemented with **Mongoose** and **MongoDB** for handling data storage and business logic.  
-This separation ensures a clean structure, easier debugging, and improved scalability.
-
-
----
-
-
-## Security and Responsibilities
-
-- **View (Vue)** – Client-side validation, routing, and UX; never stores sensitive data.
-- **Controller (Express)** – Handles authentication, authorization, validation, and error responses.
-- **Model (Mongoose)** – Maintains schema validation, indexes, and data integrity.
-
----
-
-## 2.6 MVC Tool
-
-Our chosen technology stack directly supports the MVC architecture.
-- **Vue 3** implements the **View** layer, providing a reactive user interface for the frontend.
-- **Express.js** serves as the **Controller**, managing API routes, handling user requests, and connecting the frontend with the backend logic.
-- **Mongoose with MongoDB** form the **Model** layer, defining schemas, managing validation, and storing data persistently.
-
-This combination enforces a clean separation between presentation, logic, and data, ensuring scalability and maintainability.
-
-
 
 
 ## 3. Specific Requirements
 
 ### 3.1 Functionality
-Until December 2025 (Core MVP Launch)
+| ID | Feature Name | Status | Detailed Specification |
+| :--- | :--- | :--- | :--- |
+| UC-01 | Create Account | Finished |  |
+| UC-02 | Search University | Finished |  |
 
 #### 3.1.1 Creating an Account:
  Users can sign up with an email and password to create a personal profile.
@@ -332,8 +305,10 @@ We are going to write the code by using all of the most common clean code standa
 The application will have a high test coverage and all important functionalities and edge cases should be tested. Further mistakes in the implementation will be discovered instantly and it will be easy to locate the error. 
 
 ### 3.6 Design Constraints
-This section describes the architectural decisions and constraints that guide the development of the application.
+This section describes the hardware and  architectural  decisions and constraints that guide the development of the application.
 
+### Hardware Accessibility
+The system must be built as a Web-based application to ensure accessibility for international students who may not own a smartphone. The architecture must prioritize performance on shared desktop hardware (e.g., library or school computers) and low-bandwidth connections.
 We are building the application using a decoupled, three-tier architecture consisting of a frontend client, a backend application server, and a database. This approach provides a clear separation of concerns and enhances scalability.
 
 Frontend Architecture
@@ -362,6 +337,8 @@ We don't have any purchased components yet. If there will be purchased component
 ### 3.9 Interfaces
 
 #### 3.9.1 User Interfaces
+
+The User Interface is a Responsive Web Application. It must be platform-agnostic, supporting standard input methods (keyboard/mouse) and varying screen resolutions to accommodate legacy desktop hardware.
 The User Interfaces that will be implemented are:
 
 Home Dashboard - Acts as a personalized starting point, showing recommended scholarships, trending discussions, and relevant online courses.
@@ -386,6 +363,8 @@ Settings Page - Allows users to manage their account details, notification prefe
 (n/a)
 
 #### 3.9.3 Software Interfaces
+The User Interface is a Responsive Web Application. It must be platform-agnostic, supporting standard input methods (keyboard/mouse) and varying screen resolutions to accommodate legacy desktop hardware.
+
 The application is a web app and does not require a specific operating system. The primary software interface for the end-user is a modern web browser. The platform will officially support the latest versions of:
 
 Google Chrome
