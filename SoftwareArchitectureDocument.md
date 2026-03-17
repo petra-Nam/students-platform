@@ -85,6 +85,65 @@ This document uses several architectural views to describe the system.
   * The **Data View** (Section 9) describes the persistent database structure.
 
 -----
+## 2.5 Model–View–Controller (MVC)
+
+## Overview
+Our platform follows the **Model–View–Controller (MVC)** architecture pattern using **Vue 3** for the frontend (View) and **Express.js** for the backend (Controller).  
+The **Model** layer is implemented with **Mongoose** and **MongoDB** for handling data storage and business logic.  
+This separation ensures a clean structure, easier debugging, and improved scalability.
+
+
+---
+
+
+##  2.1 Security and Responsibilities
+
+- **View (Vue)** – Client-side validation, routing, and UX; never stores sensitive data.
+- **Controller (Express)** – Handles authentication, authorization, validation, and error responses.
+- **Model (Mongoose)** – Maintains schema validation, indexes, and data integrity.
+
+---
+
+## 2.2 MVC Tool
+
+Our chosen technology stack directly supports the MVC architecture.
+- **Vue 3** implements the **View** layer, providing a reactive user interface for the frontend.
+- **Express.js** serves as the **Controller**, managing API routes, handling user requests, and connecting the frontend with the backend logic.
+- **Mongoose with MongoDB** form the **Model** layer, defining schemas, managing validation, and storing data persistently.
+
+This combination enforces a clean separation between presentation, logic, and data, ensuring scalability and maintainability.
+
+
+## 2.5 Model–View–Controller (MVC)
+
+## Overview
+Our platform follows the **Model–View–Controller (MVC)** architecture pattern using **Vue 3** for the frontend (View) and **Express.js** for the backend (Controller).  
+The **Model** layer is implemented with **Mongoose** and **MongoDB** for handling data storage and business logic.  
+This separation ensures a clean structure, easier debugging, and improved scalability.
+
+
+---
+
+
+## Security and Responsibilities
+
+- **View (Vue)** – Client-side validation, routing, and UX; never stores sensitive data.
+- **Controller (Express)** – Handles authentication, authorization, validation, and error responses.
+- **Model (Mongoose)** – Maintains schema validation, indexes, and data integrity.
+
+---
+
+## 2.6 MVC Tool
+
+Our chosen technology stack directly supports the MVC architecture.
+- **Vue 3** implements the **View** layer, providing a reactive user interface for the frontend.
+- **Express.js** serves as the **Controller**, managing API routes, handling user requests, and connecting the frontend with the backend logic.
+- **Mongoose with MongoDB** form the **Model** layer, defining schemas, managing validation, and storing data persistently.
+
+This combination enforces a clean separation between presentation, logic, and data, ensuring scalability and maintainability.
+
+
+
 
 ## 3\. Architectural Goals and Constraints
 

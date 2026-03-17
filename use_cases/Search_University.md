@@ -80,7 +80,7 @@ Read: This is a pure Read operation. No data is created, updated, or deleted in 
 
 ### 6.UI Mockup
 
-![Figure 3.1: University Search Interface Mock-up](usecase-1.jpg)
+Activity Diagram 1: (e.g., Student Search for University) ![Activity Diagram 1](./Visualizations/activitydiagram1.png)
 ---
 ### 7.Activity Diagram
 
