@@ -14,6 +14,7 @@
 4.  [Use-Case View](#4-use-case-view)
     * [4.1 Use-Case Realizations](#41-use-case-realizations)
 5.  [Logical View](#5-logical-view)
+6.  [System Interconnectivity](#6-system-interconnectivity)
     * [5.1 Overview](#51-overview)
     * [5.2 Architecturally Significant Design Packages](#52-architecturally-significant-design-packages)
 6.  [Process View](#6-process-view)
