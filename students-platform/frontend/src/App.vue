@@ -1,14 +1,26 @@
-<script setup lang="ts">
-
-</script>
-
 <template>
-  <main style="padding:2rem">
-    <h1>Vue + TS + Docker</h1>
-    <p>Dev server proxied to API at <code>/api</code>.</p>
-  </main>
+  <div id="app">
+    <Navbar />
+    <main>
+      <router-view />
+    </main>
+    <Footer />
+  </div>
 </template>
 
-<style scoped>
-main { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif; }
+<script>
+import Navbar from './components/Navbar.vue'
+import Footer from './components/Footer.vue'
+
+export default {
+  name: 'App',
+  components: {
+    Navbar,
+    Footer
+  }
+}
+</script>
+
+<style>
+/* Global styles are handled by Tailwind now */
 </style>

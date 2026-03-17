@@ -8,12 +8,14 @@ import {
 import bcrypt from 'bcrypt';
 import {
   USER_TYPES,
+  type UserType,
   PROVIDERS,
-} from '@/shared/types/domain';
+  type Provider,
+} from '../../shared/types/domain';
 
 const UserSchema = new Schema(
   {
-    type: { type: String, enum: USER_TYPES, required: true, index: true },
+    type: { type: String, enum: USER_TYPES, default: 'StudySeeker', index: true },
 
     name: { type: String, required: true, trim: true },
     username: { type: String, required: true, unique: true, lowercase: true, trim: true },
@@ -48,7 +50,14 @@ const UserSchema = new Schema(
 export type User = InferSchemaType<typeof UserSchema>;
 export type UserDoc = HydratedDocument<User>;
 
+export interface UserMethods {
+  comparePassword(candidate: string): Promise<boolean>;
+}
 
+export interface UserModel extends Model<User> {
+  findByEmail(email: string): Promise<UserDoc | null>;
+
+}
 
 
 UserSchema.pre('save', async function (this: UserDoc, next) {
@@ -70,5 +79,7 @@ UserSchema.index({ name: 'text', username: 1, email: 1 });
 UserSchema.statics.findByEmail = function (email: string) {
   return this.findOne({ email: email.toLowerCase() });
 };
+
+
 
 export const User = model<User, UserModel>('User', UserSchema);
