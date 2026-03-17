@@ -29,11 +29,11 @@ The system confirms the account creation by showing a success message.
 
 ## 2.1 Activity Diagram
 [activity diagram](https://drive.google.com/file/d/1gJ6m1ghFj6T2G29EVInP_uKyzkTp46IA/view?usp=sharing)
-[Figure 2.1: create account ](diagram3.png)
+[Figure 2.1: create account ](../Visualizations/diagram3.png)
 ## 2.2 Mock-up
 Create Account Wireframe
-[Figure 3.2: create account ](use_case3.png)
-![Figure 3.3: create account](use_case4.png)
+![Figure 3.3: create account](../Visualizations/use_case4.png)
+
 
 ### 2.3 Alternate Flow:
 Invalid Input:
