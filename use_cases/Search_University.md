@@ -80,7 +80,8 @@ Read: This is a pure Read operation. No data is created, updated, or deleted in 
 
 ### 6.UI Mockup
 
-Activity Diagram 1: (e.g., Student Search for University) ![Activity Diagram 1](./Visualizations/activitydiagram1.png)
+Activity Diagram 1: (e.g., Student Search for University)
+ ![Activity Diagram 1](../Visualizations/activitydiagram1.png)
 ---
 ### 7.Activity Diagram
 
