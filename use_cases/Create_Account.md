@@ -41,6 +41,7 @@ If the user provides an invalid email or weak password, the system displays an e
 Duplicate Email/Username:
 If the email or username already exists, the system prompts the user to choose a different email address or username.
 ### 2.4 Narrative
+
 ## Feature: Create Account
     As a new user
     I want to create an account
@@ -68,7 +69,8 @@ If the email or username already exists, the system prompts the user to choose a
     And I press the "Create Account" button
     Then I remain on the "Create Account" page
     And I receive an "Error" message
-### 3. Preconditions:
+
+3. Preconditions:
 - User Access:
 The user is on the registration page of the web application, which is accessible from the home page or other entry points.
 
@@ -83,10 +85,10 @@ The user is not logged into the system. If the user is already logged in, they w
 User Information: The user has not previously created an account using the same email or username, which will be checked during the submission process.
 
 ### 4. Postconditions:
-# Account Creation: A new user account is successfully created in the database. This includes:
+ 1.Account Creation: A new user account is successfully created in the database. This includes:
 Storing the user’s username, email, and hashed password (along with any other optional data) in a secure manner.
 Ensuring the account details adhere to the system’s validation rules (e.g., unique email and username, strong password).
-# User Authentication: Depending on the configuration:
+ 2.User Authentication: Depending on the configuration:
 The user may be automatically logged in after account creation and redirected to their profile page or dashboard.
 Alternatively, the user may be shown a login prompt, requiring them to manually log in using the newly created credentials.
 

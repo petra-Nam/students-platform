@@ -375,7 +375,7 @@ Apple Safari
 
 Microsoft Edge
 
-#### 3.9.4 Communication Interfaces
+### 3.9.4 Communication Interfaces
 The server and hardware will communicate using the http protocol. 
 
 ### 3.10 Licensing Requirements

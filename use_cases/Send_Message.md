@@ -89,5 +89,5 @@ FR-3.1: Real-time communication requirements.
 
 FR-3.2: Data persistence for chat history.
 
-## 7. CRUD Classification
+# 7. CRUD Classification
 Create: This use case creates a new entry in the messaging database.

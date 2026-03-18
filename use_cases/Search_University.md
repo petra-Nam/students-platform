@@ -35,13 +35,13 @@ A user can search for educational institutions globally using an external API in
     2.  The system displays a user-friendly error message, such as "Sorry, we couldn't connect to the university service. Please try again later."
     3.  The use case concludes.
 
-#### Postconditions
+ 2.1 Postconditions
 * **Success:** The user is viewing the official website of their chosen university in a new browser tab.
 * **Failure:** The user is viewing the search page with either a "No results found" message or an API error message.
 
 
 
-### 3. Link to SRS
+ 3. Link to SRS
 This use case is linked to the relevant section of the SRS
 
 ### 4. Narrative
