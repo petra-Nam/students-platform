@@ -86,7 +86,7 @@ Real Tips & Help: A library full of helpful short videos, guides, and advice fro
 ### 2.2 Use Cases and Diagrams
 This diagram shows all the major actions (use cases) that each type of user (actor) can perform, giving a complete "bird's-eye view" of the system's capabilities.
 
-![ Overall Use Case Diagram](../Visualizations/use_case_diagram.png)
+![Overall Use Case Diagram](../Visualizations/use_case_diagram.png)
 
 2.2.2 Activity Diagrams (Use Case Realizations)
 These diagrams show the step-by-step flow for a specific use case. They help explain the detailed logic from start to finish.
