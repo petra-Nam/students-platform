@@ -6,6 +6,9 @@ import Dashboard from '../pages/Dashboard.vue';
 import Community from '../pages/Community.vue';
 import Universities from '../pages/Universities.vue';
 import Scholarships from '../pages/Scholarships.vue';
+import ThreadList from '../components/ThreadList.vue';
+import UserProfile from '../pages/UserProfile.vue';
+import Messages from '../pages/Messages.vue';
 import { useSessionStore } from '../store/session';
 
 const routes = [
@@ -18,6 +21,9 @@ const routes = [
   { path: '/community', component: Community },
   { path: '/universities', component: Universities },
   { path: '/scholarships', component: Scholarships },
+  { path: '/threads', component: ThreadList, name: 'Threads' },
+  { path: '/profile/:id', component: UserProfile, name: 'UserProfile', meta: { requiresAuth: true } },
+  { path: '/messages', component: Messages, name: 'Messages', meta: { requiresAuth: true } },
 ];
 
 export const router = createRouter({
@@ -25,7 +31,7 @@ export const router = createRouter({
   routes,
 });
 
-router.beforeEach(async (to, from, next) => {
+router.beforeEach(async (to, _from, next) => {
   const session = useSessionStore();
 
   if (!session.isAuthenticated) {

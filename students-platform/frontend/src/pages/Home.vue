@@ -29,7 +29,7 @@
     <div class="container">
       <div class="landing-sec">
         <h2>FAQ</h2>
-        <el-collapse :expand-icon-position="position">
+        <el-collapse expand-icon-position="right">
           <el-collapse-item title="How can I find universities in a specific country?" name="1">
             <div>
               You can search for universities by name or country using the search bar on the home page or the dedicated University Search page.
@@ -83,8 +83,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import type { CollapseIconPositionType } from 'element-plus'
 
 function goDown() {
   const target = document.querySelector('.home-sec')
