@@ -3,7 +3,8 @@
 ## 1 Brief Description
 A logged-in user can send a text-based message to another user within a chat interface. The system ensures the message is validated, transmitted via the chat server, stored for history, and delivered to the recipient in real time.
 
-Activity Diagram 2: (e.g., Student Posting in a Discussion) ![Activity Diagram 2](./Visualizations/activitydiagram2.png)
+Activity Diagram 2: (e.g., Student Posting in a Discussion) 
+![Activity Diagram 2](../Visualizations/activitydiagram2.png)
 
 ## 2. Basic Flow
 1. The user navigates to a specific conversation or selects a contact to message.
@@ -88,5 +89,5 @@ FR-3.1: Real-time communication requirements.
 
 FR-3.2: Data persistence for chat history.
 
-## 7. CRUD Classification
+# 7. CRUD Classification
 Create: This use case creates a new entry in the messaging database.

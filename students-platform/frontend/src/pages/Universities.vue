@@ -80,21 +80,14 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { useRouter } from "vue-router";
+// Removed unused import of useRouter
 import axios from "axios"; // Make sure axios is imported
 
 // --- 1. NAVIGATION ---
-const router = useRouter();
+// Removed unused router declaration
 
-const goToSearch = () => {
-  console.log("Navigating to search page...");
-  // router.push('/search'); // Example
-};
 
-const goToCommunity = () => {
-  console.log("Navigating to community page...");
-  // router.push('/community'); // Example
-};
+// Removed unused goToCommunity function
 
 // --- 2. STATE ---
 // Reactive variables for the component
