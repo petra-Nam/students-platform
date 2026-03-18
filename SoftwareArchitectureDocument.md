@@ -1,291 +1,398 @@
-# Software Architecture Document (SAD)
-*(Based on RUP Template)*
-
+# International Student Compass - Software Requirements Specification 
 
 ## Table of Contents
-1.  [Introduction](#1-introduction)
-    * [1.1 Purpose](#11-purpose)
-    * [1.2 Scope](#12-scope)
-    * [1.3 Definitions, Acronyms and Abbreviations](#13-definitions-acronyms-and-abbreviations)
-    * [1.4 References](#14-references)
-    * [1.5 Overview](#15-overview)
-2.  [Architectural Representation](#2-architectural-representation)
-3.  [Architectural Goals and Constraints](#3-architectural-goals-and-constraints)
-4.  [Use-Case View](#4-use-case-view)
-    * [4.1 Use-Case Realizations](#41-use-case-realizations)
-5.  [Logical View](#5-logical-view)
-6.  [System Interconnectivity](#6-system-interconnectivity)
-    * [5.1 Overview](#51-overview)
-    * [5.2 Architecturally Significant Design Packages](#52-architecturally-significant-design-packages)
-6.  [Process View](#6-process-view)
-7.  [Deployment View](#7-deployment-view)
-8.  [Implementation View](#8-implementation-view)
-    * [8.1 Overview](#81-overview)
-    * [8.2 Layers](#82-layers)
-9.  [Data View](#9-data-view)
-10. [Size and Performance](#10-size-and-performance)
-11. [Quality](#11-quality)
----
+- [Introduction](#1-introduction)
+  - [Purpose](#11-purpose)
+  - [Scope](#12-scope)
+  - [Definitions, Acronyms and Abbreviations](#13-definitions-acronyms-and-abbreviations)
+  - [References](#14-references)
+  - [Overview](#15-overview)
+- [Overall Description](#2-overall-description)
+  - [Vision](#21-vision)
+  - [Use case diagrams](#22-na)
+  - [Technology Stack](#23-technology-stack)
+  - [Actors](#24-actors)
+- [Specific Requirements](#3-specific-requirements)
+  - [Functionality](#31-functionality)
+  - [Usability](#32-usability)
+  - [Reliability](#33-reliability)
+  - [Performance](#34-performance)
+  - [Supportability](#35-supportability)
+  - [Design Constraints](#36-design-constraints)
+  - [Online User Documentation and Help System Requirements](#37-on-line-user-documentation-and-help-system-requirements)
+  - [Purchased Components](#38-purchased-components)
+  - [Interfaces](#39-interfaces)
+  - [Licensing Requirements](#310-licensing-requirements)
+  - [Legal, Copyright And Other Notices](#311-legal-copyright-and-other-notices)
+  - [Applicable Standards](#312-applicable-standards)
+- [Supporting Information](#4-supporting-information)
 
 
-
-
------
-
-
-## 1\. Introduction
+## 1. Introduction
 
 ### 1.1 Purpose
+This Software Requirements Specification (SRS) describes all specifications for the application "International student compass". It includes an overview about this project and its vision, detailed information about the planned features and boundary conditions of the development process.
 
-This document provides a comprehensive architectural overview of the "International Student Compass" system. It is intended to capture and convey the significant architectural decisions made, using a number of different architectural views (Logical, Deployment, Data) to depict different aspects of the system.
 
 ### 1.2 Scope
+The project is going to be realized as a web app.  
+  
 
-This document describes the architecture of the "International Student Compass" web application. This includes the decoupled frontend client, the backend API server, the database, and the interfaces between them. The requirements for this architecture are defined in the project's Software Requirements Specification (SRS).
+  
+Planned Subsystems are: 
+* University & Scholarship Discovery: The core search engine for finding universities and filtered scholarships.
+* Account & Profile System: Allows students to create accounts and build personal profiles.
+* Community Enrichment: Enables students to post their cvs and make community posts.
+* Peer-to-Peer Chat: A direct messaging system for students to connect and communicate.
+* Online Course Curation: A section for discovering recommended online courses from other platforms.
+* Data Storage: The underlying cloud-based database that manages all platform data.
 
 ### 1.3 Definitions, Acronyms and Abbreviations
-
-| Abbreviation | Explanation |
-| :--- | :--- |
-| **SAD** | Software Architecture Document |
-| **SRS** | Software Requirements Specification |
-| **RUP** | Rational Unified Process |
-| **API** | Application Programming Interface |
-| **ERD** | Entity-Relationship Diagram |
-| **UML** | Unified Modeling Language |
-| **DB** | Database |
+| Abbrevation | Explanation                            |
+| ----------- | -------------------------------------- |
+| SRS         | Software Requirements Specification    |
+| UC          | Use Case                               |
+| n/a         | not applicable                         |
+| tbd         | to be determined                       |
+| UCD         | overall Use Case Diagram               |
+| FAQ         | Frequently asked Questions             |
 
 ### 1.4 References
- * International Student Compass - Software Requirements Specification (SRS)
-* International Student Compass - Project Blog: https://education4849.wordpress.com/
-*Project GitHub Repository: https://github.com/bennixm/students-platform
+
+| Title                                                              | Date       | Publishing organization   |
+| -------------------------------------------------------------------|:----------:| ------------------------- |
+| [Common Playground Blog](https://education4849.wordpress.com/)    | 25.09.2025 | International Student Compass    |
+| [GitHub](https://github.com/bennixm/students-platform)            | 25.09.2025 | International Student Compass    |
+
 
 ### 1.5 Overview
+The following chapter provides an overview of this project with vision and Overall Use Case Diagram. The third chapter (Requirements Specification) delivers more details about the specific requirements in terms of functionality, usability and design parameters. Finally there is a chapter with supporting information. 
+    
+## 2. Overall Description
 
-This document is organized based on the RUP architecture template.
+### 2.1 Vision
+To create the one app every student needs to make their dream of studying abroad a reality,making the entire process simple, exciting, and less lonely.
 
-  * **Section 2 & 3** describe the overall architectural goals and constraints.
-  * **Section 4 (Use-Case View)** shows the key user interactions the system must support.
-  * **Section 5 (Logical View)** details  the system's class structure.
-  * **Section 6 (Process View)** illustrates the flow of a typical user request.
-  * **Section 7 (Deployment View)** shows the server/client hardware configuration.
-  * **Section 8 (Implementation View)** lists the technologies and layers.
-  * **Section 9 (Data View)** provides the database model.
+The Problem We’re Fixing
+Right now, figuring out how to study in another country is a mess. Students have to search dozens of confusing websites, forums, and social media groups. They don’t know who to trust, the information is scattered everywhere, and it feels like you’re doing it all by yourself. It’s stressful and makes people give up.
 
------
+What We’re Building
+We are building one simple place for everything you need:
 
-## 2\. Architectural Representation
+A Student Community: A friendly place to connect with students from all over the world. You can ask for real, honest advice from people who have already done it, and make friends before you even arrive in your new country.
+Easy Search Tools: Find the perfect university and scholarships without the headache. No more opening 50 browser tabs. We’ll put everything you need to know in one clean, easy-to-search list.
+Real Tips & Help: A library full of helpful short videos, guides, and advice from current international students. Learn everything from “how to pack” to “how to open a bank account.”
 
-This document uses several architectural views to describe the system.
+### 2.2 Use Cases and Diagrams
+This diagram shows all the major actions (use cases) that each type of user (actor) can perform, giving a complete "bird's-eye view" of the system's capabilities.
 
-  * The **Logical View** (Section 5) is used to describe the system's structure, primarily through the  3-Tier Architecture.
-  * The **Use-Case View** (Section 4) shows the high-level user requirements that the architecture must satisfy.
-  * The **Process View** (Section 6) illustrates the dynamic behavior and flow of data.
-  * The **Deployment View** (Section 7) shows the physical client-server architecture.
-  * The **Data View** (Section 9) describes the persistent database structure.
+![ Overall Use Case Diagram](./Visualizations/use-caseDiagram.png)
 
------
-## 2.5 Model–View–Controller (MVC)
-
-## Overview
-Our platform follows the **Model–View–Controller (MVC)** architecture pattern using **Vue 3** for the frontend (View) and **Express.js** for the backend (Controller).  
-The **Model** layer is implemented with **Mongoose** and **MongoDB** for handling data storage and business logic.  
-This separation ensures a clean structure, easier debugging, and improved scalability.
-
-
----
-
-
-##  2.1 Security and Responsibilities
-
-- **View (Vue)** – Client-side validation, routing, and UX; never stores sensitive data.
-- **Controller (Express)** – Handles authentication, authorization, validation, and error responses.
-- **Model (Mongoose)** – Maintains schema validation, indexes, and data integrity.
-
----
-
-## 2.2 MVC Tool
-
-Our chosen technology stack directly supports the MVC architecture.
-- **Vue 3** implements the **View** layer, providing a reactive user interface for the frontend.
-- **Express.js** serves as the **Controller**, managing API routes, handling user requests, and connecting the frontend with the backend logic.
-- **Mongoose with MongoDB** form the **Model** layer, defining schemas, managing validation, and storing data persistently.
-
-This combination enforces a clean separation between presentation, logic, and data, ensuring scalability and maintainability.
-
-
-## 2.5 Model–View–Controller (MVC)
-
-## Overview
-Our platform follows the **Model–View–Controller (MVC)** architecture pattern using **Vue 3** for the frontend (View) and **Express.js** for the backend (Controller).  
-The **Model** layer is implemented with **Mongoose** and **MongoDB** for handling data storage and business logic.  
-This separation ensures a clean structure, easier debugging, and improved scalability.
-
-
----
-
-
-## Security and Responsibilities
-
-- **View (Vue)** – Client-side validation, routing, and UX; never stores sensitive data.
-- **Controller (Express)** – Handles authentication, authorization, validation, and error responses.
-- **Model (Mongoose)** – Maintains schema validation, indexes, and data integrity.
-
----
-
-## 2.6 MVC Tool
-
-Our chosen technology stack directly supports the MVC architecture.
-- **Vue 3** implements the **View** layer, providing a reactive user interface for the frontend.
-- **Express.js** serves as the **Controller**, managing API routes, handling user requests, and connecting the frontend with the backend logic.
-- **Mongoose with MongoDB** form the **Model** layer, defining schemas, managing validation, and storing data persistently.
-
-This combination enforces a clean separation between presentation, logic, and data, ensuring scalability and maintainability.
-
-
-
-
-## 3\. Architectural Goals and Constraints
-
-The primary architectural goal is to create a **decoupled, scalable, and maintainable** system. The architecture is constrained by the following decisions:
-
-  * The system **must** be built as a web application.
-  * The architecture **must** be decoupled, with a separate frontend (Vue.js) and backend (Node.js/Express) communicating via a RESTful API.
-  * The system **must** support real-time chat functionality.
-  * The system **must** be deployable on virtual private servers (VPS).
-  * The system **must** be fully functional on the latest stable versions of Chrome, Firefox, Safari, and Edge.
-
-# 3.1 Architectural Goals & Constraints
-Constraint: The system must be accessible to international students in regions with varying hardware standards. The architecture must prioritize a "Web-First" approach to ensure functionality on low-spec devices or browsers where native mobile apps are not an option.
------
-
-## 4\. Use-Case View
-
-
-This view is illustrated by the Overall Use Case Diagram from the SRS, which shows the high-level interactions between the actors (Guest, Student, Admin) and the system.
-
-![Overall Use Case Diagram](./Visualizations/use_case_diagram.png)
-
-
+2.2.2 Activity Diagrams (Use Case Realizations)
 These diagrams show the step-by-step flow for a specific use case. They help explain the detailed logic from start to finish.
-
-Activity Diagram 1: (e.g., Student Search for University) ![Activity Diagram 1](./Visualizations/activitydiagram1.png)
-
-Activity Diagram 2: (e.g., Student Posting in a Discussion) ![Activity Diagram 2](./Visualizations/activitydiagram2.png)
-
-## 5\. Logical View
-
-### 5.1 Overview
-
-The design model is decomposed into a **Layered Architecture)** pattern.
-
- ### Presentation Layer (Client): 
- Handled by the Vue.js frontend. It manages user interface logic and communicates with the backend via API calls.
-
-### Application Layer (Server): 
-Handled by the Node.js/Express.js backend. It processes business logic and serves as the bridge between the UI and the data.
-
-### Data Layer (Persistence): 
-Handled by MongoDB and Mongoose. It defines data schemas and manages persistent storage.
-
-### 5.2 Architecturally Significant Design Packages
-
-This view is represented by our Class Diagrams, which show the modules (packages) and their relationships within the backend.
-
-
-1.  **Conceptual Class Diagram:**
-    ![Conceptual Class Diagram](./Visualizations/conceptual-class-diagram.png)
-    Link to source : https://drive.google.com/file/d/1iuX_OJVoVvh_0k8iubLss9deJxeDZwXz/view?usp=sharing
-2.  **Tool-Generated Class Diagram:**
-    ![Tool-Generated Class Diagram](./Visualizations/tool-generated-class-diagram.png)
-   Link to source :  https://drive.google.com/file/d/1iuX_OJVoVvh_0k8iubLss9deJxeDZwXz/view?usp=sharing
-
------
-
-## 6\. System Interconnectivity
-
-
-This view illustrates the dynamic processes within the system. The High-Level Request Flow diagram shows the step-by-step process of a user request, from the client-side View to the server-side Controller and Model, and back again.
-
-![High-Level Request Flow](./Visualizations/request-flow.png)
-Link to source : https://drive.google.com/file/d/1O7Y1TzOtIZfXdbC4Q2rWdp2758wTn7gv/preview
-
-
------
-
-## 7\. Deployment View
-
-
-This view describes the physical deployment of the system. We use a **Client-Server Architecture**.
-
-  * **Client Node:** The user's web browser, which runs the Vue.js client-side application.
-  * **Server Node (VPS):** A dedicated virtual private server that hosts:
-    1.  The **Node.js/Express API** (Controller).
-    2.  The **MongoDB Database** (Model).
-  * **Interconnection:** The Client and Server communicate over the internet via the **HTTP/S protocol** (for REST API calls) and **WebSockets** (for real-time chat).
-Link to source : https://drive.google.com/file/d/1iuX_OJVoVvh_0k8iubLss9deJxeDZwXz/view?usp=sharing
-
-![UML Deployment Diagram](./Visualizations/deployment-diagram.png)
-
------
-
-## 8\. Implementation View
+They are found under use_cases section.
 
 
 
-### 8.1 Overview
 
-Communication between the Client and Server is strictly handled via a RESTful API. This allows the backend to be "front-end agnostic," meaning the server could support a mobile app in the future without changing its core logic.
+### 2.3 Technology Stack
+Technologies we plan to use
+Frontend
 
-### 8.2 Layers
+Vue Js
+Tailwind CSS (styling)
+Axios/Fetch for API calls
+Backend
 
-**1. Client Layer (View)**
+Server: Node.js + Express  / FastAPI
+Auth: JWT and OAuth2
+Realtime: Socket.IO (chat, forums)
+Database & Search
 
-  * **Description:** The user-facing frontend built in Vue.js.
-  * **Technologies:** Vue.js, Tailwind CSS, Axios.
+Primary DB: MongoDB(structured data: users, universities, scholarships)
+Search: Elasticsearch (for fast filtering of scholarships/universities)
 
-**2. Server Layer (Controller & Model)**
+Hosting:
 
-  * **Description:** The backend API and database.
-  * **Technologies:** Node.js, Express.js, Mongoose, MongoDB, Socket.IO, Elasticsearch.
+Frontend: dedicated vps
+Backend: dedicated vps
+DB: mongo db
 
-**Full Technology Stack:**
+Collaboration:
+GitHub (branches: frontend, backend, db)
+Figma (Petra + Benni for UI flow)
+youtrack (Petra for tasks)
 
-  * **Frontend:** Vue Js, Tailwind CSS, Axios/Fetch
-  * **Backend:** Node.js + Express, JWT/OAuth2, Socket.IO
-  * **Database & Search:** MongoDB, Elasticsearch
-  * **Hosting:** Dedicated VPS
-  * **Tools:** GitHub, Figma, youtrack, Slack/Discord
+Other Tools
 
------
+Version Control: GitHub / GitLab
+Design: Figma (UI/UX)
+Communication: Slack / Discord
+Project Management : youtrack
 
-## 9\. Data View
+## 2.4 Actors
+
+Actors represent the roles that interact with the system. For the International Student Compass, we have identified three primary human actors and one system actor.
+
+1. Guest
+
+A Guest is any individual who visits the web application without an account or without being logged in. Their interaction is limited to discovery and browsing.
+
+Primary Goals:
+
+To explore the platform's offerings without commitment.
+
+To find basic information about universities.
+
+Key Capabilities:
+
+Search for universities by name or country.
+
+View public university profile pages.
+
+Read community discussions in a read-only mode.
+
+2. Student (Authenticated User)
+
+The Student is the primary actor of the platform. This is a user who has successfully registered an account and is logged in. They have full access to all community and personalization features.
+
+Primary Goals:
+
+To connect with other students and seek advice.
+
+To personalize their search and save information for future reference.
+
+To contribute to the community's knowledge base.
+
+Key Capabilities:
+
+All capabilities of a Guest.
+
+Create and manage their personal profile.
+
+Post new threads and replies in university discussions.
+
+Initiate one-on-one chats with other students.
+
+Save or bookmark universities, scholarships, and courses.
+
+Submit reviews, ratings, and photos for university profiles.
+
+3. Administrator
+
+An Administrator is a privileged user with the responsibility of managing the platform, ensuring content quality, and enforcing community guidelines.
+
+Primary Goals:
+
+To maintain a safe and constructive community environment.
+
+To manage the platform's user base and content.
+
+Key Capabilities:
+
+All capabilities of a Student.
+
+Access a dedicated administrative dashboard.
+
+Moderate user-generated content (delete posts, reviews, photos).
+
+Manage user accounts (suspend or ban users).
+
+Review content flagged by the community through the reporting system.
 
 
 
-This view describes the structure of the persistent data, represented by the Entity-Relationship Diagram (ERD) for our MongoDB database.
+## 3. Specific Requirements
 
-Link to source : https://app.diagrams.net/#G1CxaKFfJ6WQnAWIj9-s9FSWNXsZm6ASJx#%7B%22pageId%22%3A%222ljwPO8fNcJzTJ80mE60%22%7D
+### 3.1 Functionality
+| ID | Feature Name | Status | Detailed Specification |
+| :--- | :--- | :--- | :--- |
+| UC-01 | Create Account | Finished |  |
+| UC-02 | Search University | Finished |  |
 
-![Database ERD](./Visualizations/ISC\_database\_diagram.png)
+#### 3.1.1 Creating an Account:
+ Users can sign up with an email and password to create a personal profile.
+ The sign-up form will require the user's Full Name, Email Address, and a Password.
+ Password creation will enforce a minimum length of 8 characters.
+Upon successful registration, the user will be automatically logged in and prompted to complete their profile. An email verification link will be sent to their registered email address.
 
------
+#### 3.1.2 Logging In & Out:
+ Registered users can log in to access all features and log out for privacy.
+ A "Forgot Password" feature will allow users to initiate a password reset process via email.
 
-## 10\. Size and Performance
+#### 3.1.3 Searching for Universities: 
+Users can search for universities by name or country and view a list of results showing the university's name and official website.Clicking a result will navigate the user to that university's dedicated profile page. A message will indicate when a search yields no results.
 
-The architecture must meet the following performance requirements (from the SRS):
+#### 3.1.4 Viewing Discussions & Profiles:
+ Users can browse community discussion spaces for specific universities and view the profiles of other students.
+ Users can view the public profiles of other students, which will display their full name, profile picture, university, and field of study.
 
-  * **Response Time:** Core API endpoints must have a 95th percentile (p95) server-side response time of less than 500ms.
-  * **Page Load:** Key pages must achieve a Largest Contentful Paint (LCP) of under 2.5 seconds.
-  * **Concurrency:** The system must support 500 concurrent users without performance degradation.
-  * **Scalability:** The architecture must be capable of horizontal scaling to support a 50% user-base increase over three months.
+#### 3.1.5 Posting in Discussions:
+ Logged-in users can post questions and replies within the university community discussion spaces.
 
------
+#### 3.1.6 Communicating via Chat:
+ Users can initiate a one-on-one chat with another student to ask for advice and send real-time text messages.
 
-## 11\. Quality
+Until Summer 2026 (Post-Launch Expansion)
+#### 3.1.7 Finding Scholarships:
+ A powerful search engine allowing users to find scholarships with detailed filters (e.g., Country, Nationality, Field of Study).
 
-The architecture supports the following quality attributes:
+#### 3.1.8 Enriching University Profiles:
+ Users can add value to the platform by posting reviews, star ratings, and photos on the university profile pages.
 
-  * **Usability:** Platform Support: The system is a Web-based application. This choice is a design constraint to ensure students without high-end smartphones or specific OS versions (iOS/Android) can still access the service via any standard mobile or desktop browser.
-  * **Reliability:** The system will have a minimum uptime of 99.5%, with automated daily backups (24-hour RPO) and a 4-hour Recovery Time Objective (RTO).
-  * **Supportability:** The code will follow clean code standards. High test coverage will ensure new changes do not break existing functionality.
+#### 3.1.9 Discovering Online Courses:
+ A curated section to help students find relevant online courses for language skills, test prep, and academic writing.
+  Each course listing will show its title, provider (e.g., Coursera), a description, and a link to the external course page.
+
+#### 3.1.10 Managing Your Profile & Saved Items:
+ Users will be able to save favorite universities, scholarships, and courses to their personal profile for later reference.
+ A dedicated dashboard within the user's profile will allow them to easily access and manage their saved items.
+  Users can edit their profile information, including their name, picture, and academic details.
+
+#### 3.1.11 Admin Content Moderation: 
+Admins will have tools to manage the community by removing inappropriate content and banning users who violate guidelines.
+Admins can view, edit, or delete any user-generated content (posts, reviews, photos).
+Admins can suspend or permanently ban users who violate community guidelines.
+
+
+### 3.2 Usability
+We plan on designing the user interface as intuitive and self-explanatory as possible to make the user feel as comfortable as possible using the webapp. Though an FAQ document will be available, it should not be necessary to use it.
+
+#### 3.2.1 No training time needed
+Our goal is that opens the app and is able to use all features without any explanation or help.
+
+#### 3.2.2 Familiar Feeling
+Our design philosophy is simple: Don't reinvent the wheel. The app should look and feel like the apps our users already use every day. This will make it feel intuitive from the moment they open it.
+
+### 3.3 Reliability
+This section defines the system's ability to maintain its level of performance under stated conditions for a stated period.
+
+#### 3.3.1 Availability
+The application shall have a minimum uptime of 99.5%, measured on a monthly basis. This corresponds to a maximum of 3.65 hours of unplanned downtime per month. Scheduled maintenance windows will be planned during periods of lowest user activity (e.g., 02:00-04:00 CET) and will be announced to users at least 48 hours in advance.
+
+#### Data Integrity and Recovery
+
+The system must ensure zero data loss of critical user-generated content (e.g., profiles, community posts, chat messages) in the event of a non-catastrophic system failure.
+
+Backups: Automated daily backups of the primary database are required.
+
+Recovery Point Objective (RPO): The maximum acceptable data loss in a disaster scenario is 24 hours.
+
+Recovery Time Objective (RTO): In the event of a system failure, critical services must be restored within 4 hours.
+
+3.4 Performance
+This section specifies the performance characteristics of the software under various workloads.
+
+3.4.1 Response Time
+API Performance: Core API endpoints (e.g., user authentication, fetching university data, posting a message) must have a 95th percentile (p95) server-side response time of less than 500ms.
+
+Page Load: Key user-facing pages (Home Dashboard, Search Results Page) must achieve a Largest Contentful Paint (LCP) of under 2.5 seconds on a standard broadband connection.
+
+3.4.2 Concurrency
+The system must be able to support 500 concurrent users performing standard read-and-write operations (e.g., searching, posting, and chatting) without degradation of the response times specified above.
+
+3.4.3 Scalability
+The system's architecture must be designed to scale horizontally to accommodate user growth. It should be capable of handling a 50% increase in the user base over a three-month period without requiring significant architectural changes.
+
+### 3.5 Supportability
+
+#### 3.5.1 Coding Standards
+We are going to write the code by using all of the most common clean code standards. For example we will name our variables and methods by their functionalities. This will keep the code easy to read by everyone and make further developement much easier.
+
+#### 3.5.2 Testing Strategy
+The application will have a high test coverage and all important functionalities and edge cases should be tested. Further mistakes in the implementation will be discovered instantly and it will be easy to locate the error. 
+
+### 3.6 Design Constraints
+This section describes the hardware and  architectural  decisions and constraints that guide the development of the application.
+
+### Hardware Accessibility
+The system must be built as a Web-based application to ensure accessibility for international students who may not own a smartphone. The architecture must prioritize performance on shared desktop hardware (e.g., library or school computers) and low-bandwidth connections.
+We are building the application using a decoupled, three-tier architecture consisting of a frontend client, a backend application server, and a database. This approach provides a clear separation of concerns and enhances scalability.
+
+Frontend Architecture
+We have chosen Vue.js as a design constraint for our frontend development. Its component-based structure is ideal for building a maintainable UI. To achieve strong Search Engine Optimization (SEO)—critical for a platform focused on discovery—we will use the Nuxt.js framework for its Server-Side Rendering (SSR) capabilities.
+
+Backend Architecture
+A custom backend using Node.js and Express.js is a core architectural constraint. This decision was made to ensure maximum flexibility, control over our business logic, and the ability to optimize performance specifically for our application's needs. Communication between the frontend and backend will be handled via a RESTful API that we will design and build. This approach allows for long-term scalability and avoids vendor lock-in associated with Backend-as-a-Service (BaaS) platforms.
+
+Supported Platforms
+The application is a web app and must be fully functional on the latest stable versions of modern web browsers:
+
+Google Chrome
+
+Mozilla Firefox
+
+Apple Safari
+
+Microsoft Edge
+
+### 3.7 On-line User Documentation and Help System Requirements
+The usage of the app should be as intuitive as possible so it won't need any further documentation. If the user needs some help we will implement a "Help"-Button on the web which includes a FAQ and a formular to contact the developement team.
+
+### 3.8 Purchased Components
+We don't have any purchased components yet. If there will be purchased components in the future we will list them here.
+
+### 3.9 Interfaces
+
+#### 3.9.1 User Interfaces
+
+The User Interface is a Responsive Web Application. It must be platform-agnostic, supporting standard input methods (keyboard/mouse) and varying screen resolutions to accommodate legacy desktop hardware.
+The User Interfaces that will be implemented are:
+
+Home Dashboard - Acts as a personalized starting point, showing recommended scholarships, trending discussions, and relevant online courses.
+
+University Search Page - Allows users to search for universities by country or name and displays the results in a clear list.
+
+University Profile Page - Shows detailed, community-enriched information about a specific university, including student reviews, photos, and a link to its dedicated discussion space.
+
+Scholarship Search Page - A powerful search tool with detailed filters to help students find relevant funding opportunities.
+
+Online Courses Page - A curated discovery page for finding relevant online courses, with filters for price and skill level.
+
+Chat & Conversation Pages - Includes the main chat inbox listing all conversations, and the individual chat screen for sending and receiving messages.
+
+User Profile Page - Displays a user's public information (e.g., their university, field of study) and their contributions to the community, like their reviews.
+
+Login & Register Pages - Provides the standard forms for user authentication (Sign Up, Log In, Password Reset).
+
+Settings Page - Allows users to manage their account details, notification preferences, and privacy settings.
+
+#### 3.9.2 Hardware Interfaces
+(n/a)
+
+#### 3.9.3 Software Interfaces
+The User Interface is a Responsive Web Application. It must be platform-agnostic, supporting standard input methods (keyboard/mouse) and varying screen resolutions to accommodate legacy desktop hardware.
+
+The system shall interface with the University Search API via RESTful endpoints to retrieve scholarship and institutional data. All data exchange between the application and external services will be handled via JSON over HTTPS.
+
+The application is a web app and does not require a specific operating system. The primary software interface for the end-user is a modern web browser. The platform will officially support the latest versions of:
+
+Google Chrome
+
+Mozilla Firefox
+
+Apple Safari
+
+Microsoft Edge
+
+#### 3.9.4 Communication Interfaces
+The server and hardware will communicate using the http protocol. 
+
+### 3.10 Licensing Requirements
+
+### 3.11 Legal, Copyright, and Other Notices
+The logo is licensed to the International student  Team and is only allowed to use for the application. We do not take responsibilty for any incorrect data or errors in the application.
+
+### 3.12 Applicable Standards
+The development will follow the common clean code standards and naming conventions. Also we will create a definition of d which will be added here as soon as its complete.
+
+
+
+
+## 5. Supporting Information
+For any further information you can contact the International student Team or check our blog (https://wordpress.com/home/education4849.wordpress.com). 
+The Team Members are:
+- Namuyiga Petra
+- Miuta Beniamin
+- Miuta Daniel 
+
