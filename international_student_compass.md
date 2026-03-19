@@ -251,10 +251,13 @@ Until Summer 2026 (Post-Launch Expansion)
  A dedicated dashboard within the user's profile will allow them to easily access and manage their saved items.
   Users can edit their profile information, including their name, picture, and academic details.
 
-#### 3.1.11 Admin Content Moderation: 
+#### 3.1.11 Admin Content Moderation:
 Admins will have tools to manage the community by removing inappropriate content and banning users who violate guidelines.
 Admins can view, edit, or delete any user-generated content (posts, reviews, photos).
 Admins can suspend or permanently ban users who violate community guidelines.
+
+#### 3.1.12 Managing Posts:
+Logged-in users can create, view, edit, and delete their own blog posts. When creating a post, users provide a title and content. Posts can be saved as drafts for later editing or published immediately to make them publicly visible. Users can view a list of all their posts, including both published posts and drafts, with a distinct visual indicator showing the draft status. The edit functionality allows users to modify the title and content of existing posts. To prevent accidental deletions, a confirmation modal is displayed before permanently removing a post. For more details, refer to the [Manage Post Use Case](use_cases/UCManagePost.md).
 
 
 ### 3.2 Usability
@@ -282,18 +285,18 @@ Recovery Point Objective (RPO): The maximum acceptable data loss in a disaster s
 
 Recovery Time Objective (RTO): In the event of a system failure, critical services must be restored within 4 hours.
 
-3.4 Performance
+### 3.4 Performance
 This section specifies the performance characteristics of the software under various workloads.
 
-3.4.1 Response Time
+#### 3.4.1 Response Time
 API Performance: Core API endpoints (e.g., user authentication, fetching university data, posting a message) must have a 95th percentile (p95) server-side response time of less than 500ms.
 
 Page Load: Key user-facing pages (Home Dashboard, Search Results Page) must achieve a Largest Contentful Paint (LCP) of under 2.5 seconds on a standard broadband connection.
 
-3.4.2 Concurrency
+#### 3.4.2 Concurrency
 The system must be able to support 500 concurrent users performing standard read-and-write operations (e.g., searching, posting, and chatting) without degradation of the response times specified above.
 
-3.4.3 Scalability
+#### 3.4.3 Scalability
 The system's architecture must be designed to scale horizontally to accommodate user growth. It should be capable of handling a 50% increase in the user base over a three-month period without requiring significant architectural changes.
 
 ### 3.5 Supportability
