@@ -207,8 +207,10 @@ Review content flagged by the community through the reporting system.
 ### 3.1 Functionality
 | ID | Feature Name | Status | Detailed Specification |
 | :--- | :--- | :--- | :--- |
-| UC-01 | Create Account | Finished |  |
-| UC-02 | Search University | Finished |  |
+| UC-01 | Create Account | Finished | [Create Account](use_cases/Create_Account.md) |
+| UC-02 | Search University | Finished | [Search University](use_cases/Search_University.md) |
+| UC-03 | Send Message | In Progress | [Send Message](use_cases/Send_Message.md) |
+| UC-04 | Manage Post | In Progress | [Manage Post](use_cases/UCManagePost.md) |
 
 #### 3.1.1 Creating an Account:
  Users can sign up with an email and password to create a personal profile.
