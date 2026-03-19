@@ -21,7 +21,7 @@ This use case allows a registered user to like a post. If the user has already l
 ![Create Account Activity Diagram](../Visualizations/like_post_activity_diagram.png)
 
 ### 2.2 Mock-up
-![Delete Account Mockup](../Screenshots/view_post_UI.png)
+![Delete Account Mockup](../screenshots/view_post_UI.png)
 
 ### 2.3 Alternate Flow:
 

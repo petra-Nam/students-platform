@@ -21,7 +21,7 @@ The creation of a new post. The user will be asked to enter a title and the cont
 
 This is what our  create post form looks like in our application:
 <br>
-![picture](../Screenshots/create_post_UI.png)<br>
+![picture](../screenshots/create_post_UI.png)<br>
 
 
 
@@ -32,7 +32,7 @@ During editing, the user can modify the title and the content of the post.
 
 This is what our edit post form looks like in our application:
 <br>
-![picture](../Screenshots/edit_a_post_UI.png)<br>
+![picture](../screenshots/edit_a_post_UI.png)<br>
 
 
 ### 2.4 List
@@ -42,7 +42,7 @@ The user wants to be able to view all of their posts. Therefore, the system pres
 
 This is what our list posts view looks like in our application:
 <br>
-![picture](../Screenshots/list_posts_UI.png)<br>
+![picture](../screenshots/list_posts_UI.png)<br>
 
 
 ### 2.5 Delete
@@ -52,12 +52,12 @@ The user can delete posts. We added a button in the list page to delete an entry
 
 This is what our delete post confirmation looks like in our application:
 <br>
-![picture](../Screenshots/delete_post_UI.png)<br>
+![picture](../screenshots/delete_post_UI.png)<br>
 
 ### 2.6 View Blogpost
 This is a blogpost view:
 <br>
-![picture](../Screenshots/view_post_UI.png)<br>
+![picture](../screenshots/view_post_UI.png)<br>
 
 ### 2.7 Draft Posts
 Users can save posts as drafts before publishing them. Draft posts are not publicly visible and can be edited or published later. When creating or editing a post, the user has the option to either "Save as Draft" or "Publish". Draft posts appear in the user's post list with a distinct visual indicator showing their draft status, allowing users to continue working on them before making them public.
