@@ -38,7 +38,7 @@ This is what our edit post form looks like in our application:
 ### 2.4 List
 The user wants to be able to view all of their posts. Therefore, the system presents a list with all entries.
 
-![List Post Diagram](../Visualizations/list_post_activity_diagram.png)
+![List Post Diagram](../Visualizations/list_posts_activity_diagram.png)
 
 This is what our list posts view looks like in our application:
 <br>
