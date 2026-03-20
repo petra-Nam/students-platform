@@ -211,6 +211,8 @@ Review content flagged by the community through the reporting system.
 | UC-02 | Search University | Finished | [Search University](use_cases/Search_University.md) |
 | UC-03 | Send Message | In Progress | [Send Message](use_cases/Send_Message.md) |
 | UC-04 | Manage Post | In Progress | [Manage Post](use_cases/UCManagePost.md) |
+| UC-05 | Manage Comment | In Progress | [Manage Comment](use_cases/UCManageComment.md) |
+| UC-06 | Like Post | In Progress | [Like Post](use_cases/UCLikePost.md) |
 
 #### 3.1.1 Creating an Account:
  Users can sign up with an email and password to create a personal profile.
@@ -257,7 +259,13 @@ Admins can view, edit, or delete any user-generated content (posts, reviews, pho
 Admins can suspend or permanently ban users who violate community guidelines.
 
 #### 3.1.12 Managing Posts:
-Logged-in users can create, view, edit, and delete their own blog posts. When creating a post, users provide a title and content. Posts can be saved as drafts for later editing or published immediately to make them publicly visible. Users can view a list of all their posts, including both published posts and drafts, with a distinct visual indicator showing the draft status. The edit functionality allows users to modify the title and content of existing posts. To prevent accidental deletions, a confirmation modal is displayed before permanently removing a post. For more details, refer to the [Manage Post Use Case](use_cases/UCManagePost.md).
+Logged-in users can create, view, edit, and delete their own blog posts. When creating a post, users provide a title and content. Posts can be saved as drafts for later editing or published immediately to make them publicly visible. Users can view a list of all their posts, including both published posts and drafts, with a distinct visual indicator showing their draft status. The edit functionality allows users to modify the title and content of existing posts. To prevent accidental deletions, a confirmation modal is displayed before permanently removing a post. For more details, refer to the [Manage Post Use Case](use_cases/UCManagePost.md).
+
+#### 3.1.13 Managing Comments:
+Logged-in users can create, view, edit, and delete comments on posts. When viewing a post, users can add comments to participate in discussions. Comments can be edited to update their content, and users can delete their own comments. To prevent accidental deletions, a confirmation modal is displayed before permanently removing a comment. Users can view all posts where they have written comments through their profile, allowing them to keep track of their discussions. For more details, refer to the [Manage Comment Use Case](use_cases/UCManageComment.md).
+
+#### 3.1.14 Liking Posts:
+Logged-in users can like or unlike posts to show their appreciation for content. The like functionality is a toggle - clicking the "Like" button on a post adds a like, and clicking it again removes the like. The like count is updated in real-time, providing instant feedback to users. The system records each user's like status for posts, ensuring that users can see which posts they have previously liked. For more details, refer to the [Like Post Use Case](use_cases/UCLikePost.md).
 
 
 ### 3.2 Usability

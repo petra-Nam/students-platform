@@ -70,7 +70,7 @@ Feature: Like Post
 ## 5. Exceptions:
 
 * **Network Error:** If a network error occurs, the system displays an error message, and the like/unlike operation is aborted.
-* **Session Expiry:**: If the user’s session expires, they are prompted to log in again before performing the action.
+* **Session Expiry:** If the user's session expires, they are prompted to log in again before performing the action.
 
 ---
 
