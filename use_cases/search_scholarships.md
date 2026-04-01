@@ -84,11 +84,4 @@ A user can search for scholarships globally using an external API integration (e
 
 ## 6. Activity Diagram
 
-
-    API -- Success: Data Found --> Display[Display Results List]
-    API -- Success: No Data --> NoMatch[Display 'No results found']
-    API -- Failure: Error --> ErrorMsg[Display Error Message]
-    
-    Display --> End([End])
-    NoMatch --> End
-    ErrorMsg --> End
+![Search Scholarship Activity Diagram](../Visualizations/search_scholarship_activity_diagram.png)
