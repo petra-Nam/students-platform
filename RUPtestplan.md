@@ -83,7 +83,7 @@ The purpose of this test plan is to define the strategy for the **International 
 ### Testing Techniques and Types
 * **Unit Testing:** Isolated testing of the scholarship filtering algorithm.  
 * **Behavior-Driven Development (BDD):** Using Gherkin syntax to define student interactions.  
-* **API Integration Testing:** Ensuring the backend properly handles API rate limits or downtime from CareerOneStop.
+* **API Integration Testing:** Ensuring the backend properly handles API rate limits or downtime from CareerOneStop and university API.
 
 ---
 ## Feature Files and Test Results
@@ -116,6 +116,10 @@ Feature: University Search via API
     Then I should see a "service is unavailable" error message.
 
 ![ University search Result](./Visualizations/cucumber1.png)
+
+### API Integration Testing
+API testing was performed using Bruno to validate the functionality of the university search endpoint. Various test cases were executed, including valid queries, invalid inputs, and edge-case scenarios. The results confirmed that the API correctly processes requests, returns appropriate HTTP status codes, and maintains a consistent response structure. The use of Bruno also enabled reproducible and organized testing, supporting transparency and reliability in the validation process.
+![ API testing](./Visualizations/bruno.png)
 
 ## Entry and Exit Criteria
 
