@@ -90,6 +90,9 @@ The purpose of this test plan is to define the strategy for the **International 
 
 The behavior-driven test scenarios for the International Student Compass (ISC) are defined using Gherkin-based feature files, which describe key user interactions such as registration, scholarship search, and saving results to a profile. An example feature file is included below to illustrate the structure and expected system behavior. To validate the implementation, test results from unit, API, and end-to-end testing are documented through generated reports and execution outputs. A screenshot of successful test execution is provided to demonstrate that critical functionalities, including authentication and scholarship search, are working as expected. Together, these artifacts ensure transparency, traceability, and confidence in the system’s reliability.
 ## Example Feature File
+## Feature File: University Search
+
+## Feature File: University Search
 
 ```gherkin
 Feature: University Search via API
@@ -114,6 +117,9 @@ Feature: University Search via API
     And I am on the university search page
     When I enter "Any University" into the search bar and click "Search"
     Then I should see a "service is unavailable" error message.
+
+```
+
 
 ![ University search Result](./Visualizations/cucumber1.png)
 
