@@ -128,6 +128,25 @@ Feature: University Search via API
 API testing was performed using Bruno to validate the functionality of the university search endpoint. Various test cases were executed, including valid queries, invalid inputs, and edge-case scenarios. The results confirmed that the API correctly processes requests, returns appropriate HTTP status codes, and maintains a consistent response structure. The use of Bruno also enabled reproducible and organized testing, supporting transparency and reliability in the validation process.
 ![ API testing](./Visualizations/bruno.png)
 
+### Unit Testing Results
+Unit testing was performed using Jest to ensure the correctness and reliability of the university search module. The test suite covers three layers: controller (HTTP request/response handling), service (business logic and API integration), and validation (input validation logic). A total of 42 tests were executed across these layers, achieving 100% code coverage for all critical components. The results demonstrate that the module handles various scenarios correctly, including successful searches, error conditions, pagination, and edge cases such as empty inputs and malformed data.
+
+#### University Search Validation Unit Tests
+The validation layer tests ensure that all input validation logic works correctly, including parameter checking, page number parsing, and handling of edge cases like empty strings and undefined values.
+![ University Search Validation Unit Tests](./screenshots/university_search_validation_unit_tests.png)
+
+#### University Search Service Unit Tests
+The service layer tests validate the core business logic, including external API calls, data transformation, pagination logic, and error handling for network failures and malformed responses.
+![ University Search Service Unit Tests](./screenshots/university_search_service_unit_test.png)
+
+#### University Search Controller Unit Tests
+The controller layer tests verify HTTP request processing, parameter extraction and trimming, response formatting, and proper error code mapping (200, 400, 502).
+![ University Search Controller Unit Tests](./screenshots/university_search_controller_unit_test.png)
+
+#### University Search Unit Test Coverage
+Comprehensive code coverage analysis shows 100% statement coverage for the service and validation layers, and 100% statement coverage for the controller layer, ensuring all code paths are tested.
+![ University Search Unit Test Coverage](./screenshots/university_search_unit_test_coverage.png)
+
 ## Entry and Exit Criteria
 
 ### Entry Criteria
