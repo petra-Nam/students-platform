@@ -6,7 +6,6 @@ module.exports = {
   testPathIgnorePatterns: [
     '/node_modules/',
     'src/tests/modules/auth/',
-    'src/tests/modules/comment/',
     'src/tests/modules/message/',
     'src/tests/modules/notification/',
     'src/tests/modules/post/',
