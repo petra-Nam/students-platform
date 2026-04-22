@@ -26,7 +26,7 @@ class UserController {
   private attachAuthCookie(res: Response, token: string) {
     res.cookie('token', token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: env.NODE_ENV === 'production',
       sameSite: 'lax',
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
@@ -34,7 +34,7 @@ class UserController {
   private clearAuthCookie(res: Response) {
       res.clearCookie('token', {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
+        secure: env.NODE_ENV === 'production',
         sameSite: 'lax',
 
       });
