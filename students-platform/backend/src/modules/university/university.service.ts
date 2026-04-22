@@ -1,4 +1,5 @@
 import { validateSearchParams, parsePage } from './university.validation';
+import { env } from '../../config/env';
 
 interface HipolabsUniversity {
   name: string;
@@ -33,7 +34,7 @@ interface SearchResult {
 }
 
 class UniversityService {
-  private readonly API_BASE_URL = process.env.UNIVERSITY_API_URL;
+  private readonly API_BASE_URL = env.UNIVERSITY_API_URL;
   private readonly PER_PAGE = 10;
 
   async searchUniversities(params: SearchParams): Promise<SearchResult> {

@@ -1,8 +1,8 @@
-import express from 'express';
-import { fetchScholarships } from './scholarship.controller';
+import { Router } from 'express';
+import { scholarshipController } from './scholarship.controller';
 
-const router = express.Router();
+const router = Router();
 
-router.get('/scholarships', fetchScholarships);
+router.get('/scholarships', scholarshipController.fetchScholarships);
 
 export default router;

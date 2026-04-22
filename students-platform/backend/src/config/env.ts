@@ -1,6 +1,7 @@
 import 'dotenv/config';
 
 export const env = {
+  NODE_ENV: process.env.NODE_ENV ?? 'development',
   MONGO_URI: process.env.MONGO_URI ?? '',
   PORT: Number(process.env.PORT ?? 3000),
   JWT_SECRET: process.env.JWT_SECRET ?? 'changeme',
@@ -8,4 +9,7 @@ export const env = {
   FRONTEND_URL: process.env.FRONTEND_URL ?? "http://localhost:5173",
   API_URL:
       process.env.API_URL ?? `http://localhost:${process.env.PORT ?? 3000}`,
+  COS_USER_ID: process.env.COS_USER_ID ?? '',
+  COS_API_TOKEN: process.env.COS_API_TOKEN ?? '',
+  UNIVERSITY_API_URL: process.env.UNIVERSITY_API_URL ?? 'http://universities.hipolabs.com/search',
 };
