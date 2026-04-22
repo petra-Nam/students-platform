@@ -68,14 +68,18 @@ footer{
     color:white;
 }
 .landing-card{
-    width:70%;
-    height:70%;
+    width:56%;
+    height:50%;
     background: rgba(255, 255, 255, 0.2);
+    background-image: url(../images/logo.png);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
     border-radius: 16px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    /*border: 1px solid rgba(255, 255, 255, 0.3);*/
 }
 .landing-card.referee{
     background-image:url(../images/cartoon-boy.png);
