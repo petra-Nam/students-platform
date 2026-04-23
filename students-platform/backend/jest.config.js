@@ -9,7 +9,6 @@ module.exports = {
     'src/tests/modules/message/',
     'src/tests/modules/notification/',
     'src/tests/modules/post/',
-    'src/tests/modules/scholarship/',
     'src/tests/modules/user/',
     'src/tests/shared/',
     'src/tests/integration/',
