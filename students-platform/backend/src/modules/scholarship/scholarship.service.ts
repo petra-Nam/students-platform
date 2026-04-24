@@ -1,9 +1,11 @@
 import axios from 'axios';
 import { env } from '../../config/env';
 import { ScholarshipAPIRequestBuilder } from './scholarship.builder';
+import { ScholarshipAPIAdapter } from './scholarship.adapter';
+import { CareerOneStopResponse, ScholarshipSearchResult } from './scholarship.types';
 
 export class ScholarshipService {
-    async getScholarships(query: string, location: string = '0'): Promise<any> {
+    async getScholarships(query: string, location: string = '0'): Promise<ScholarshipSearchResult> {
         const url = new ScholarshipAPIRequestBuilder()
             .setUserId(env.COS_USER_ID)
             .setKeyword(query)
@@ -11,14 +13,16 @@ export class ScholarshipService {
             .build();
 
         try {
-            const response = await axios.get(url, {
+            const response = await axios.get<CareerOneStopResponse>(url, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${env.COS_API_TOKEN}`,
                 },
                 timeout: 10000,
             });
-            return response.data;
+
+            const adapter = new ScholarshipAPIAdapter();
+            return adapter.adaptResponse(response.data);
         } catch (error: any) {
             console.error('Error fetching scholarships:', error.message);
             console.error('Error details:', error.response?.data || error.code);

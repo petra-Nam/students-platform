@@ -1,37 +1,8 @@
 import { validateSearchParams, parsePage } from './university.validation';
 import { env } from '../../config/env';
-
-interface HipolabsUniversity {
-  name: string;
-  country: string;
-  alpha_two_code: string;
-  web_pages: string[];
-  domains: string[];
-  ['state-province']: string | null;
-}
-
-interface UniversityDTO {
-  name: string;
-  country: string;
-  countryCode: string;
-  stateProvince: string | null;
-  website: string | null;
-  domain: string | null;
-}
-
-interface SearchParams {
-  name?: string;
-  country?: string;
-  page?: string | number;
-}
-
-interface SearchResult {
-  universities: UniversityDTO[];
-  page: number;
-  perPage: number;
-  total: number;
-  totalPages: number;
-}
+import { UniversityAPIRequestBuilder } from './university.builder';
+import { UniversityAPIAdapter } from './university.adapter';
+import { HipolabsUniversity, SearchParams, SearchResult } from './university.types';
 
 class UniversityService {
   private readonly API_BASE_URL = env.UNIVERSITY_API_URL;
@@ -47,11 +18,17 @@ class UniversityService {
     const page =
       typeof pageParam === 'number' ? pageParam : parsePage(pageParam as string | undefined);
 
-    const queryParams = new URLSearchParams();
-    if (name) queryParams.set('name', name);
-    if (country) queryParams.set('country', country);
+    const builder = new UniversityAPIRequestBuilder();
 
-    const url = `${this.API_BASE_URL}?${queryParams.toString()}`;
+    if (name) {
+      builder.setName(name);
+    }
+
+    if (country) {
+      builder.setCountry(country);
+    }
+
+    const url = builder.build();
 
     const response = await fetch(url);
     if (!response.ok) {
@@ -59,15 +36,8 @@ class UniversityService {
     }
 
     const data = (await response.json()) as HipolabsUniversity[];
-
-    const allUniversities: UniversityDTO[] = data.map((u) => ({
-      name: u.name,
-      country: u.country,
-      countryCode: u.alpha_two_code,
-      stateProvince: u['state-province'],
-      website: u.web_pages[0] ?? null,
-      domain: u.domains[0] ?? null,
-    }));
+    const adapter = new UniversityAPIAdapter();
+    const allUniversities = adapter.adaptToDTOList(data);
 
     const total = allUniversities.length;
     const totalPages = Math.max(1, Math.ceil(total / this.PER_PAGE));
