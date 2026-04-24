@@ -73,7 +73,8 @@ describe('ScholarshipService', () => {
             timeout: 10000,
           })
         );
-        expect(result).toEqual(mockScholarshipResponse);
+        expect(result).toHaveProperty('scholarships');
+        expect(result).toHaveProperty('total');
       });
 
       it('should fetch scholarships with query and location parameters', async () => {
@@ -87,7 +88,8 @@ describe('ScholarshipService', () => {
           expect.stringContaining('Minnesota'),
           expect.any(Object)
         );
-        expect(result).toEqual(mockScholarshipResponse);
+        expect(result).toHaveProperty('scholarships');
+        expect(result).toHaveProperty('total');
       });
 
       it('should use default location when not provided', async () => {
@@ -114,12 +116,20 @@ describe('ScholarshipService', () => {
         expect(calledUrl).toContain('computer%20%26%20science');
       });
 
-      it('should return API response data directly', async () => {
+      it('should return transformed scholarship data', async () => {
         const result = await scholarshipService.getScholarships('nursing');
 
-        expect(result).toEqual(mockScholarshipResponse);
-        expect(result.SchoolPrograms).toHaveLength(2);
-        expect(result.TotalResults).toBe(2);
+        expect(result).toHaveProperty('scholarships');
+        expect(result).toHaveProperty('total');
+        expect(result.scholarships).toHaveLength(2);
+        expect(result.total).toBe(2);
+        expect(result.scholarships[0]).toMatchObject({
+          programName: 'Registered Nursing',
+          schoolName: 'Minnesota State College',
+          city: 'Minneapolis',
+          state: 'Minnesota',
+          stateCode: 'MN',
+        });
       });
 
       it('should set correct authorization header', async () => {
@@ -308,7 +318,8 @@ describe('ScholarshipService', () => {
 
         const result = await scholarshipService.getScholarships('nonexistent');
 
-        expect(result.SchoolPrograms).toHaveLength(0);
+        expect(result.scholarships).toHaveLength(0);
+        expect(result.total).toBe(0);
       });
     });
   });

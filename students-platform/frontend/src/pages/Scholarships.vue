@@ -79,25 +79,25 @@
           <h2 class="text-2xl font-bold text-yellow-800 mb-6">Results for "{{ searchInput }}"</h2>
           <ul class="space-y-4">
             <li v-for="(scholarship, index) in scholarships" :key="index" class="p-4 border border-gray-200 rounded-lg shadow-sm">
-              <strong class="text-lg text-yellow-700">{{ scholarship.ProgramName }}</strong>
-              <p class="text-gray-600 mt-2">{{ scholarship.SchoolName }}</p>
+              <strong class="text-lg text-yellow-700">{{ scholarship.programName }}</strong>
+              <p class="text-gray-600 mt-2">{{ scholarship.schoolName }}</p>
               <div class="mt-2 text-sm text-gray-500">
-                <p v-if="scholarship.City || scholarship.StateName">
-                  Location: {{ scholarship.City }}<span v-if="scholarship.City && scholarship.StateName">, </span>{{ scholarship.StateName }}
+                <p v-if="scholarship.city || scholarship.state">
+                  Location: {{ scholarship.city }}<span v-if="scholarship.city && scholarship.state">, </span>{{ scholarship.state }}
                 </p>
-                <p v-if="scholarship.Address">
-                  Address: {{ scholarship.Address }}
+                <p v-if="scholarship.address">
+                  Address: {{ scholarship.address }}
                 </p>
-                <p v-if="scholarship.Phone">
-                  Phone: {{ scholarship.Phone }}
+                <p v-if="scholarship.phone">
+                  Phone: {{ scholarship.phone }}
                 </p>
-                <p v-if="scholarship.ProgramLength && scholarship.ProgramLength.length > 0">
-                  Duration: {{ scholarship.ProgramLength.map((p: any) => p.Name).join(', ') }}
+                <p v-if="scholarship.programLength">
+                  Duration: {{ scholarship.programLength }}
                 </p>
               </div>
               <a
-                v-if="scholarship.SchoolUrl"
-                :href="scholarship.SchoolUrl.startsWith('http') ? scholarship.SchoolUrl : 'https://' + scholarship.SchoolUrl"
+                v-if="scholarship.website"
+                :href="scholarship.website.startsWith('http') ? scholarship.website : 'https://' + scholarship.website"
                 target="_blank"
                 class="text-yellow-500 hover:underline mt-2 inline-block">
                 Visit Website
@@ -161,7 +161,7 @@ const fetchScholarships = async () => {
       },
     });
 
-    scholarships.value = response.data.SchoolPrograms || [];
+    scholarships.value = response.data.scholarships || [];
     totalPages.value = 1;
 
   } catch (error: any) {
