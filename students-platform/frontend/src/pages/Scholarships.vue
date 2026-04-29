@@ -1,11 +1,11 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-blue-50 to-yellow-100">
+  <div class="min-h-screen bg-gradient-to-br from-yellow-50 to-yellow-100">
     <div class="max-w-6xl mx-auto px-4 py-20">
       <div class="text-center mb-16">
-        <h1 class="text-5xl font-bold text-blue-800 mb-4">
+        <h1 class="text-5xl font-bold text-yellow-800 mb-4">
           Find Scholarships
         </h1>
-        <h2 class="text-3xl text-blue-600 font-semibold mb-8">
+        <h2 class="text-3xl text-yellow-600 font-semibold mb-8">
           Unlock Opportunities for Your Education
         </h2>
         <p class="text-xl text-gray-700 max-w-2xl mx-auto mb-10 leading-relaxed">
@@ -16,53 +16,17 @@
 
     <div class="max-w-6xl mx-auto px-4 -mt-10 mb-10">
       <div class="bg-white rounded-xl shadow-lg p-10">
-<<<<<<< Updated upstream
         <h2 class="text-3xl font-bold text-yellow-800 mb-6 text-center">Search Scholarships</h2>
-=======
-        <h2 class="text-3xl font-bold text-blue-800 mb-6 text-center">Search Scholarships</h2>
-
->>>>>>> Stashed changes
         <div class="flex justify-center space-x-4">
           <input
               v-model="searchInput"
               placeholder="Enter a country or keyword"
               @keyup.enter="newSearch"
-<<<<<<< Updated upstream
               class="px-4 py-3 border border-gray-300 rounded-lg w-1/2 focus:outline-none focus:ring-2 focus:ring-yellow-500"
           />
-=======
-              @input="isFieldInvalid = false"
-              :class="[
-                'px-4 py-3 border rounded-lg w-1/3 focus:outline-none focus:ring-2',
-                isFieldInvalid ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-blue-500'
-              ]"
-          />
-          <div class="relative w-1/4">
-            <input
-                v-model="location"
-                @input="filterLocations"
-                @focus="showDropdown = true"
-                @blur="hideDropdown"
-                @keyup.enter="newSearch"
-                placeholder="Location (optional)"
-                class="px-4 py-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-yellow-500"
-            />
-            <ul
-                v-if="showDropdown && filteredLocations.length > 0"
-                class="absolute z-10 w-full bg-white border border-gray-300 rounded-lg mt-1 max-h-60 overflow-y-auto shadow-lg">
-              <li
-                  v-for="(loc, index) in filteredLocations"
-                  :key="index"
-                  @mousedown="selectLocation(loc)"
-                  class="px-4 py-2 hover:bg-blue-50 cursor-pointer">
-                {{ loc }}
-              </li>
-            </ul>
-          </div>
->>>>>>> Stashed changes
           <button
               @click="newSearch"
-              class="bg-yellow-600 hover:bg-blue-700 text-white font-bold px-10 py-3 rounded-lg text-lg transition duration-200 shadow-md">
+              class="bg-yellow-600 hover:bg-yellow-700 text-white font-bold px-10 py-3 rounded-lg text-lg transition duration-200 shadow-md">
             Search
           </button>
         </div>
@@ -83,7 +47,6 @@
         <div v-else>
           <h2 class="text-2xl font-bold text-yellow-800 mb-6">Results for "{{ searchInput }}"</h2>
           <ul class="space-y-4">
-<<<<<<< Updated upstream
             <li v-for="scholarship in scholarships" :key="scholarship.id" class="p-4 border border-gray-200 rounded-lg shadow-sm">
               <strong class="text-lg text-yellow-700">{{ scholarship.name }}</strong>
               <p class="text-gray-600">{{ scholarship.description }}</p>
@@ -92,31 +55,6 @@
               <br />
               <a :href="scholarship.website" target="_blank" class="text-yellow-500 hover:underline">
                 Learn More
-=======
-            <li v-for="(scholarship, index) in scholarships" :key="index" class="p-4 border border-gray-200 rounded-lg shadow-sm">
-              <strong class="text-lg text-yellow-700">{{ scholarship.programName }}</strong>
-              <p class="text-gray-600 mt-2">{{ scholarship.schoolName }}</p>
-              <div class="mt-2 text-sm text-gray-500">
-                <p v-if="scholarship.city || scholarship.state">
-                  Location: {{ scholarship.city }}<span v-if="scholarship.city && scholarship.state">, </span>{{ scholarship.state }}
-                </p>
-                <p v-if="scholarship.address">
-                  Address: {{ scholarship.address }}
-                </p>
-                <p v-if="scholarship.phone">
-                  Phone: {{ scholarship.phone }}
-                </p>
-                <p v-if="scholarship.programLength">
-                  Duration: {{ scholarship.programLength }}
-                </p>
-              </div>
-              <a
-                v-if="scholarship.website"
-                :href="scholarship.website.startsWith('http') ? scholarship.website : 'https://' + scholarship.website"
-                target="_blank"
-                class="text-blue-500 hover:underline mt-2 inline-block">
-                Visit Website
->>>>>>> Stashed changes
               </a>
             </li>
           </ul>
