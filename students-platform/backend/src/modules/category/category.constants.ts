@@ -1,0 +1,20 @@
+/**
+ * Category validation constraints
+ */
+export const CATEGORY_VALIDATION = {
+  NAME_MAX_LENGTH: 50,
+  SLUG_MAX_LENGTH: 60,
+  DESCRIPTION_MAX_LENGTH: 200,
+  ICON_MAX_LENGTH: 200,
+} as const;
+
+/**
+ * Category error messages
+ */
+export const CATEGORY_ERROR = {
+  NOT_FOUND: 'CATEGORY_NOT_FOUND',
+  SLUG_INVALID: 'CATEGORY_SLUG_INVALID',
+  NAME_EXISTS: 'CATEGORY_NAME_EXISTS',
+  SLUG_EXISTS: 'CATEGORY_SLUG_EXISTS',
+  IN_USE: 'CATEGORY_IN_USE_BY_POSTS',
+} as const;

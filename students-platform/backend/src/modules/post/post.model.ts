@@ -6,20 +6,42 @@ import {
   type Model,
   type Types,
 } from 'mongoose';
+import { POST_STATUS, POST_VISIBILITY } from '../../shared/constants';
 
 
 export type RichText = string | Record<string, unknown>;
 
 const PostSchema = new Schema(
   {
-    author: { type: Schema.Types.ObjectId, ref: 'User', required: true, index: true } as {
+    author: { type: Schema.Types.ObjectId, ref: 'User', required: true } as {
       type: typeof Schema.Types.ObjectId; ref: 'User';
     },
     title: { type: String, required: true, trim: true },
     content: { type: Schema.Types.Mixed as unknown as RichText, required: true },
-    likes: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-    likeCount: { type: Number, default: 0 },
-    commentCount: { type: Number, default: 0 },
+    category: { type: Schema.Types.ObjectId, ref: 'Category', required: false } as {
+      type: typeof Schema.Types.ObjectId; ref: 'Category';
+    },
+    status: {
+      type: String,
+      enum: Object.values(POST_STATUS),
+      default: POST_STATUS.DRAFT,
+      required: true
+    },
+    visibility: {
+      type: String,
+      enum: Object.values(POST_VISIBILITY),
+      default: POST_VISIBILITY.PUBLIC,
+      required: true
+    },
+    images: {
+      type: [{
+        url: { type: String, required: true },
+        alt: { type: String, default: '' }
+      }]
+    },
+    likeCount: { type: Number, default: 0, min: 0 },
+    commentCount: { type: Number, default: 0, min: 0 },
+    viewCount: { type: Number, default: 0, min: 0 },
   },
   { timestamps: true }
 );
@@ -28,9 +50,13 @@ const PostSchema = new Schema(
 export type Post = InferSchemaType<typeof PostSchema>;
 export type PostDoc = HydratedDocument<Post>;
 
+// Index for public feed queries (status + visibility + _id for cursor pagination)
+PostSchema.index({ status: 1, visibility: 1, _id: -1 });
 
-PostSchema.index({ createdAt: -1 });
-PostSchema.index({ title: 'text' });
+// Index for author's posts feed (sorted by _id for cursor pagination)
+PostSchema.index({ author: 1, _id: -1 });
 
+// Index for category-based feed (includes visibility for proper filtering)
+PostSchema.index({ category: 1, status: 1, visibility: 1, _id: -1 });
 
 export const PostModel: Model<Post> = model<Post>('Post', PostSchema);
