@@ -239,7 +239,7 @@ const goToPrevPage = () => {
   border-radius: 20px;
   background:
     linear-gradient(rgba(239, 246, 255, 0.15), rgba(239, 246, 255, 0.15)),
-    url("@/images/university-hero.png");
+    url("../images/university-hero.png");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;

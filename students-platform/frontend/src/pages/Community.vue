@@ -311,7 +311,7 @@ const goToPrevPage = () => {
   border-radius: 20px;
   background:
     linear-gradient(rgba(239, 246, 255, 0.15), rgba(239, 246, 255, 0.15)),
-    url("@/images/community-hero.png");
+    url("../images/community-hero.png");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
