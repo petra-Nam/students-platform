@@ -23,7 +23,12 @@ const routes = [
   { path: '/scholarships', component: Scholarships },
   { path: '/threads', component: ThreadList, name: 'Threads' },
   { path: '/profile/:id', component: UserProfile, name: 'UserProfile', meta: { requiresAuth: true } },
-  { path: '/messages', component: Messages, name: 'Messages', meta: { requiresAuth: true } },
+  { 
+    path: '/messages/:id?', 
+    component: Messages, 
+    name: 'Messages', 
+    meta: { requiresAuth: true } 
+  },
 ];
 
 export const router = createRouter({
