@@ -8,7 +8,6 @@ module.exports = {
     'src/tests/modules/auth/',
     'src/tests/modules/message/',
     'src/tests/modules/notification/',
-    'src/tests/modules/post/',
     'src/tests/modules/user/',
     'src/tests/shared/',
     'src/tests/integration/',
