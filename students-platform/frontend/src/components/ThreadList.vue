@@ -278,7 +278,7 @@ export default defineComponent({
       this.$router.push({ name: 'UserProfile', params: { id: userId } });
     },
     startChat(user: { id: number; name: string }) {
-      alert(`Starting chat with ${user.name}`);
+      this.$router.push(`/messages/${user.id}`);
       // Implement chat functionality here
     },
   },
