@@ -33,7 +33,7 @@
         <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
           <h3 class="text-xl font-semibold text-gray-800 mb-3">Community Posts</h3>
           <p class="text-gray-600 mb-4">Your discussions and questions.</p>
-          <button class="w-full bg-purple-500 hover:bg-purple-600 text-white py-2 px-4 rounded-md font-medium transition duration-200">
+          <button class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md font-medium transition duration-200">
             View Posts
           </button>
         </div>

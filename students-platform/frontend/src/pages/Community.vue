@@ -1,11 +1,11 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-green-50 to-green-100">
+  <div class="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100">
     <div class="max-w-6xl mx-auto px-4 py-20">
       <div class="text-center mb-16">
-        <h1 class="text-5xl font-bold text-green-800 mb-4">
+        <h1 class="text-5xl font-bold text-blue-800 mb-4">
           Join the Community
         </h1>
-        <h2 class="text-3xl text-green-600 font-semibold mb-8">
+        <h2 class="text-3xl text-blue-600 font-semibold mb-8">
           Connect with like-minded individuals
         </h2>
         <p class="text-xl text-gray-700 max-w-2xl mx-auto mb-10 leading-relaxed">
@@ -16,17 +16,17 @@
 
     <div class="max-w-6xl mx-auto px-4 -mt-10 mb-10">
       <div class="bg-white rounded-xl shadow-lg p-10">
-        <h2 class="text-3xl font-bold text-green-800 mb-6 text-center">Search Community</h2>
+        <h2 class="text-3xl font-bold text-blue-800 mb-6 text-center">Search Community</h2>
         <div class="flex justify-center space-x-4">
           <input
               v-model="searchInput"
               placeholder="Search by topic or name"
               @keyup.enter="newSearch"
-              class="px-4 py-3 border border-gray-300 rounded-lg w-1/2 focus:outline-none focus:ring-2 focus:ring-green-500"
+              class="px-4 py-3 border border-gray-300 rounded-lg w-1/2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <button
               @click="newSearch"
-              class="bg-green-600 hover:bg-green-700 text-white font-bold px-10 py-3 rounded-lg text-lg transition duration-200 shadow-md">
+              class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-10 py-3 rounded-lg text-lg transition duration-200 shadow-md">
             Search
           </button>
         </div>
@@ -45,10 +45,10 @@
         </div>
 
         <div v-else>
-          <h2 class="text-2xl font-bold text-green-800 mb-6">Results for "{{ searchInput }}"</h2>
+          <h2 class="text-2xl font-bold text-blue-800 mb-6">Results for "{{ searchInput }}"</h2>
           <ul class="space-y-4">
             <li v-for="post in communityPosts" :key="post.id" class="p-4 border border-gray-200 rounded-lg shadow-sm">
-              <strong class="text-lg text-green-700">{{ post.title }}</strong>
+              <strong class="text-lg text-blue-700">{{ post.title }}</strong>
               <p class="text-gray-600">{{ post.description }}</p>
               <br />
               <span class="text-gray-500 text-sm">Posted by: {{ post.author }}</span>
