@@ -1,105 +1,183 @@
 <template>
   <div class="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100">
-    <div class="max-w-6xl mx-auto px-4 py-20">
-      <div class="text-center mb-16">
-        <h1 class="text-5xl font-bold text-blue-800 mb-4">
-          Find Scholarships
-        </h1>
-        <h2 class="text-3xl text-blue-600 font-semibold mb-8">
-          Unlock Opportunities for Your Education
-        </h2>
-        <p class="text-xl text-gray-700 max-w-2xl mx-auto mb-10 leading-relaxed">
-          Search for scholarships tailored to your needs and make your academic dreams a reality.
-        </p>
+
+    <!-- Hero -->
+    <section class="max-w-6xl mx-auto px-4 py-16">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+        <div>
+          <p class="inline-block bg-blue-100 text-blue-700 font-semibold px-4 py-2 rounded-full mb-5">
+            Scholarship search
+          </p>
+
+          <h1 class="text-5xl font-bold text-blue-900 mb-5 leading-tight">
+            Find scholarships that match your goals.
+          </h1>
+
+          <p class="text-lg text-gray-700 leading-relaxed max-w-xl">
+            Search for scholarships and training opportunities by field of study,
+            location, and program details.
+          </p>
+        </div>
+
+        <div class="bg-white/70 rounded-2xl shadow-lg p-6">
+          <div class="scholarship-hero-image"></div>
+        </div>
       </div>
-    </div>
+    </section>
 
-    <div class="max-w-6xl mx-auto px-4 -mt-10 mb-10">
-      <div class="bg-white rounded-xl shadow-lg p-10">
-        <h2 class="text-3xl font-bold text-blue-800 mb-6 text-center">Search Scholarships</h2>
+    <!-- Search Card -->
+    <section class="max-w-6xl mx-auto px-4 -mt-4 mb-10">
+      <div class="bg-white rounded-xl shadow-lg p-8">
+        <h2 class="text-3xl font-bold text-blue-900 mb-6 text-center">
+          Search Scholarships
+        </h2>
 
-        <div class="flex justify-center space-x-4">
+        <div class="grid grid-cols-1 md:grid-cols-[1fr_280px_auto] gap-4">
           <input
-              v-model="searchInput"
-              placeholder="Field of study"
-              @keyup.enter="newSearch"
-              @input="isFieldInvalid = false"
-              :class="[
-                'px-4 py-3 border rounded-lg w-1/3 focus:outline-none focus:ring-2',
-                isFieldInvalid ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-blue-500'
-              ]"
+            v-model="searchInput"
+            placeholder="Field of study, e.g. nursing, business, computer science"
+            @keyup.enter="newSearch"
+            @input="isFieldInvalid = false"
+            :class="[
+              'px-4 py-3 border rounded-lg focus:outline-none focus:ring-2',
+              isFieldInvalid ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-blue-500'
+            ]"
           />
-          <div class="relative w-1/4">
+
+          <div class="relative">
             <input
-                v-model="location"
-                @input="filterLocations"
-                @focus="showDropdown = true"
-                @blur="hideDropdown"
-                @keyup.enter="newSearch"
-                placeholder="Location (optional)"
-                class="px-4 py-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+              v-model="location"
+              @input="filterLocations"
+              @focus="showDropdown = true"
+              @blur="hideDropdown"
+              @keyup.enter="newSearch"
+              placeholder="Location optional"
+              class="px-4 py-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
+
             <ul
-                v-if="showDropdown && filteredLocations.length > 0"
-                class="absolute z-10 w-full bg-white border border-gray-300 rounded-lg mt-1 max-h-60 overflow-y-auto shadow-lg">
+              v-if="showDropdown && filteredLocations.length > 0"
+              class="absolute z-10 w-full bg-white border border-gray-300 rounded-lg mt-1 max-h-60 overflow-y-auto shadow-lg"
+            >
               <li
-                  v-for="(loc, index) in filteredLocations"
-                  :key="index"
-                  @mousedown="selectLocation(loc)"
-                  class="px-4 py-2 hover:bg-blue-50 cursor-pointer">
+                v-for="(loc, index) in filteredLocations"
+                :key="index"
+                @mousedown="selectLocation(loc)"
+                class="px-4 py-2 hover:bg-blue-50 cursor-pointer"
+              >
                 {{ loc }}
               </li>
             </ul>
           </div>
+
           <button
-              @click="newSearch"
-              class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-10 py-3 rounded-lg text-lg transition duration-200 shadow-md">
+            @click="newSearch"
+            class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-10 py-3 rounded-lg transition duration-200 shadow-md"
+          >
             Search
           </button>
         </div>
+
+        <p v-if="isFieldInvalid" class="text-red-600 text-sm mt-4 text-center">
+          Please enter a search keyword, for example nursing, computer science, or business.
+        </p>
       </div>
-    </div>
+    </section>
 
-    <div class="max-w-6xl mx-auto px-4 py-5" v-if="hasSearched">
-      <div class="bg-white rounded-xl shadow-lg p-10">
+    <!-- Helpful Cards -->
+    <section class="max-w-6xl mx-auto px-4 mb-10" v-if="!hasSearched">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="info-card">
+          <div class="info-icon">🎓</div>
+          <h3>Search by field</h3>
+          <p>Start with your study area, such as nursing, IT, health, or business.</p>
+        </div>
 
-        <div v-if="isLoading" class="text-center text-gray-600 text-lg">
+        <div class="info-card">
+          <div class="info-icon">📍</div>
+          <h3>Filter by location</h3>
+          <p>Use the location field when you want opportunities in a specific state.</p>
+        </div>
+
+        <div class="info-card">
+          <div class="info-icon">🌍</div>
+          <h3>Compare options</h3>
+          <p>Check program details, school names, contact information, and websites.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results -->
+    <section class="max-w-6xl mx-auto px-4 py-5 pb-16" v-if="hasSearched">
+      <div class="bg-white rounded-xl shadow-lg p-8">
+
+        <div v-if="isLoading" class="text-center text-gray-600 text-lg py-10">
           Loading...
         </div>
 
-        <div v-else-if="errorMessage" class="text-center text-red-600 text-lg">
+        <div v-else-if="errorMessage" class="text-center text-red-600 text-lg py-10">
           {{ errorMessage }}
         </div>
 
-        <div v-else-if="scholarships.length === 0" class="text-center text-gray-600 text-lg">
+        <div v-else-if="scholarships.length === 0" class="text-center text-gray-600 text-lg py-10">
           No training programs found for "{{ searchInput }}".
         </div>
 
         <div v-else>
-          <h2 class="text-2xl font-bold text-blue-800 mb-6">Results for "{{ searchInput }}"</h2>
-          <ul class="space-y-4">
-            <li v-for="(scholarship, index) in scholarships" :key="index" class="p-4 border border-gray-200 rounded-lg shadow-sm">
-              <strong class="text-lg text-blue-700">{{ scholarship.programName }}</strong>
-              <p class="text-gray-600 mt-2">{{ scholarship.schoolName }}</p>
-              <div class="mt-2 text-sm text-gray-500">
-                <p v-if="scholarship.city || scholarship.state">
-                  Location: {{ scholarship.city }}<span v-if="scholarship.city && scholarship.state">, </span>{{ scholarship.state }}
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-6">
+            <h2 class="text-2xl font-bold text-blue-900">
+              Results for "{{ searchInput }}"
+            </h2>
+
+            <p class="text-sm text-gray-500">
+              {{ scholarships.length }} result{{ scholarships.length === 1 ? "" : "s" }} found
+            </p>
+          </div>
+
+          <ul class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <li
+              v-for="(scholarship, index) in scholarships"
+              :key="index"
+              class="result-card"
+            >
+              <div>
+                <h3 class="text-xl font-bold text-blue-800 mb-2">
+                  {{ scholarship.programName }}
+                </h3>
+
+                <p class="text-gray-700 font-medium mb-4">
+                  {{ scholarship.schoolName }}
                 </p>
-                <p v-if="scholarship.address">
-                  Address: {{ scholarship.address }}
-                </p>
-                <p v-if="scholarship.phone">
-                  Phone: {{ scholarship.phone }}
-                </p>
-                <p v-if="scholarship.programLength">
-                  Duration: {{ scholarship.programLength }}
-                </p>
+
+                <div class="space-y-2 text-sm text-gray-500">
+                  <p v-if="scholarship.city || scholarship.state">
+                    <strong class="text-gray-700">Location:</strong>
+                    {{ scholarship.city }}<span v-if="scholarship.city && scholarship.state">, </span>{{ scholarship.state }}
+                  </p>
+
+                  <p v-if="scholarship.address">
+                    <strong class="text-gray-700">Address:</strong>
+                    {{ scholarship.address }}
+                  </p>
+
+                  <p v-if="scholarship.phone">
+                    <strong class="text-gray-700">Phone:</strong>
+                    {{ scholarship.phone }}
+                  </p>
+
+                  <p v-if="scholarship.programLength">
+                    <strong class="text-gray-700">Duration:</strong>
+                    {{ scholarship.programLength }}
+                  </p>
+                </div>
               </div>
+
               <a
                 v-if="scholarship.website"
                 :href="scholarship.website.startsWith('http') ? scholarship.website : 'https://' + scholarship.website"
                 target="_blank"
-                class="text-blue-500 hover:underline mt-2 inline-block">
+                class="inline-block mt-5 bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold px-4 py-2 rounded-lg transition"
+              >
                 Visit Website
               </a>
             </li>
@@ -107,22 +185,30 @@
 
           <div v-if="totalPages > 1" class="flex justify-between items-center mt-8">
             <button
-                @click="goToPrevPage"
-                :disabled="currentPage === 1"
-                class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold px-6 py-2 rounded-lg transition duration-200 disabled:opacity-50">
+              @click="goToPrevPage"
+              :disabled="currentPage === 1"
+              class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold px-6 py-2 rounded-lg transition duration-200 disabled:opacity-50"
+            >
               Previous
             </button>
-            <span class="text-gray-700">Page {{ currentPage }} of {{ totalPages }}</span>
+
+            <span class="text-gray-700">
+              Page {{ currentPage }} of {{ totalPages }}
+            </span>
+
             <button
-                @click="goToNextPage"
-                :disabled="currentPage === totalPages"
-                class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold px-6 py-2 rounded-lg transition duration-200 disabled:opacity-50">
+              @click="goToNextPage"
+              :disabled="currentPage === totalPages"
+              class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold px-6 py-2 rounded-lg transition duration-200 disabled:opacity-50"
+            >
               Next
             </button>
           </div>
         </div>
+
       </div>
-    </div>
+    </section>
+
   </div>
 </template>
 
@@ -163,14 +249,15 @@ const fetchScholarships = async () => {
 
     scholarships.value = response.data.scholarships || [];
     totalPages.value = 1;
-
   } catch (error: any) {
     console.error("Error fetching scholarships:", error);
+
     if (error.response?.data?.error) {
       errorMessage.value = error.response.data.error;
     } else {
       errorMessage.value = "Failed to fetch scholarships. Please try again.";
     }
+
     scholarships.value = [];
   } finally {
     isLoading.value = false;
@@ -179,7 +266,7 @@ const fetchScholarships = async () => {
 
 const newSearch = () => {
   if (!searchInput.value.trim()) {
-    errorMessage.value = "Please enter a search keyword (e.g., nursing, computer science, business)";
+    errorMessage.value = "Please enter a search keyword.";
     hasSearched.value = true;
     scholarships.value = [];
     isFieldInvalid.value = true;
@@ -210,7 +297,8 @@ const filterLocations = () => {
     filteredLocations.value = [];
     return;
   }
-  filteredLocations.value = US_STATES.filter(loc =>
+
+  filteredLocations.value = US_STATES.filter((loc) =>
     loc.toLowerCase().includes(location.value.toLowerCase())
   );
 };
@@ -226,3 +314,65 @@ const hideDropdown = () => {
   }, 200);
 };
 </script>
+
+<style scoped>
+.scholarship-hero-image {
+  min-height: 300px;
+  border-radius: 20px;
+  background:
+    linear-gradient(rgba(239, 246, 255, 0.15), rgba(239, 246, 255, 0.15)),
+    url("../images/scholarship-hero.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.info-card {
+  background: white;
+  border-radius: 18px;
+  padding: 26px;
+  box-shadow: 0 12px 30px rgba(15, 42, 95, 0.1);
+  border: 1px solid #e5efff;
+}
+
+.info-icon {
+  width: 56px;
+  height: 56px;
+  background: #eff6ff;
+  color: #2563eb;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  margin-bottom: 16px;
+}
+
+.info-card h3 {
+  color: #0f2a5f;
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.info-card p {
+  color: #64748b;
+  line-height: 1.6;
+}
+
+.result-card {
+  border: 1px solid #e5efff;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 8px 22px rgba(15, 42, 95, 0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: 0.2s ease;
+}
+
+.result-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 30px rgba(15, 42, 95, 0.13);
+}
+</style>

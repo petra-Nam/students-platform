@@ -1,35 +1,44 @@
 <template>
   <div class="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100">
-    <!-- Search Bar -->
-    <div class="max-w-6xl mx-auto px-4 py-6">
-      <input
-        v-model="searchQuery"
-        @input="filterThreads"
-        placeholder="Search threads (e.g., scholarships, universities)"
-        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
+
+    <div class="max-w-6xl mx-auto px-4 py-16 text-center">
+      <h1 class="text-5xl font-bold text-blue-900 mb-4">
+        Community Threads
+      </h1>
+      <p class="text-xl text-gray-700 max-w-2xl mx-auto">
+        Ask questions, share experiences, and connect with students.
+      </p>
     </div>
 
-    <!-- Form for creating new posts -->
+    <div class="max-w-6xl mx-auto px-4 mb-8">
+      <div class="bg-white rounded-xl shadow-lg p-6">
+        <input
+          v-model="searchQuery"
+          @input="filterThreads"
+          placeholder="Search threads (e.g., scholarships, universities)"
+          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+    </div>
+
     <div class="max-w-6xl mx-auto px-4 mb-10">
-      <div class="bg-white rounded-xl shadow-lg p-10">
-        <h2 class="text-3xl font-bold text-blue-800 mb-6">Create a Post</h2>
+      <div class="bg-white rounded-xl shadow-lg p-8">
+        <h2 class="text-2xl font-bold text-blue-900 mb-5">Create a Post</h2>
+
         <form @submit.prevent="createPost">
-          <div class="mb-4">
-            <input
-              v-model="newPostTitle"
-              placeholder="Enter post title"
-              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-          <div class="mb-4">
-            <textarea
-              v-model="newPostDescription"
-              placeholder="Enter post description"
-              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              rows="4"
-            ></textarea>
-          </div>
+          <input
+            v-model="newPostTitle"
+            placeholder="Enter post title"
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+
+          <textarea
+            v-model="newPostDescription"
+            placeholder="Enter post description"
+            rows="4"
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          ></textarea>
+
           <button
             type="submit"
             class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-3 rounded-lg transition duration-200"
@@ -40,27 +49,25 @@
       </div>
     </div>
 
-    <!-- List of threads -->
-    <div class="max-w-6xl mx-auto px-4">
-      <div class="bg-white rounded-xl shadow-lg p-10">
+    <div class="max-w-6xl mx-auto px-4 pb-16">
+      <div class="bg-white rounded-xl shadow-lg p-8">
         <ul class="space-y-6">
           <li
             v-for="thread in filteredThreads"
             :key="thread.id"
-            class="p-6 border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200"
+            class="p-6 border border-blue-100 rounded-xl shadow-sm hover:shadow-md transition duration-200 bg-white"
           >
             <div class="flex items-center mb-4">
-              <!-- Profile Picture -->
               <img
                 :src="thread.user.profilePicture"
                 alt="Profile Picture"
-                class="w-12 h-12 rounded-full mr-4 cursor-pointer"
+                class="w-12 h-12 rounded-full mr-4 cursor-pointer object-cover"
                 @click="goToProfile(thread.user.id)"
               />
-              <!-- User Name -->
+
               <div>
                 <h3
-                  class="text-lg font-bold text-blue-700 cursor-pointer"
+                  class="text-lg font-bold text-blue-900 cursor-pointer"
                   @click="goToProfile(thread.user.id)"
                 >
                   {{ thread.user.name }}
@@ -69,41 +76,41 @@
               </div>
             </div>
 
-            <!-- Thread Content -->
-            <h4 class="text-2xl font-bold text-blue-700 mb-2">
+            <h4 class="text-2xl font-bold text-blue-800 mb-2">
               {{ thread.title }}
             </h4>
+
             <p class="text-gray-600 mb-4">
               {{ thread.description }}
             </p>
 
-            <!-- Tags -->
-            <div class="flex space-x-2 mb-4">
+            <div class="flex flex-wrap gap-2 mb-4">
               <span
                 v-for="tag in thread.tags"
                 :key="tag"
-                class="bg-blue-100 text-blue-700 text-sm font-medium px-2 py-1 rounded"
+                class="bg-blue-100 text-blue-700 text-sm font-medium px-3 py-1 rounded-full"
               >
                 {{ tag }}
               </span>
             </div>
 
-            <!-- Actions -->
             <div class="flex justify-between items-center">
               <div class="flex space-x-4">
                 <button
                   @click="likeThread(thread)"
-                  class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold px-4 py-2 rounded-lg transition duration-200"
+                  class="bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold px-4 py-2 rounded-lg transition duration-200"
                 >
                   Like ({{ thread.likes }})
                 </button>
+
                 <button
                   @click="toggleComments(thread)"
-                  class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold px-4 py-2 rounded-lg transition duration-200"
+                  class="bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold px-4 py-2 rounded-lg transition duration-200"
                 >
                   Comment ({{ thread.comments.length }})
                 </button>
               </div>
+
               <button
                 @click="startChat(thread.user)"
                 class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded-lg transition duration-200"
@@ -112,23 +119,24 @@
               </button>
             </div>
 
-            <!-- Comments Section -->
-            <div v-if="thread.showComments" class="mt-4">
+            <div v-if="thread.showComments" class="mt-5">
               <ul class="space-y-2">
                 <li
                   v-for="comment in thread.comments"
                   :key="comment.id"
-                  class="border border-gray-200 rounded-lg p-4"
+                  class="bg-gray-50 border border-gray-100 rounded-lg p-4"
                 >
                   <p class="text-gray-700">{{ comment.text }}</p>
                 </li>
               </ul>
+
               <div class="mt-4">
                 <input
                   v-model="newComment"
                   placeholder="Add a comment..."
                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
+
                 <button
                   @click="addComment(thread)"
                   class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-2 rounded-lg mt-2"
@@ -141,6 +149,7 @@
         </ul>
       </div>
     </div>
+
   </div>
 </template>
 
