@@ -14,10 +14,17 @@ const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 describe('ScholarshipService', () => {
   let scholarshipService: ScholarshipService;
+  let consoleErrorSpy: jest.SpyInstance;
 
   beforeEach(() => {
     scholarshipService = new ScholarshipService();
     jest.clearAllMocks();
+    // Suppress console.error during tests
+    consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    consoleErrorSpy.mockRestore();
   });
 
   describe('getScholarships', () => {
