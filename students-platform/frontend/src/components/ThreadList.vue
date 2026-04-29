@@ -1,38 +1,38 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-purple-50 to-purple-100">
+  <div class="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100">
     <!-- Search Bar -->
     <div class="max-w-6xl mx-auto px-4 py-6">
       <input
         v-model="searchQuery"
         @input="filterThreads"
         placeholder="Search threads (e.g., scholarships, universities)"
-        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
     </div>
 
     <!-- Form for creating new posts -->
     <div class="max-w-6xl mx-auto px-4 mb-10">
       <div class="bg-white rounded-xl shadow-lg p-10">
-        <h2 class="text-3xl font-bold text-purple-800 mb-6">Create a Post</h2>
+        <h2 class="text-3xl font-bold text-blue-800 mb-6">Create a Post</h2>
         <form @submit.prevent="createPost">
           <div class="mb-4">
             <input
               v-model="newPostTitle"
               placeholder="Enter post title"
-              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
           <div class="mb-4">
             <textarea
               v-model="newPostDescription"
               placeholder="Enter post description"
-              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               rows="4"
             ></textarea>
           </div>
           <button
             type="submit"
-            class="bg-purple-600 hover:bg-purple-700 text-white font-bold px-6 py-3 rounded-lg transition duration-200"
+            class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-3 rounded-lg transition duration-200"
           >
             Post
           </button>
@@ -60,7 +60,7 @@
               <!-- User Name -->
               <div>
                 <h3
-                  class="text-lg font-bold text-purple-700 cursor-pointer"
+                  class="text-lg font-bold text-blue-700 cursor-pointer"
                   @click="goToProfile(thread.user.id)"
                 >
                   {{ thread.user.name }}
@@ -70,7 +70,7 @@
             </div>
 
             <!-- Thread Content -->
-            <h4 class="text-2xl font-bold text-purple-700 mb-2">
+            <h4 class="text-2xl font-bold text-blue-700 mb-2">
               {{ thread.title }}
             </h4>
             <p class="text-gray-600 mb-4">
@@ -82,7 +82,7 @@
               <span
                 v-for="tag in thread.tags"
                 :key="tag"
-                class="bg-purple-100 text-purple-700 text-sm font-medium px-2 py-1 rounded"
+                class="bg-blue-100 text-blue-700 text-sm font-medium px-2 py-1 rounded"
               >
                 {{ tag }}
               </span>
@@ -127,11 +127,11 @@
                 <input
                   v-model="newComment"
                   placeholder="Add a comment..."
-                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <button
                   @click="addComment(thread)"
-                  class="bg-purple-600 hover:bg-purple-700 text-white font-bold px-6 py-2 rounded-lg mt-2"
+                  class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-2 rounded-lg mt-2"
                 >
                   Post Comment
                 </button>
@@ -279,61 +279,3 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
-/* General styling for the page */
-.min-h-screen {
-  min-height: 100vh;
-}
-
-.bg-gradient-to-br {
-  background: linear-gradient(to bottom right, #faf5ff, #e9d8fd);
-}
-
-.text-center {
-  text-align: center;
-}
-
-.text-purple-800 {
-  color: #6b46c1;
-}
-
-.text-purple-700 {
-  color: #805ad5;
-}
-
-.text-gray-600 {
-  color: #718096;
-}
-
-.text-gray-700 {
-  color: #4a5568;
-}
-
-.shadow-lg {
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-}
-
-.shadow-sm {
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-}
-
-.hover\:shadow-md:hover {
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-}
-
-.transition-shadow {
-  transition: box-shadow 0.2s;
-}
-
-.rounded-lg {
-  border-radius: 0.5rem;
-}
-
-.rounded-xl {
-  border-radius: 0.75rem;
-}
-
-.space-y-6 > :not(:last-child) {
-  margin-bottom: 1.5rem;
-}
-</style>
