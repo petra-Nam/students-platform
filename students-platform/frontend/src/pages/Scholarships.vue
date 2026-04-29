@@ -1,11 +1,11 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-yellow-50 to-yellow-100">
+  <div class="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100">
     <div class="max-w-6xl mx-auto px-4 py-20">
       <div class="text-center mb-16">
-        <h1 class="text-5xl font-bold text-yellow-800 mb-4">
+        <h1 class="text-5xl font-bold text-blue-800 mb-4">
           Find Scholarships
         </h1>
-        <h2 class="text-3xl text-yellow-600 font-semibold mb-8">
+        <h2 class="text-3xl text-blue-600 font-semibold mb-8">
           Unlock Opportunities for Your Education
         </h2>
         <p class="text-xl text-gray-700 max-w-2xl mx-auto mb-10 leading-relaxed">
@@ -16,7 +16,7 @@
 
     <div class="max-w-6xl mx-auto px-4 -mt-10 mb-10">
       <div class="bg-white rounded-xl shadow-lg p-10">
-        <h2 class="text-3xl font-bold text-yellow-800 mb-6 text-center">Search Scholarships</h2>
+        <h2 class="text-3xl font-bold text-blue-800 mb-6 text-center">Search Scholarships</h2>
 
         <div class="flex justify-center space-x-4">
           <input
@@ -26,7 +26,7 @@
               @input="isFieldInvalid = false"
               :class="[
                 'px-4 py-3 border rounded-lg w-1/3 focus:outline-none focus:ring-2',
-                isFieldInvalid ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-yellow-500'
+                isFieldInvalid ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-blue-500'
               ]"
           />
           <div class="relative w-1/4">
@@ -37,7 +37,7 @@
                 @blur="hideDropdown"
                 @keyup.enter="newSearch"
                 placeholder="Location (optional)"
-                class="px-4 py-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                class="px-4 py-3 border border-gray-300 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <ul
                 v-if="showDropdown && filteredLocations.length > 0"
@@ -46,14 +46,14 @@
                   v-for="(loc, index) in filteredLocations"
                   :key="index"
                   @mousedown="selectLocation(loc)"
-                  class="px-4 py-2 hover:bg-yellow-50 cursor-pointer">
+                  class="px-4 py-2 hover:bg-blue-50 cursor-pointer">
                 {{ loc }}
               </li>
             </ul>
           </div>
           <button
               @click="newSearch"
-              class="bg-yellow-600 hover:bg-yellow-700 text-white font-bold px-10 py-3 rounded-lg text-lg transition duration-200 shadow-md">
+              class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-10 py-3 rounded-lg text-lg transition duration-200 shadow-md">
             Search
           </button>
         </div>
@@ -76,10 +76,10 @@
         </div>
 
         <div v-else>
-          <h2 class="text-2xl font-bold text-yellow-800 mb-6">Results for "{{ searchInput }}"</h2>
+          <h2 class="text-2xl font-bold text-blue-800 mb-6">Results for "{{ searchInput }}"</h2>
           <ul class="space-y-4">
             <li v-for="(scholarship, index) in scholarships" :key="index" class="p-4 border border-gray-200 rounded-lg shadow-sm">
-              <strong class="text-lg text-yellow-700">{{ scholarship.programName }}</strong>
+              <strong class="text-lg text-blue-700">{{ scholarship.programName }}</strong>
               <p class="text-gray-600 mt-2">{{ scholarship.schoolName }}</p>
               <div class="mt-2 text-sm text-gray-500">
                 <p v-if="scholarship.city || scholarship.state">
@@ -99,7 +99,7 @@
                 v-if="scholarship.website"
                 :href="scholarship.website.startsWith('http') ? scholarship.website : 'https://' + scholarship.website"
                 target="_blank"
-                class="text-yellow-500 hover:underline mt-2 inline-block">
+                class="text-blue-500 hover:underline mt-2 inline-block">
                 Visit Website
               </a>
             </li>
