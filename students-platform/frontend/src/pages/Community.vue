@@ -1,25 +1,18 @@
 <template>
   <div class="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100">
-
-    <!-- Hero -->
     <section class="max-w-6xl mx-auto px-4 py-16">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
         <div>
           <p class="inline-block bg-blue-100 text-blue-700 font-semibold px-4 py-2 rounded-full mb-5">
-            Student community
+            Student communities
           </p>
 
           <h1 class="text-5xl font-bold text-blue-900 mb-5 leading-tight">
-            Join the Community
+            Find your study abroad circle.
           </h1>
 
-          <h2 class="text-2xl text-blue-600 font-semibold mb-6">
-            Connect, ask questions, and grow together
-          </h2>
-
           <p class="text-lg text-gray-700 leading-relaxed max-w-xl">
-            Explore discussions, share your experiences, ask for advice, and connect
-            with students planning their education journey.
+            Join focused communities based on countries, scholarships, study fields, and student life topics.
           </p>
         </div>
 
@@ -29,279 +22,273 @@
       </div>
     </section>
 
-    <!-- Search -->
     <section class="max-w-6xl mx-auto px-4 -mt-4 mb-8">
       <div class="bg-white rounded-xl shadow-lg p-6">
-        <div class="grid grid-cols-1 md:grid-cols-[1fr_auto_auto] gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-4">
           <input
             v-model="searchInput"
-            placeholder="Search topics, questions, or keywords..."
-            @keyup.enter="newSearch"
+            placeholder="Search communities, e.g. Germany, scholarships, nursing..."
             class="px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
 
           <button
-            @click="newSearch"
-            class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-10 py-3 rounded-lg transition duration-200 shadow-md"
+            @click="showCreateForm = !showCreateForm"
+            class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-8 py-3 rounded-lg"
           >
-            Search
+            {{ showCreateForm ? 'Close' : '+ Create Community' }}
           </button>
-
         </div>
       </div>
     </section>
 
-    <!-- Main Content -->
-    <section class="max-w-6xl mx-auto px-4 pb-16">
-      <div class="grid grid-cols-1 lg:grid-cols-[250px_1fr_280px] gap-6">
+    <section v-if="showCreateForm" class="max-w-6xl mx-auto px-4 mb-8">
+      <div class="bg-white rounded-xl shadow-lg p-8">
+        <h2 class="text-2xl font-bold text-blue-900 mb-5">Create a Community</h2>
 
-        <!-- Categories -->
-        <aside class="space-y-6">
-          <div class="bg-white rounded-xl shadow-lg p-5">
-            <h3 class="font-bold text-blue-900 mb-4">Categories</h3>
+        <form @submit.prevent="createCommunity">
+          <input
+            v-model="newCommunityName"
+            placeholder="Community name, e.g. Study in Germany"
+            class="input"
+          />
 
-            <ul class="space-y-3 text-sm">
-              <li class="category active">All Categories <span>1280</span></li>
-              <li class="category">Studying Abroad <span>320</span></li>
-              <li class="category">Universities <span>245</span></li>
-              <li class="category">Scholarships <span>210</span></li>
-              <li class="category">Applications <span>180</span></li>
-              <li class="category">Visa & Immigration <span>150</span></li>
-              <li class="category">Student Life <span>120</span></li>
-              <li class="category">Careers <span>55</span></li>
-            </ul>
-          </div>
+          <textarea
+            v-model="newCommunityDescription"
+            rows="4"
+            placeholder="What is this community about?"
+            class="input"
+          ></textarea>
 
-          <div class="bg-white rounded-xl shadow-lg p-5">
-            <h3 class="font-bold text-blue-900 mb-2">Community Guidelines</h3>
-            <p class="text-sm text-gray-600">
-              Be kind, respectful, and helpful to other students.
-            </p>
-          </div>
-        </aside>
+          <select v-model="newCommunityCategory" class="input">
+            <option value="">Choose category</option>
+            <option>Country</option>
+            <option>Scholarships</option>
+            <option>University Applications</option>
+            <option>Visa</option>
+            <option>Student Life</option>
+            <option>Career</option>
+          </select>
 
-        <!-- Discussions -->
-        <main class="bg-white rounded-xl shadow-lg p-6">
-
-          <div v-if="isLoading" class="text-center text-gray-600 text-lg py-10">
-            Loading...
-          </div>
-
-          <div v-else-if="hasSearched && communityPosts.length === 0" class="text-center text-gray-600 text-lg py-10">
-            No results found for "{{ searchInput }}".
-          </div>
-
-          <div v-else>
-            <h2 class="text-2xl font-bold text-blue-900 mb-6">
-              {{ hasSearched ? `Results for "${searchInput}"` : "Recent Discussions" }}
-            </h2>
-
-            <ul class="divide-y divide-gray-100">
-              <li
-                v-for="post in displayedPosts"
-                :key="post.id"
-                class="py-5"
-              >
-                <div class="flex gap-4">
-                  <div class="avatar">
-                    {{ getInitial(post.author) }}
-                  </div>
-
-                  <div class="flex-1">
-                    <h3 class="text-lg font-bold text-blue-900 mb-1">
-                      {{ post.title }}
-                    </h3>
-
-                    <p class="text-gray-600 mb-3">
-                      {{ post.description }}
-                    </p>
-
-                    <div class="flex flex-wrap gap-2 mb-3">
-                      <span class="tag">Community</span>
-                      <span class="tag">Student Advice</span>
-                    </div>
-
-                    <div class="flex flex-wrap gap-5 text-sm text-gray-500">
-                      <span>Posted by {{ post.author }}</span>
-                      <span>{{ post.replies || 0 }} replies</span>
-                      <span>{{ post.views || 0 }} views</span>
-                    </div>
-                  </div>
-                </div>
-              </li>
-            </ul>
-
-            <div v-if="totalPages > 1" class="flex justify-between items-center mt-8">
-              <button
-                @click="goToPrevPage"
-                :disabled="currentPage === 1"
-                class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold px-6 py-2 rounded-lg transition duration-200 disabled:opacity-50"
-              >
-                Previous
-              </button>
-
-              <span class="text-gray-700">
-                Page {{ currentPage }} of {{ totalPages }}
-              </span>
-
-              <button
-                @click="goToNextPage"
-                :disabled="currentPage === totalPages"
-                class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold px-6 py-2 rounded-lg transition duration-200 disabled:opacity-50"
-              >
-                Next
-              </button>
-            </div>
-          </div>
-        </main>
-
-        <!-- Right Sidebar -->
-        <aside class="space-y-6">
-          <div class="bg-white rounded-xl shadow-lg p-5">
-            <h3 class="font-bold text-blue-900 mb-4">Trending Topics</h3>
-
-            <ul class="space-y-4 text-sm">
-              <li class="trending"><span>1</span> IELTS preparation tips</li>
-              <li class="trending"><span>2</span> Top scholarships for 2025</li>
-              <li class="trending"><span>3</span> Part-time jobs for students</li>
-              <li class="trending"><span>4</span> Study in Australia</li>
-              <li class="trending"><span>5</span> SOP writing guide</li>
-            </ul>
-          </div>
-
-          <div class="bg-white rounded-xl shadow-lg p-5">
-            <h3 class="font-bold text-blue-900 mb-4">Suggested Members</h3>
-
-            <div class="space-y-4">
-              <div class="member">
-                <div class="small-avatar">E</div>
-                <div>
-                  <p class="font-semibold text-blue-900">Emma Johnson</p>
-                  <p class="text-sm text-gray-500">Canada</p>
-                </div>
-              </div>
-
-              <div class="member">
-                <div class="small-avatar">L</div>
-                <div>
-                  <p class="font-semibold text-blue-900">Liam Chen</p>
-                  <p class="text-sm text-gray-500">Australia</p>
-                </div>
-              </div>
-
-              <div class="member">
-                <div class="small-avatar">S</div>
-                <div>
-                  <p class="font-semibold text-blue-900">Sophia Martinez</p>
-                  <p class="text-sm text-gray-500">USA</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </aside>
-
+          <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-3 rounded-lg">
+            Create Community
+          </button>
+        </form>
       </div>
     </section>
 
+    <section class="max-w-6xl mx-auto px-4 pb-16">
+      <div class="grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-6">
+        <aside class="bg-white rounded-xl shadow-lg p-5 h-fit">
+          <h3 class="font-bold text-blue-900 mb-4">Categories</h3>
+
+          <ul class="space-y-3 text-sm">
+            <li
+              v-for="category in categories"
+              :key="category"
+              @click="selectedCategory = category"
+              :class="[
+                'category',
+                selectedCategory === category ? 'active' : ''
+              ]"
+            >
+              {{ category }}
+            </li>
+          </ul>
+        </aside>
+
+        <main>
+          <div class="flex justify-between items-center mb-5">
+            <h2 class="text-2xl font-bold text-blue-900">
+              Communities
+            </h2>
+
+            <p class="text-sm text-gray-500">
+              {{ filteredCommunities.length }} found
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div
+              v-for="community in filteredCommunities"
+              :key="community.id"
+              class="bg-white rounded-xl shadow-lg p-6 border border-blue-100 hover:shadow-xl transition"
+            >
+              <div class="flex items-start justify-between gap-4 mb-4">
+                <div class="community-icon">
+                  {{ getInitial(community.name) }}
+                </div>
+
+                <span class="bg-blue-50 text-blue-700 text-xs font-bold px-3 py-1 rounded-full">
+                  {{ community.category }}
+                </span>
+              </div>
+
+              <h3 class="text-xl font-bold text-blue-900 mb-2">
+                {{ community.name }}
+              </h3>
+
+              <p class="text-gray-600 mb-4">
+                {{ community.description }}
+              </p>
+
+              <p class="text-sm text-gray-500 mb-5">
+                {{ community.members }} members
+              </p>
+
+              <div class="flex gap-3">
+                <button
+                  @click="toggleJoin(community)"
+                  :class="[
+                    'font-bold px-5 py-2 rounded-lg transition',
+                    community.joined
+                      ? 'bg-green-100 text-green-700 hover:bg-green-200'
+                      : 'bg-blue-600 text-white hover:bg-blue-700'
+                  ]"
+                >
+                  {{ community.joined ? 'Joined' : 'Join' }}
+                </button>
+
+                <button @click="viewThreads(community)">
+  View Community
+</button>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </section>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import axios from "axios";
+import { useRouter } from "vue-router";
 
-interface CommunityPost {
+interface Community {
   id: number;
-  title: string;
+  name: string;
   description: string;
-  author: string;
-  replies?: number;
-  views?: number;
+  category: string;
+  members: number;
+  joined: boolean;
 }
 
-const communityPosts = ref<CommunityPost[]>([]);
-const searchInput = ref("");
-const isLoading = ref(false);
-const hasSearched = ref(false);
-const currentPage = ref(1);
-const totalPages = ref(1);
+const router = useRouter();
 
-const fallbackPosts = ref<CommunityPost[]>([
+const searchInput = ref("");
+const selectedCategory = ref("All");
+const showCreateForm = ref(false);
+
+const newCommunityName = ref("");
+const newCommunityDescription = ref("");
+const newCommunityCategory = ref("");
+
+const categories = [
+  "All",
+  "Country",
+  "Scholarships",
+  "University Applications",
+  "Visa",
+  "Student Life",
+  "Career",
+];
+
+const communities = ref<Community[]>([
   {
     id: 1,
-    title: "Best universities for Computer Science in Germany?",
-    description: "I am planning to study CS in Germany. Can anyone recommend good universities and share their experience?",
-    author: "Amira",
-    replies: 25,
-    views: 1200,
+    name: "Study in Germany",
+    description: "For students applying to German universities, Ausbildung, scholarships, and student visas.",
+    category: "Country",
+    members: 1240,
+    joined: false,
   },
   {
     id: 2,
-    title: "How to find fully funded scholarships?",
-    description: "I am looking for fully funded Master’s scholarships. Any tips on where to search and how to apply?",
-    author: "Sam",
-    replies: 18,
-    views: 890,
+    name: "Scholarship Seekers",
+    description: "Share scholarship opportunities, tips, deadlines, and application advice.",
+    category: "Scholarships",
+    members: 980,
+    joined: true,
   },
   {
     id: 3,
-    title: "Student life in Canada, what should I expect?",
-    description: "For those studying in Canada, how is student life there? Any advice for new international students?",
-    author: "Maya",
-    replies: 12,
-    views: 650,
+    name: "International Nursing Students",
+    description: "A space for nursing students planning to study or work abroad.",
+    category: "Career",
+    members: 430,
+    joined: false,
+  },
+  {
+    id: 4,
+    name: "Visa Support Circle",
+    description: "Ask questions about visa documents, appointments, and embassy processes.",
+    category: "Visa",
+    members: 760,
+    joined: false,
+  },
+  {
+    id: 5,
+    name: "University Applications",
+    description: "Help with SOPs, documents, application portals, and admission requirements.",
+    category: "University Applications",
+    members: 690,
+    joined: false,
   },
 ]);
 
-const displayedPosts = computed(() => {
-  return hasSearched.value ? communityPosts.value : fallbackPosts.value;
+const filteredCommunities = computed(() => {
+  const query = searchInput.value.toLowerCase();
+
+  return communities.value.filter((community) => {
+    const matchesSearch =
+      community.name.toLowerCase().includes(query) ||
+      community.description.toLowerCase().includes(query) ||
+      community.category.toLowerCase().includes(query);
+
+    const matchesCategory =
+      selectedCategory.value === "All" ||
+      community.category === selectedCategory.value;
+
+    return matchesSearch && matchesCategory;
+  });
 });
 
 const getInitial = (name: string) => {
-  return name?.charAt(0).toUpperCase() || "?";
+  return name.charAt(0).toUpperCase();
 };
 
-const fetchCommunityPosts = async () => {
-  if (isLoading.value) return;
+const toggleJoin = (community: Community) => {
+  community.joined = !community.joined;
+  community.members += community.joined ? 1 : -1;
+};
 
-  isLoading.value = true;
-  hasSearched.value = true;
-
-  try {
-    const response = await axios.get("http://localhost:3000/api/community", {
-      params: {
-        query: searchInput.value,
-        page: currentPage.value,
-      },
-    });
-
-    communityPosts.value = response.data.posts || [];
-    totalPages.value = response.data.totalPages || 1;
-  } catch (error) {
-    console.error("Error fetching community posts:", error);
-    communityPosts.value = [];
-  } finally {
-    isLoading.value = false;
+const createCommunity = () => {
+  if (
+    !newCommunityName.value.trim() ||
+    !newCommunityDescription.value.trim() ||
+    !newCommunityCategory.value
+  ) {
+    alert("Please fill in the name, description, and category.");
+    return;
   }
+
+  communities.value.unshift({
+    id: Date.now(),
+    name: newCommunityName.value,
+    description: newCommunityDescription.value,
+    category: newCommunityCategory.value,
+    members: 1,
+    joined: true,
+  });
+
+  newCommunityName.value = "";
+  newCommunityDescription.value = "";
+  newCommunityCategory.value = "";
+  showCreateForm.value = false;
 };
 
-const newSearch = () => {
-  currentPage.value = 1;
-  fetchCommunityPosts();
-};
-
-const goToNextPage = () => {
-  if (currentPage.value < totalPages.value) {
-    currentPage.value++;
-    fetchCommunityPosts();
-  }
-};
-
-const goToPrevPage = () => {
-  if (currentPage.value > 1) {
-    currentPage.value--;
-    fetchCommunityPosts();
-  }
+const viewThreads = (community: Community) => {
+  router.push(`/community/${community.id}`);
 };
 </script>
 
@@ -317,13 +304,25 @@ const goToPrevPage = () => {
   background-position: center;
 }
 
+.input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  outline: none;
+  margin-bottom: 16px;
+}
+
+.input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px #bfdbfe;
+}
+
 .category {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   color: #475569;
   padding: 10px 12px;
   border-radius: 10px;
+  cursor: pointer;
 }
 
 .category.active,
@@ -333,66 +332,16 @@ const goToPrevPage = () => {
   font-weight: 700;
 }
 
-.category span {
-  color: #64748b;
-}
-
-.avatar {
-  width: 48px;
-  height: 48px;
-  border-radius: 999px;
+.community-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
   background: #dbeafe;
   color: #2563eb;
-  font-weight: 800;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-}
-
-.small-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 999px;
-  background: #eff6ff;
-  color: #2563eb;
-  font-weight: 800;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.tag {
-  background: #eff6ff;
-  color: #2563eb;
-  font-size: 12px;
-  font-weight: 600;
-  padding: 5px 10px;
-  border-radius: 999px;
-}
-
-.trending {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  color: #334155;
-}
-
-.trending span {
-  background: #eff6ff;
-  color: #2563eb;
-  width: 24px;
-  height: 24px;
-  border-radius: 999px;
-  font-weight: 800;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.member {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  font-weight: 900;
+  font-size: 24px;
 }
 </style>
