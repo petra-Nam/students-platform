@@ -5,6 +5,72 @@ import { parseCursorParams } from './post.validation';
 import { PostMapper } from './mappers';
 import { POST_ERROR } from './post.constants';
 
+type ErrorResponse = {
+  status: number;
+  message: string;
+};
+
+const POST_ERROR_RESPONSES: Record<string, ErrorResponse> = {
+  [POST_ERROR.NOT_FOUND]: {
+    status: 404,
+    message: 'Post not found',
+  },
+  [POST_ERROR.UNAUTHORIZED]: {
+    status: 403,
+    message: 'You are not authorized to update this post',
+  },
+  [POST_ERROR.CATEGORY_NOT_FOUND]: {
+    status: 404,
+    message: 'Category not found or inactive',
+  },
+};
+
+const handlePostError = (
+  err: unknown,
+  res: Response,
+  next: NextFunction
+) => {
+  if (!(err instanceof Error)) {
+    return next(err);
+  }
+
+  const errorResponse = POST_ERROR_RESPONSES[err.message];
+
+  if (!errorResponse) {
+    return next(err);
+  }
+
+  return res.status(errorResponse.status).json({
+    message: errorResponse.message,
+  });
+};
+
+const getPaginationParams = (req: Request) =>
+  parseCursorParams(
+    req.query.cursor as string,
+    req.query.limit as string
+  );
+
+const getSafeLimit = (limitQuery?: string) => {
+  const limit = parseInt(limitQuery || '10', 10);
+
+  return Number.isNaN(limit) || limit <= 0 ? 10 : limit;
+};
+
+const getPreferredCategories = (preferredCategories?: string) =>
+  preferredCategories ? preferredCategories.split(',') : [];
+
+const sendPostResponse = (
+  res: Response,
+  status: number,
+  message: string,
+  post: any
+) =>
+  res.status(status).json({
+    message,
+    post: PostMapper.toSafePost(post),
+  });
+
 class PostController {
   createPost = async (
     req: AuthenticatedRequest,
@@ -12,25 +78,19 @@ class PostController {
     next: NextFunction
   ) => {
     try {
-      // Controller responsibility: Add auth context to request data
       const post = await postService.createPost({
         ...req.body,
         authorId: req.user!.id,
       });
 
-      const safePost = PostMapper.toSafePost(post);
-
-      return res.status(201).json({
-        message: 'Post created successfully',
-        post: safePost,
-      });
-    } catch (err: any) {
-      if (err instanceof Error && err.message === POST_ERROR.CATEGORY_NOT_FOUND) {
-        return res.status(404).json({
-          message: 'Category not found or inactive'
-        });
-      }
-      return next(err);
+      return sendPostResponse(
+        res,
+        201,
+        'Post created successfully',
+        post
+      );
+    } catch (err: unknown) {
+      return handlePostError(err, res, next);
     }
   };
 
@@ -41,23 +101,18 @@ class PostController {
   ) => {
     try {
       const { postId } = req.params;
-      const incrementView = req.query.incrementView === 'true';
-
       const post = await postService.getPostById(postId);
 
       if (!post) {
         return res.status(404).json({ message: 'Post not found' });
       }
 
-      if (incrementView) {
-        await postService.incrementViewCount(postId);
-        post.viewCount += 1;
-      }
+      await this.updateViewCountIfRequested(req, postId, post);
 
-      const safePost = PostMapper.toSafePost(post);
-
-      return res.status(200).json({ post: safePost });
-    } catch (err: any) {
+      return res.status(200).json({
+        post: PostMapper.toSafePost(post),
+      });
+    } catch (err: unknown) {
       return next(err);
     }
   };
@@ -68,29 +123,20 @@ class PostController {
     next: NextFunction
   ) => {
     try {
-      const { postId } = req.params;
+      const updatedPost = await postService.updatePost(
+        req.params.postId,
+        req.body,
+        req.user!.id
+      );
 
-      // Service handles all database checks (existence, ownership)
-      const updatedPost = await postService.updatePost(postId, req.body, req.user!.id);
-
-      const safePost = PostMapper.toSafePost(updatedPost!);
-
-      return res.status(200).json({
-        message: 'Post updated successfully',
-        post: safePost,
-      });
-    } catch (err: any) {
-      if (err instanceof Error) {
-        switch (err.message) {
-          case POST_ERROR.NOT_FOUND:
-            return res.status(404).json({ message: 'Post not found' });
-          case POST_ERROR.UNAUTHORIZED:
-            return res.status(403).json({ message: 'You are not authorized to update this post' });
-          case POST_ERROR.CATEGORY_NOT_FOUND:
-            return res.status(404).json({ message: 'Category not found or inactive' });
-        }
-      }
-      return next(err);
+      return sendPostResponse(
+        res,
+        200,
+        'Post updated successfully',
+        updatedPost
+      );
+    } catch (err: unknown) {
+      return handlePostError(err, res, next);
     }
   };
 
@@ -100,15 +146,11 @@ class PostController {
     next: NextFunction
   ) => {
     try {
-      const { cursor, limit } = parseCursorParams(
-        req.query.cursor as string,
-        req.query.limit as string
-      );
-
+      const { cursor, limit } = getPaginationParams(req);
       const result = await postService.getFeed({ cursor, limit });
 
       return res.status(200).json(result);
-    } catch (err: any) {
+    } catch (err: unknown) {
       return next(err);
     }
   };
@@ -119,16 +161,15 @@ class PostController {
     next: NextFunction
   ) => {
     try {
-      const { categoryId } = req.params;
-      const { cursor, limit } = parseCursorParams(
-        req.query.cursor as string,
-        req.query.limit as string
+      const { cursor, limit } = getPaginationParams(req);
+      const result = await postService.getPostsByCategory(
+        req.params.categoryId,
+        cursor,
+        limit
       );
 
-      const result = await postService.getPostsByCategory(categoryId, cursor, limit);
-
       return res.status(200).json(result);
-    } catch (err: any) {
+    } catch (err: unknown) {
       return next(err);
     }
   };
@@ -139,16 +180,15 @@ class PostController {
     next: NextFunction
   ) => {
     try {
-      const { authorId } = req.params;
-      const { cursor, limit } = parseCursorParams(
-        req.query.cursor as string,
-        req.query.limit as string
+      const { cursor, limit } = getPaginationParams(req);
+      const result = await postService.getPostsByAuthor(
+        req.params.authorId,
+        cursor,
+        limit
       );
 
-      const result = await postService.getPostsByAuthor(authorId, cursor, limit);
-
       return res.status(200).json(result);
-    } catch (err: any) {
+    } catch (err: unknown) {
       return next(err);
     }
   };
@@ -159,20 +199,28 @@ class PostController {
     next: NextFunction
   ) => {
     try {
-      const limit = parseInt(req.query.limit as string || '10', 10);
-      const preferredCategories = req.query.preferredCategories
-        ? (req.query.preferredCategories as string).split(',')
-        : [];
-
       const result = await postService.getScoredFeed({
-        limit: !isNaN(limit) && limit > 0 ? limit : 10,
-        preferredCategories
+        limit: getSafeLimit(req.query.limit as string),
+        preferredCategories: getPreferredCategories(
+          req.query.preferredCategories as string
+        ),
       });
 
       return res.status(200).json(result);
-    } catch (err: any) {
+    } catch (err: unknown) {
       return next(err);
     }
+  };
+
+  private updateViewCountIfRequested = async (
+    req: Request,
+    postId: string,
+    post: any
+  ) => {
+    if (req.query.incrementView !== 'true') return;
+
+    await postService.incrementViewCount(postId);
+    post.viewCount += 1;
   };
 }
 
