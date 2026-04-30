@@ -68,7 +68,6 @@ import type { RegisterForm } from '../../types/auth';
 import { useAuth } from '../../composables/useAuth';
 import AuthFormShell from './AuthFormShell.vue';
 
-
 const { register, loading, error, success } = useAuth();
 
 const form = reactive<RegisterForm>({
@@ -85,36 +84,42 @@ const errors = reactive({
   password: '',
 });
 
+// ✅ Refactored validation rules (reduces Cognitive Complexity)
+const validationRules = [
+  {
+    field: 'name',
+    isInvalid: () => !form.name,
+    message: 'Name is required',
+  },
+  {
+    field: 'username',
+    isInvalid: () => !form.username || form.username.length < 3,
+    message: 'Username must be at least 3 characters long',
+  },
+  {
+    field: 'email',
+    isInvalid: () =>
+      !form.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email),
+    message: 'Please enter a valid email address',
+  },
+  {
+    field: 'password',
+    isInvalid: () => !form.password || form.password.length < 6,
+    message: 'Password must be at least 6 characters long',
+  },
+] as const;
+
 const validateForm = () => {
   let isValid = true;
 
-  if (!form.name) {
-    errors.name = 'Name is required';
-    isValid = false;
-  } else {
-    errors.name = '';
-  }
-
-  if (!form.username || form.username.length < 3) {
-    errors.username = 'Username must be at least 3 characters long';
-    isValid = false;
-  } else {
-    errors.username = '';
-  }
-
-  if (!form.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
-    errors.email = 'Please enter a valid email address';
-    isValid = false;
-  } else {
-    errors.email = '';
-  }
-
-  if (!form.password || form.password.length < 6) {
-    errors.password = 'Password must be at least 6 characters long';
-    isValid = false;
-  } else {
-    errors.password = '';
-  }
+  validationRules.forEach((rule) => {
+    if (rule.isInvalid()) {
+      errors[rule.field] = rule.message;
+      isValid = false;
+    } else {
+      errors[rule.field] = '';
+    }
+  });
 
   return isValid;
 };
@@ -125,7 +130,8 @@ const handleRegister = async () => {
   try {
     await register(form);
   } catch (err) {
-    error.value = (err as any).response?.data?.message || 'Registration failed';
+    error.value =
+      (err as any).response?.data?.message || 'Registration failed';
   }
 };
 </script>
