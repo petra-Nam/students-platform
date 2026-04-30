@@ -1,6 +1,5 @@
 <template>
   <div class="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100">
-
     <!-- Hero -->
     <section class="max-w-6xl mx-auto px-4 py-16">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
@@ -37,11 +36,8 @@
             v-model="searchInput"
             placeholder="Field of study, e.g. nursing, business, computer science"
             @keyup.enter="newSearch"
-            @input="isFieldInvalid = false"
-            :class="[
-              'px-4 py-3 border rounded-lg focus:outline-none focus:ring-2',
-              isFieldInvalid ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-blue-500'
-            ]"
+            @input="clearFieldError"
+            :class="searchInputClasses"
           />
 
           <div class="relative">
@@ -56,7 +52,7 @@
             />
 
             <ul
-              v-if="showDropdown && filteredLocations.length > 0"
+              v-if="shouldShowLocationDropdown"
               class="absolute z-10 w-full bg-white border border-gray-300 rounded-lg mt-1 max-h-60 overflow-y-auto shadow-lg"
             >
               <li
@@ -110,7 +106,6 @@
     <!-- Results -->
     <section class="max-w-6xl mx-auto px-4 py-5 pb-16" v-if="hasSearched">
       <div class="bg-white rounded-xl shadow-lg p-8">
-
         <div v-if="isLoading" class="text-center text-gray-600 text-lg py-10">
           Loading...
         </div>
@@ -119,7 +114,7 @@
           {{ errorMessage }}
         </div>
 
-        <div v-else-if="scholarships.length === 0" class="text-center text-gray-600 text-lg py-10">
+        <div v-else-if="hasNoResults" class="text-center text-gray-600 text-lg py-10">
           No training programs found for "{{ searchInput }}".
         </div>
 
@@ -130,7 +125,7 @@
             </h2>
 
             <p class="text-sm text-gray-500">
-              {{ scholarships.length }} result{{ scholarships.length === 1 ? "" : "s" }} found
+              {{ resultCountText }}
             </p>
           </div>
 
@@ -150,9 +145,9 @@
                 </p>
 
                 <div class="space-y-2 text-sm text-gray-500">
-                  <p v-if="scholarship.city || scholarship.state">
+                  <p v-if="hasLocation(scholarship)">
                     <strong class="text-gray-700">Location:</strong>
-                    {{ scholarship.city }}<span v-if="scholarship.city && scholarship.state">, </span>{{ scholarship.state }}
+                    {{ formatLocation(scholarship) }}
                   </p>
 
                   <p v-if="scholarship.address">
@@ -174,7 +169,7 @@
 
               <a
                 v-if="scholarship.website"
-                :href="scholarship.website.startsWith('http') ? scholarship.website : 'https://' + scholarship.website"
+                :href="formatWebsiteUrl(scholarship.website)"
                 target="_blank"
                 class="inline-block mt-5 bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold px-4 py-2 rounded-lg transition"
               >
@@ -183,10 +178,10 @@
             </li>
           </ul>
 
-          <div v-if="totalPages > 1" class="flex justify-between items-center mt-8">
+          <div v-if="hasMultiplePages" class="flex justify-between items-center mt-8">
             <button
               @click="goToPrevPage"
-              :disabled="currentPage === 1"
+              :disabled="isFirstPage"
               class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold px-6 py-2 rounded-lg transition duration-200 disabled:opacity-50"
             >
               Previous
@@ -198,26 +193,35 @@
 
             <button
               @click="goToNextPage"
-              :disabled="currentPage === totalPages"
+              :disabled="isLastPage"
               class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold px-6 py-2 rounded-lg transition duration-200 disabled:opacity-50"
             >
               Next
             </button>
           </div>
         </div>
-
       </div>
     </section>
-
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { api } from "../services/api";
 import { US_STATES } from "../utils/locations";
 
-const scholarships = ref<any[]>([]);
+type Scholarship = {
+  programName?: string;
+  schoolName?: string;
+  city?: string;
+  state?: string;
+  address?: string;
+  phone?: string;
+  programLength?: string;
+  website?: string;
+};
+
+const scholarships = ref<Scholarship[]>([]);
 const searchInput = ref("");
 const location = ref("");
 const isLoading = ref(false);
@@ -229,78 +233,119 @@ const showDropdown = ref(false);
 const filteredLocations = ref<string[]>([]);
 const isFieldInvalid = ref(false);
 
+const hasNoResults = computed(() => scholarships.value.length === 0);
+const hasMultiplePages = computed(() => totalPages.value > 1);
+const isFirstPage = computed(() => currentPage.value === 1);
+const isLastPage = computed(() => currentPage.value === totalPages.value);
+
+const shouldShowLocationDropdown = computed(
+  () => showDropdown.value && filteredLocations.value.length > 0
+);
+
+const resultCountText = computed(() => {
+  const count = scholarships.value.length;
+  return `${count} result${count === 1 ? "" : "s"} found`;
+});
+
+const searchInputClasses = computed(() => [
+  "px-4 py-3 border rounded-lg focus:outline-none focus:ring-2",
+  isFieldInvalid.value
+    ? "border-red-500 focus:ring-red-500"
+    : "border-gray-300 focus:ring-blue-500",
+]);
+
+const clearFieldError = () => {
+  isFieldInvalid.value = false;
+};
+
+const resetSearchResults = () => {
+  scholarships.value = [];
+};
+
+const showSearchValidationError = () => {
+  errorMessage.value = "Please enter a search keyword.";
+  hasSearched.value = true;
+  isFieldInvalid.value = true;
+  resetSearchResults();
+};
+
+const isSearchInputValid = () => searchInput.value.trim().length > 0;
+
+const buildSearchParams = () => ({
+  q: searchInput.value,
+  location: location.value || undefined,
+});
+
+const updateScholarshipResults = (data: any) => {
+  scholarships.value = data.scholarships || [];
+  totalPages.value = 1;
+};
+
+const getErrorMessage = (error: any) =>
+  error.response?.data?.error || "Failed to fetch scholarships. Please try again.";
+
+const handleFetchError = (error: any) => {
+  console.error("Error fetching scholarships:", error);
+  errorMessage.value = getErrorMessage(error);
+  resetSearchResults();
+};
+
+const markSearchStarted = () => {
+  hasSearched.value = true;
+};
+
 const fetchScholarships = async () => {
   if (isLoading.value) return;
 
   isLoading.value = true;
   errorMessage.value = "";
-
-  if (currentPage.value === 1) {
-    hasSearched.value = true;
-  }
+  markSearchStarted();
 
   try {
     const response = await api.get("scholarships", {
-      params: {
-        q: searchInput.value,
-        location: location.value || undefined,
-      },
+      params: buildSearchParams(),
     });
 
-    scholarships.value = response.data.scholarships || [];
-    totalPages.value = 1;
+    updateScholarshipResults(response.data);
   } catch (error: any) {
-    console.error("Error fetching scholarships:", error);
-
-    if (error.response?.data?.error) {
-      errorMessage.value = error.response.data.error;
-    } else {
-      errorMessage.value = "Failed to fetch scholarships. Please try again.";
-    }
-
-    scholarships.value = [];
+    handleFetchError(error);
   } finally {
     isLoading.value = false;
   }
 };
 
 const newSearch = () => {
-  if (!searchInput.value.trim()) {
-    errorMessage.value = "Please enter a search keyword.";
-    hasSearched.value = true;
-    scholarships.value = [];
-    isFieldInvalid.value = true;
+  if (!isSearchInputValid()) {
+    showSearchValidationError();
     return;
   }
 
-  isFieldInvalid.value = false;
+  clearFieldError();
   currentPage.value = 1;
   fetchScholarships();
 };
 
+const changePage = (newPage: number) => {
+  currentPage.value = newPage;
+  fetchScholarships();
+};
+
 const goToNextPage = () => {
-  if (currentPage.value < totalPages.value) {
-    currentPage.value++;
-    fetchScholarships();
-  }
+  if (isLastPage.value) return;
+  changePage(currentPage.value + 1);
 };
 
 const goToPrevPage = () => {
-  if (currentPage.value > 1) {
-    currentPage.value--;
-    fetchScholarships();
-  }
+  if (isFirstPage.value) return;
+  changePage(currentPage.value - 1);
 };
 
 const filterLocations = () => {
-  if (!location.value) {
-    filteredLocations.value = [];
-    return;
-  }
+  const searchTerm = location.value.toLowerCase();
 
-  filteredLocations.value = US_STATES.filter((loc) =>
-    loc.toLowerCase().includes(location.value.toLowerCase())
-  );
+  filteredLocations.value = searchTerm
+    ? US_STATES.filter((loc) => loc.toLowerCase().includes(searchTerm))
+    : [];
 };
 
 const selectLocation = (loc: string) => {
@@ -313,6 +358,15 @@ const hideDropdown = () => {
     showDropdown.value = false;
   }, 200);
 };
+
+const hasLocation = (scholarship: Scholarship) =>
+  Boolean(scholarship.city || scholarship.state);
+
+const formatLocation = (scholarship: Scholarship) =>
+  [scholarship.city, scholarship.state].filter(Boolean).join(", ");
+
+const formatWebsiteUrl = (website: string) =>
+  website.startsWith("http") ? website : `https://${website}`;
 </script>
 
 <style scoped>
