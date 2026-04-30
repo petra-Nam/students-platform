@@ -1,24 +1,49 @@
 <template>
   <div class="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100">
 
-    <div class="max-w-6xl mx-auto px-4 py-16 text-center">
-      <h1 class="text-5xl font-bold text-blue-900 mb-4">Community Threads</h1>
-      <p class="text-xl text-gray-700 max-w-2xl mx-auto">
-        Ask questions, share experiences, and connect with students.
-      </p>
-    </div>
+    <div class="max-w-6xl mx-auto px-4 py-12 text-center">
+  <p class="inline-block bg-blue-100 text-blue-700 font-semibold px-4 py-2 rounded-full mb-5">
+    Student Feed
+  </p>
 
+  <h1 class="text-5xl font-bold text-blue-900 mb-4">
+    See what students are talking about
+  </h1>
+
+  <p class="text-xl text-gray-700 max-w-2xl mx-auto">
+    Discover questions, experiences, tips, and updates from students around the world.
+  </p>
+</div>
+
+    <!-- Search + Category Filter -->
     <div class="max-w-6xl mx-auto px-4 mb-8">
       <div class="bg-white rounded-xl shadow-lg p-6">
         <input
           v-model="searchQuery"
           @input="filterThreads"
           placeholder="Search threads (e.g., scholarships, universities)"
-          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"
         />
+
+        <div class="flex flex-wrap gap-3">
+          <button
+            v-for="category in categories"
+            :key="category"
+            @click="selectCategory(category)"
+            :class="[
+              'px-4 py-2 rounded-full font-semibold transition',
+              selectedCategory === category
+                ? 'bg-blue-600 text-white'
+                : 'bg-blue-50 text-blue-700 hover:bg-blue-100'
+            ]"
+          >
+            {{ category }}
+          </button>
+        </div>
       </div>
     </div>
 
+    <!-- Create Post -->
     <div class="max-w-6xl mx-auto px-4 mb-10">
       <div class="bg-white rounded-xl shadow-lg p-8">
         <h2 class="text-2xl font-bold text-blue-900 mb-5">Create a Post</h2>
@@ -68,9 +93,17 @@
       </div>
     </div>
 
+    <!-- Threads -->
     <div class="max-w-6xl mx-auto px-4 pb-16">
       <div class="bg-white rounded-xl shadow-lg p-8">
-        <ul class="space-y-6">
+        <div
+          v-if="filteredThreads.length === 0"
+          class="text-center text-gray-600 py-10"
+        >
+          No threads found.
+        </div>
+
+        <ul v-else class="space-y-6">
           <li
             v-for="thread in filteredThreads"
             :key="thread.id"
@@ -183,6 +216,7 @@ import { defineComponent } from 'vue';
 
 interface Thread {
   id: number;
+  communityId: number;
   title: string;
   description: string;
   category?: string;
@@ -200,11 +234,13 @@ interface Thread {
 
 export default defineComponent({
   name: 'ThreadList',
+
   data() {
     return {
       threads: [
         {
           id: 1,
+          communityId: 2,
           title: 'How to apply for scholarships?',
           description: 'Let’s discuss the best ways to apply for scholarships.',
           category: 'Scholarships',
@@ -221,6 +257,7 @@ export default defineComponent({
         },
         {
           id: 2,
+          communityId: 2,
           title: 'Best universities for computer science',
           description: 'Share your thoughts on the top universities for CS.',
           category: 'Universities',
@@ -237,6 +274,7 @@ export default defineComponent({
         },
         {
           id: 3,
+          communityId: 1,
           title: 'Tips for studying abroad',
           description: 'What are the best tips for students planning to study abroad?',
           category: 'Study Abroad',
@@ -252,8 +290,22 @@ export default defineComponent({
           showComments: false,
         },
       ] as Thread[],
-      searchQuery: '',
+
       filteredThreads: [] as Thread[],
+
+      categories: [
+        'All',
+        'Scholarships',
+        'Universities',
+        'Study Abroad',
+        'Visa',
+        'Student Life',
+        'Applications',
+      ],
+
+      selectedCategory: 'All',
+      searchQuery: '',
+
       newPostTitle: '',
       newPostDescription: '',
       newPostCategory: '',
@@ -289,6 +341,7 @@ export default defineComponent({
         likes: 0,
         comments: [],
         showComments: false,
+        communityId: 0
       };
 
       this.threads.unshift(newPost);
@@ -303,12 +356,24 @@ export default defineComponent({
     filterThreads() {
       const query = this.searchQuery.toLowerCase();
 
-      this.filteredThreads = this.threads.filter((thread) =>
-        thread.title.toLowerCase().includes(query) ||
-        thread.description.toLowerCase().includes(query) ||
-        (thread.category || '').toLowerCase().includes(query) ||
-        thread.tags.some((tag) => tag.toLowerCase().includes(query))
-      );
+      this.filteredThreads = this.threads.filter((thread) => {
+        const matchesSearch =
+          thread.title.toLowerCase().includes(query) ||
+          thread.description.toLowerCase().includes(query) ||
+          (thread.category || '').toLowerCase().includes(query) ||
+          thread.tags.some((tag) => tag.toLowerCase().includes(query));
+
+        const matchesCategory =
+          this.selectedCategory === 'All' ||
+          thread.category === this.selectedCategory;
+
+        return matchesSearch && matchesCategory;
+      });
+    },
+
+    selectCategory(category: string) {
+      this.selectedCategory = category;
+      this.filterThreads();
     },
 
     likeThread(thread: Thread) {
@@ -321,12 +386,20 @@ export default defineComponent({
 
     addComment(thread: Thread) {
       if (this.newComment.trim() === '') return;
-      thread.comments.push({ id: Date.now(), text: this.newComment });
+
+      thread.comments.push({
+        id: Date.now(),
+        text: this.newComment,
+      });
+
       this.newComment = '';
     },
 
     goToProfile(userId: number) {
-      this.$router.push({ name: 'UserProfile', params: { id: userId } });
+      this.$router.push({
+        name: 'UserProfile',
+        params: { id: userId },
+      });
     },
 
     startChat(user: { id: number; name: string }) {
@@ -335,7 +408,15 @@ export default defineComponent({
   },
 
   mounted() {
-    this.filteredThreads = this.threads;
-  },
+  const communityId = Number(this.$route.params.id);
+
+  if (communityId) {
+    this.filteredThreads = this.threads.filter(
+      (thread) => thread.communityId === communityId
+    );
+  } else {
+    this.filterThreads();
+  }
+}
 });
 </script>
