@@ -35,7 +35,8 @@ import { reactive } from 'vue';
 import type { LoginForm } from '../../types/auth';
 import { useAuth } from '../../composables/useAuth';
 import { useRouter } from 'vue-router';
-import AuthFormShell from '../../components/auth/AuthFormShell.vue';
+import AuthFormShell from './AuthFormShell.vue';
+
 
 const auth = useAuth();
 const router = useRouter();

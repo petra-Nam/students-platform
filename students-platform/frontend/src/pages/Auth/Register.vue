@@ -66,7 +66,8 @@
 import { reactive } from 'vue';
 import type { RegisterForm } from '../../types/auth';
 import { useAuth } from '../../composables/useAuth';
-import AuthFormShell from '../../components/auth/AuthFormShell.vue';
+import AuthFormShell from './AuthFormShell.vue';
+
 
 const { register, loading, error, success } = useAuth();
 
